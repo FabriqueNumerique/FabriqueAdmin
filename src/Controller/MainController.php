@@ -20,6 +20,10 @@ class MainController extends AbstractController
      */
     public function start()
     {
+        // dd($this->getUser()->getRoles()[0]);
+        if ($this->getUser()->getRoles()[0]=='ROLE_ADMIN'){
+            return $this->redirectToRoute('admin_dashbord');
+        }
         return $this->render('base.html.twig');
     }
 }
