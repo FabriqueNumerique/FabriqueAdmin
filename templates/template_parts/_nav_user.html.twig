@@ -32,17 +32,17 @@
                     
                         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR') %}
                         <li class="nav-item">
-                            <a href="" class="nav-link text-white p-3 mb-2 sidebar-link"><i
+                            <a href="{{ path('admin_dashbord') }}" class="nav-link text-white p-3 mb-2 sidebar-link"><i
                                     class="fas fa-home text-light fa-lg mr-3"></i> Dashboard</a>
                         </li>
                     
                         {% if is_granted('ROLE_ADMIN') %}
-                        <li class="nav-item"><a href="" class="nav-link text-white p-3 mb-2 sidebar-link"><i
+                        <li class="nav-item"><a href="{{ path('admin_utilisateur') }}" class="nav-link text-white p-3 mb-2 sidebar-link"><i
                                     class="fas fa-users text-light fa-lg mr-3"></i> Utilisateurs</a></li>
                         {% endif %}
                     
                         <li class="nav-item">
-                            <a class="nav-link p-3 mb-2 sidebar-link text-white" href=""><i
+                            <a class="nav-link p-3 mb-2 sidebar-link text-white" href="{{ path('admin_promotion') }}"><i
                                     class="fas fa-certificate text-light fa-lg mr-3"></i> Promotion</a>
                         </li>
                     
@@ -114,11 +114,11 @@
                 <div class="col-xl-10 col-lg-9 col-md-8 ml-auto bg-dark fixed-top py-2 top-navbar">
                     <div class="row align-items-center">
                         <div class="col-md-4">
-                            <h4 class="text-light mb-0">Fabrique Admin</h4>
+                            <h4 class="text-light mb-0" style="font-family: 'Amiri', serif;">Fabrique Admin</h4>
                         </div>
                         <div class="col-md-4 d-flex align-items-center ">
-                            <img src="{{ asset('assets/img/osm.png') }}" class="rounded-circle" width="50">
-                            <h4 class="text-white ml-2">Bonjour {{ app.user.email }}</h4>
+                            <h5 class="text-white mr-2" style="font-family: 'Amiri', serif;">Bonjour</h5><img src="{{ asset('assets/img/osm.png') }}" class="rounded-circle" width="50">
+                            <h5 class="text-white ml-2" style="font-family: 'Amiri', serif;">{{ app.user.email }}</h5>
                         </div>
                         <div class="col-md-4">
                             <ul class="navbar-nav">
@@ -147,7 +147,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                Appuyer sur Déconnexion pour quitter
+                Appuyer sur <span class="badge badge-danger">Déconnexion</span>  pour quitter
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" data-dismiss="modal">Rester connécté</button>

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -11,10 +12,33 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminController extends AbstractController
 {
     /**
-     * @Route("/admin/dashbord", name="dashbord")
+     * @Route("/dashbord", name="dashbord")
      */
-    public function index()
+    public function dashbord(UserRepository $repo)
     {
-        return $this->render('admin/index.html.twig');
+        $user = $repo->findAll();
+        return $this->render('admin/dashbord.html.twig', [
+            'users' => $user
+        ]);
+    }
+
+    /**
+     * @Route("/utilisateur", name="utilisateur")
+     */
+    public function utilisateur(UserRepository $repo)
+    {
+
+        $user = $repo->findAll();
+        return $this->render('admin/utilisateur.html.twig',[
+           'users'=>$user 
+        ]);
+    }
+
+    /**
+     * @Route("/promotion", name="promotion")
+     */
+    public function promotion()
+    {
+        return $this->render('admin/promotion.html.twig');
     }
 }

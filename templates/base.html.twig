@@ -32,12 +32,16 @@
             {% include "template_parts/_nav.html.twig" %}
             
         {% endif %}
+        
 
         {% block body %}
         
         {% endblock %}
 
+{# {% if app.user %}
 
+{% include "template_parts/_footer.html.twig" %}
+{% endif %} #}
         {% block javascripts %}
         
         {% endblock %}
