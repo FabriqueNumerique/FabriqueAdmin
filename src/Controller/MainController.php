@@ -26,4 +26,12 @@ class MainController extends AbstractController
         }
         return $this->render('base.html.twig');
     }
+
+    /**
+     * @Route("/access_denied", name="access_denied")
+     */
+    public function access_denied()
+    {
+        return $this->render('main/access_denied.html.twig');
+    }
 }

@@ -1,0 +1,53 @@
+
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Access denied{% endblock %}
+
+{% block body %}
+<style>
+    .modal{
+        display: block;
+    }
+</style>
+{# structure de la page 10 colonnes de largeur et alignée à droite #}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
+
+            {# page body #}
+
+            <div class="modal " tabindex="-1" role="dialog" id="modal">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body text-center ">
+                            <p >Vous n'avez pas le droit d'aller sur cette url!!</p>
+                            <button type="button" class="fermer btn btn-danger">close</button>
+                        </div>
+                        
+                    
+                    </div>
+                </div>
+            </div>
+{# <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>Vous n'avez pas le droit d'aller sur cette url!!</strong> 
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div> #}
+            
+
+            {# end body #}
+
+        </div>
+    </div>
+</div>
+
+<script>
+   let fermer = document.querySelector('.fermer')
+   let modal = document.querySelector('#modal')
+   fermer.addEventListener('click',()=>{
+      modal.style.display='none'
+   })
+</script>
+{% endblock %}
