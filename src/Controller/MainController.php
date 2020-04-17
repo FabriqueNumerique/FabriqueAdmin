@@ -24,6 +24,9 @@ class MainController extends AbstractController
         if ($this->getUser()->getRoles()[0]=='ROLE_ADMIN'){
             return $this->redirectToRoute('admin_dashbord');
         }
+        if ($this->getUser()->getRoles()[0]=='ROLE_RESERVE'){
+            return $this->redirectToRoute('reserve_promotion');
+        }
         return $this->render('base.html.twig');
     }
 
