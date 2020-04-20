@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -45,6 +47,16 @@ class Promotion
      * @ORM\ManyToOne(targetEntity="App\Entity\Formation", inversedBy="promotions")
      */
     private $Formation;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Apprenant", mappedBy="Promotion")
+     */
+    private $apprenants;
+
+    public function __construct()
+    {
+        $this->apprenants = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -119,6 +131,34 @@ class Promotion
     public function setFormation(?Formation $Formation): self
     {
         $this->Formation = $Formation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Apprenant[]
+     */
+    public function getApprenants(): Collection
+    {
+        return $this->apprenants;
+    }
+
+    public function addApprenant(Apprenant $apprenant): self
+    {
+        if (!$this->apprenants->contains($apprenant)) {
+            $this->apprenants[] = $apprenant;
+            $apprenant->addPromotion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApprenant(Apprenant $apprenant): self
+    {
+        if ($this->apprenants->contains($apprenant)) {
+            $this->apprenants->removeElement($apprenant);
+            $apprenant->removePromotion($this);
+        }
 
         return $this;
     }

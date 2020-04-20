@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -60,6 +62,28 @@ class Apprenant
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $Avatar;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Promotion", inversedBy="apprenants")
+     */
+    private $Promotion;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="apprenant", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $User;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Reseau", mappedBy="Apprenant")
+     */
+    private $reseaux;
+
+    public function __construct()
+    {
+        $this->Promotion = new ArrayCollection();
+        $this->reseaux = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -170,6 +194,75 @@ class Apprenant
     public function setAvatar(?string $Avatar): self
     {
         $this->Avatar = $Avatar;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Promotion[]
+     */
+    public function getPromotion(): Collection
+    {
+        return $this->Promotion;
+    }
+
+    public function addPromotion(Promotion $promotion): self
+    {
+        if (!$this->Promotion->contains($promotion)) {
+            $this->Promotion[] = $promotion;
+        }
+
+        return $this;
+    }
+
+    public function removePromotion(Promotion $promotion): self
+    {
+        if ($this->Promotion->contains($promotion)) {
+            $this->Promotion->removeElement($promotion);
+        }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->User;
+    }
+
+    public function setUser(User $User): self
+    {
+        $this->User = $User;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Reseau[]
+     */
+    public function getReseaux(): Collection
+    {
+        return $this->reseaux;
+    }
+
+    public function addReseaux(Reseau $reseaux): self
+    {
+        if (!$this->reseaux->contains($reseaux)) {
+            $this->reseaux[] = $reseaux;
+            $reseaux->setApprenant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReseaux(Reseau $reseaux): self
+    {
+        if ($this->reseaux->contains($reseaux)) {
+            $this->reseaux->removeElement($reseaux);
+            // set the owning side to null (unless already changed)
+            if ($reseaux->getApprenant() === $this) {
+                $reseaux->setApprenant(null);
+            }
+        }
 
         return $this;
     }
