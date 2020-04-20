@@ -68,16 +68,17 @@ class Apprenant
      */
     private $Promotion;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="apprenant", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $User;
+    
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Reseau", mappedBy="Apprenant")
      */
     private $reseaux;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Offres", mappedBy="Apprenant", cascade={"persist", "remove"})
+     */
+    private $offre;
 
     public function __construct()
     {
@@ -224,17 +225,6 @@ class Apprenant
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->User;
-    }
-
-    public function setUser(User $User): self
-    {
-        $this->User = $User;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Reseau[]
@@ -262,6 +252,24 @@ class Apprenant
             if ($reseaux->getApprenant() === $this) {
                 $reseaux->setApprenant(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function getOffre(): ?Offres
+    {
+        return $this->offre;
+    }
+
+    public function setOffre(?Offres $offre): self
+    {
+        $this->offre = $offre;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newApprenant = null === $offre ? null : $this;
+        if ($offre->getApprenant() !== $newApprenant) {
+            $offre->setApprenant($newApprenant);
         }
 
         return $this;
