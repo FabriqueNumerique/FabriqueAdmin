@@ -25,6 +25,8 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
+            
+            
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
@@ -37,6 +39,8 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // do anything else you need here, like send an email
+            $this->addFlash('success', 'Un utilisateur a été ajouté!');
+            return $this->redirectToRoute('admin_utilisateur');
 
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,

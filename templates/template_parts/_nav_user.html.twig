@@ -32,7 +32,7 @@
                     
                         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR') %}
                         <li class="nav-item">
-                            <a href="{{ path('admin_dashbord') }}" class="nav-link text-white p-3 mb-2 sidebar-link"><i
+                            <a href="{{ path('editor_dashbord') }}" class="nav-link text-white p-3 mb-2 sidebar-link"><i
                                     class="fas fa-home text-light fa-lg mr-3"></i> Dashboard</a>
                         </li>
                     
@@ -42,8 +42,13 @@
                         {% endif %}
                     
                         <li class="nav-item">
-                            <a class="nav-link p-3 mb-2 sidebar-link text-white" href="{{ path('admin_promotion') }}"><i
+                            <a class="nav-link p-3 mb-2 sidebar-link text-white" href="{{ path('editor_promotion') }}"><i
                                     class="fas fa-certificate text-light fa-lg mr-3"></i> Promotion</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link p-3 mb-2 sidebar-link text-white" href="{{ path('editor_formation') }}"><i
+                                    class="fas fa-laptop-code text-light fa-lg mr-3"></i> Formation</a>
                         </li>
                     
                         <li class="nav-item">
@@ -60,13 +65,15 @@
                             <a class="nav-link p-3 mb-2 sidebar-link text-white" href=""><i
                                     class="far fa-address-card text-light fa-lg mr-3"></i> Fiche profil</a>
                         </li>
-                    
+
+
+
                         {% endif %}
                     
                         {% if app.user.roles[0]=='ROLE_RESERVE' %}
                     
                         <li class="nav-item">
-                            <a class="nav-link p-3 mb-2 sidebar-link text-white" href=""><i
+                            <a class="nav-link p-3 mb-2 sidebar-link text-white" href="{{ path('reserve_promotion') }}"><i
                                     class="fas fa-certificate text-light fa-lg mr-3"></i> Promotions</a>
                         </li>
                     

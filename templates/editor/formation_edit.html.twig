@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification d'une formation{% endblock %}
+
+{% block body %}
+
+
+{% if app.user %}
+
+{# structure de la page 10 colonnes de largeur et alignée à droite #}
+<div class="container-fluid ">
+    <div class="row">
+        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto my-5">
+
+
+            <div class="container col-12 col-md-8 mt-5" style="font-family: 'Amiri', serif;">
+                <h4>Modification d'une formation</h4>
+                {{ form_start(form) }}
+                {{ form_row(form.Intitule,{attr:{'class':'form-control mb-3 '}}) }}
+                {{ form_row(form.Duree,{attr:{'class':'form-control mb-3 '}}) }}
+                {{ form_row(form.NombreHeure,{attr:{'class':'form-control mb-3','min':1}}) }}
+                {{ form_row(form.Diplome,{attr:{'class':'form-control mb-3'}}) }}
+                {{ form_row(form.Modalites,{attr:{'class':'form-control mb-3'}}) }}
+
+                <button class="btn btn-outline-danger d-block ml-auto">Enregistrer</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

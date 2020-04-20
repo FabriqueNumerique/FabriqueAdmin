@@ -122,4 +122,6 @@ class Promotion
 
         return $this;
     }
+
+    
 }

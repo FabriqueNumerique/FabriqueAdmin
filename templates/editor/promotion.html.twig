@@ -1,0 +1,178 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des promotions{% endblock %}
+
+{% block body %}
+
+<style>
+    /* when tab not active*/
+    .nav-pills .pill .nav-link:not(.active) {
+        background-color: #343a40;
+        color: rgb(145, 145, 145);
+    }
+
+    /* active (faded) */
+    .nav-pills .pill .nav-link {
+        /*background-color: #dc3545;*/
+        background-color: #343a40;
+        color: white;
+    }
+    input{
+        outline: none;	
+        border:none;
+        border-bottom: 1px solid #777;
+    }
+    form input:focus{
+        border-color: blue;
+        
+        
+    }
+
+</style>
+{% if app.user %}
+
+{# structure de la page 10 colonnes de largeur et alignée à droite #}
+<div class="container-fluid ">
+    <div class="row">
+        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto my-5">
+
+            {# page body #}
+
+            <ul class="nav nav-pills my-3" id="pills-tab" role="tablist">
+                <li class="nav-item pill mr-1 mb-1">
+                    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
+                        aria-controls="pills-home" aria-selected="true">Liste des Promotions</a>
+                </li>
+                <li class="nav-item pill  mr-1 mb-1">
+                    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab"
+                        aria-controls="pills-profile" aria-selected="false">Créer une Promotion</a>
+                </li>
+                {# <li class="nav-item pill mr-1 mb-1">
+                    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab"
+                        aria-controls="pills-contact" aria-selected="false">Liste des formations</a>
+                </li>
+                <li class="nav-item pill mr-1 mb-1">
+                    <a class="nav-link" id="pills-formation-tab" data-toggle="pill" href="#pills-formation" role="tab"
+                        aria-controls="pills-formation" aria-selected="false">Créer une formation</a>
+                </li> #}
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+
+                {% for message in app.flashes('danger') %}
+                <div class="container alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+                
+                {% for message in app.flashes('warning') %}
+                <div class="container alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+                
+                {% for message in app.flashes('success') %}
+                <div class="container alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+
+                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                    <form action="" class="  ml-auto w-50 bg-info" style="position: relative;">
+                        <input class="float-right form-group mr-2 " placeholder="chercher" type="text" name="chercher_promotion">
+                        <button class=" badge badge-primary mr-2" style="position: absolute;right:0;cursor:pointer" id="chercher_user" type="submit"><i class="fa fa-search "></i></button>
+                    </form>
+                    <table class="table">
+                        
+                        <thead>
+                            
+                            <th >Année</th>
+                            <th >Début</th>
+                            <th>Fin</th>
+                            <th >Aapprenants</th>
+                            <th>Formation</th>
+                            <th>Commentaire</th>
+                    
+                            <th style="width: 15%;">Actions</th>
+                        </thead>
+                        <tbody>
+                    
+                            {% for promotion in promotions %}
+                            <tr>
+                                <td>{{ promotion.annee }}</td>
+                                <td>{{ promotion.dateDebut|date("m/d/Y") }}</td>
+                                <td>{{ promotion.dateFin|date("m/d/Y") }}</td>
+                                <td>{{ promotion.nombreEleves }}</td>
+                                {% if promotion.formation.intitule is defined %}
+                                <td>{{ promotion.formation.intitule }}</td>
+                                {% endif %}
+                                <td>{{ promotion.commentaires }}</td>
+                                
+                                <td>
+                                    <a class="badge badge-danger delete-record" title="supprimer" href="#"><i
+                                            class="fas fa-trash-alt delete-promotion"></i></a>
+                                    <a class="badge badge-success modif_promotion" title="modifier" href="{{ path('editor_edit_promotion',{'id':promotion.id}) }}"><i
+                                            class="far fa-edit"></i></a>
+                                    <a class="badge badge-info modif_promotion" title="visualiser"
+                                        href="#"><i class="fa fa-eye"></i></a>
+                                    <div class="delete-confirm border bg-light  m-auto rounded p-3" style="position: absolute;top:40%;left:30%">
+                                        <div>
+                                            <h4>Vous êtes sûr de vouloir supprimer?</h4>
+                                        </div>
+                                        <div>
+                                            <a class="btn btn-success non" href="">Non</a>
+                                            <a class="btn btn-danger" href="{{ path('editor_delete_promotion',{'id':promotion.id}) }}">Oui</a>
+                                    
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+
+
+                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="container col-12 col-md-8">
+                        <h4>Création d'une promotion</h4>
+                        {{ form_start(form) }}
+                        {{ form_widget(form) }}
+                        <button class="btn btn-outline-danger d-block ml-auto">Enregistrer</button>
+                        {{ form_end(form) }}
+                    </div>
+
+                    
+                
+                </div>
+
+
+                {# <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...</div>
+
+                    
+
+                <div class="tab-pane fade" id="pills-formation" role="tabpanel" aria-labelledby="pills-formation-tab">...
+                    oussama
+                </div> #}
+            </div>
+
+            {# end body #}
+
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<script>
+    
+</script>
+{% endblock %}

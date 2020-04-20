@@ -5,30 +5,21 @@
 {% block title %}Access denied{% endblock %}
 
 {% block body %}
-<style>
-    .modal{
-        display: block;
-    }
-</style>
+
 {# structure de la page 10 colonnes de largeur et alignée à droite #}
 <div class="container-fluid">
     <div class="row">
-        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
+        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto my-5">
 
             {# page body #}
 
-            <div class="modal " tabindex="-1" role="dialog" id="modal">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-body text-center ">
-                            <p >Vous n'avez pas le droit d'aller sur cette url!!</p>
-                            <button type="button" class="fermer btn btn-danger">close</button>
-                        </div>
-                        
-                    
-                    </div>
-                </div>
+            <div class="mt-5 " id="access">
+            <div class="col-12 col-md-6 m-auto  p-5  text-center rounded border" >
+                <h4 style="font-family: 'Amiri', serif;" >Vous n'avez pas le droit d'aller sur cette url !!</h4>
+                <button type="button" class="fermer btn btn-outline-danger mt-5">Fermer</button>
             </div>
+            </div>
+                    
 {# <div class="alert alert-warning alert-dismissible fade show" role="alert">
     <strong>Vous n'avez pas le droit d'aller sur cette url!!</strong> 
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -45,7 +36,7 @@
 
 <script>
    let fermer = document.querySelector('.fermer')
-   let modal = document.querySelector('#modal')
+   let modal = document.querySelector('#access')
    fermer.addEventListener('click',()=>{
       modal.style.display='none'
    })

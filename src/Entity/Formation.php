@@ -21,7 +21,7 @@ class Formation
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Intitulé;
+    private $Intitule;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -58,14 +58,14 @@ class Formation
         return $this->id;
     }
 
-    public function getIntitulé(): ?string
+    public function getIntitule(): ?string
     {
-        return $this->Intitulé;
+        return $this->Intitule;
     }
 
-    public function setIntitulé(string $Intitulé): self
+    public function setIntitule(string $Intitule): self
     {
-        $this->Intitulé = $Intitulé;
+        $this->Intitule = $Intitule;
 
         return $this;
     }
@@ -148,4 +148,11 @@ class Formation
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return (string) $this->getIntitule();
+    }
+
+
 }

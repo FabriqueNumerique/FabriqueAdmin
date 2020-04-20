@@ -42,12 +42,13 @@ security:
         - { path: ^/admin, roles: ROLE_EDITOR }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/profile, roles: ROLE_USER }
+        
     
     access_denied_url: /access_denied
 
     role_hierarchy:
         ROLE_EDITOR:    ROLE_RESERVE   
         ROLE_ADMIN:     ROLE_EDITOR
-        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        
 
     

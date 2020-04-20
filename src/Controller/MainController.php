@@ -22,7 +22,7 @@ class MainController extends AbstractController
     {
         // dd($this->getUser()->getRoles()[0]);
         if ($this->getUser()->getRoles()[0]=='ROLE_ADMIN'){
-            return $this->redirectToRoute('admin_dashbord');
+            return $this->redirectToRoute('editor_dashbord');
         }
         if ($this->getUser()->getRoles()[0]=='ROLE_RESERVE'){
             return $this->redirectToRoute('reserve_promotion');
