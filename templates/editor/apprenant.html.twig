@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}gestion des formations{% endblock %}
+{% block title %}Gestion des apprenants{% endblock %}
 
 {% block body %}
 
@@ -27,6 +27,7 @@
     form input:focus {
         border-color: blue;
 
+
     }
 </style>
 {% if app.user %}
@@ -41,11 +42,11 @@
             <ul class="nav nav-pills my-3" id="pills-tab" role="tablist">
                 <li class="nav-item pill mr-1 mb-1">
                     <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
-                        aria-controls="pills-home" aria-selected="true">Liste des formations</a>
+                        aria-controls="pills-home" aria-selected="true">Liste des Apprenants</a>
                 </li>
                 <li class="nav-item pill  mr-1 mb-1">
                     <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab"
-                        aria-controls="pills-profile" aria-selected="false">Créer une formation</a>
+                        aria-controls="pills-profile" aria-selected="false">Créer un Apprenant</a>
                 </li>
                 {# <li class="nav-item pill mr-1 mb-1">
                     <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab"
@@ -84,91 +85,96 @@
                     </button>
                 </div>
                 {% endfor %}
+
                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                     <form action="" class="  ml-auto w-50 bg-info" style="position: relative;">
-                        <input class="float-right form-group mr-2 " placeholder="chercher" type="text" name="chercher_formation">
-                        <button class=" badge badge-primary mr-2" style="position: absolute;right:0;cursor:pointer" id="chercher_user" type="submit"><i
-                                class="fa fa-search "></i></button>
+                        <input class="float-right form-group mr-2 " placeholder="chercher" type="text"
+                            name="chercher_apprenant">
+                        <button class=" badge badge-primary mr-2" style="position: absolute;right:0;cursor:pointer"
+                            type="submit"><i class="fa fa-search "></i></button>
                     </form>
                     <table class="table">
+
                         <thead>
-                            <th>Intitulé</th>
-                            <th>Durée</th>
-                            <th>N° d'heures</th>
-                            <th>Diplome</th>
-                            <th>Modalites</th>
-                            <th>Actions</th>
+
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Date de naissance</th>
+                            <th>Email</th>
+
+
+                            <th style="width: 15%;">Actions</th>
                         </thead>
                         <tbody>
-                    
-                            {% for formation in formations %}
+
+                            {% for apprenant in apprenants %}
                             <tr>
-                                <td>{{ formation.Intitule }}</td>
-                                <td>{{ formation.Duree }}</td>
-                                <td>{{ formation.NombreHeure }}</td>
-                                <td>{{ formation.Diplome }}</td>
-                                <td>{{ formation.Modalites }}</td>
-                    
-                                <td>
-                                    <a class="badge badge-danger delete-record" title="supprimer"
-                                        href="#"><i
-                                            class="fas fa-trash-alt delete-promotion"></i></a>
-                                    <a class="badge badge-success modif_promotion" title="modifier"
-                                        href="{{ path('editor_edit_formation',{'id':formation.id}) }}"><i class="far fa-edit"></i></a>
-                                    <div class="delete-confirm border bg-light  m-auto rounded p-3" style="position: absolute;top:40%;left:30%">
-                                        <div>
-                                            <h4>Vous êtes sûr de vouloir supprimer?</h4>
-                                        </div>
-                                        <div>
-                                            <a class="btn btn-success non" href="">Non</a>
-                                            <a class="btn btn-danger" href="{{ path('editor_delete_formation',{'id':formation.id}) }}">Oui</a>
-                                    
-                                        </div>
+                                <td>{{ apprenant.Nom }}</td>
+                                <td>{{ apprenant.Prenom }}</td>
+                                <td>{{ apprenant.DateNaissance|date("m/d/Y") }}</td>
+                                <td>{{ apprenant.Email }}</td>
+                            
+                            
+
+                            <td>
+                                <a class="badge badge-danger delete-record" title="supprimer" href="#"><i
+                                        class="fas fa-trash-alt delete-promotion"></i></a>
+                                <a class="badge badge-success modif_promotion" title="modifier" href=""><i
+                                        class="far fa-edit"></i></a>
+                                <a class="badge badge-info modif_promotion" title="visualiser" href="#"><i
+                                        class="fa fa-eye"></i></a>
+                                <div class="delete-confirm border bg-light  m-auto rounded p-3"
+                                    style="position: absolute;top:40%;left:30%">
+                                    <div>
+                                        <h4>Vous êtes sûr de vouloir supprimer?</h4>
                                     </div>
-                                </td>
+                                    <div>
+                                        <a class="btn btn-success non" href="">Non</a>
+                                        <a class="btn btn-danger" href="">Oui</a>
+
+                                    </div>
+                                </div>
+                            </td>
                             </tr>
                             {% endfor %}
+                            {# {% endfor %} #}
                         </tbody>
                     </table>
 
                 </div>
 
+
                 <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                     <div class="container col-12 col-md-8">
-
-                        <h4>Création d'une formation</h4>
+                        <h4>Création d'un apprenant</h4>
                         {{ form_start(form) }}
                         {{ form_widget(form) }}
-                        
                         <button class="btn btn-outline-danger d-block ml-auto">Enregistrer</button>
                         {{ form_end(form) }}
                     </div>
-                    
+
+
 
                 </div>
 
+
                 {# <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...</div>
-                
-                
-                
+
+                    
+
                 <div class="tab-pane fade" id="pills-formation" role="tabpanel" aria-labelledby="pills-formation-tab">...
                     oussama
                 </div> #}
             </div>
-            
+
             {# end body #}
-            
+
         </div>
     </div>
 </div>
 {% endif %}
 
 <script>
-    $(document).ready(function () {
-            // you may need to change this code if you are not using Bootstrap Datepicker
-            $('.js-datepicker').datepicker({
-                format: 'yyyy-mm-dd'
-            });
-        });
+
 </script>
 {% endblock %}

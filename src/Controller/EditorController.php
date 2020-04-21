@@ -2,16 +2,21 @@
 
 namespace App\Controller;
 
+use App\Entity\Apprenant;
 use App\Entity\Formation;
 use App\Entity\Promotion;
+use App\Entity\User;
 use App\Form\FormationType;
 use App\Form\PromotionType;
+use App\Form\ApprenantType;
+use App\Repository\ApprenantRepository;
 use App\Repository\FormationRepository;
 use App\Repository\PromotionRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class EditorController extends AbstractController
 {
@@ -53,26 +58,7 @@ class EditorController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/editor/edit_promotion/{id}", name="editor_edit_promotion")
-     */
-    public function edit_promotion($id,PromotionRepository $repo,Request $request)
-    {
-        $newPromotion = $repo->find($id);
-        $form = $this->createForm(PromotionType::class, $newPromotion);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $Manager = $this->getDoctrine()->getManager();
-            
-            $Manager->flush();
-
-            $this->addFlash('warning', 'Une promotion a été modifiée!');
-            return $this->redirectToRoute('editor_promotion');
-        }
-        return $this->render('editor/promotion_edit.html.twig', [
-            'form' => $form->createView()
-        ]);
-    }
+    
 
 
 
@@ -105,22 +91,45 @@ class EditorController extends AbstractController
 
 
     /**
-     * @Route("/editor/edit_formation/{id}", name="editor_edit_formation")
+     * afficher les apprenants et ajouter un nouveau et créer un nouveau utilisateur dans User class
+     * 
+     * @Route("/editor/apprenant", name="editor_apprenant")
      */
-    public function edit_formation($id, FormationRepository $repo, Request $request)
+    public function apprenant(Request $request, ApprenantRepository $repo, UserRepository $repoUser, UserPasswordEncoderInterface $encoder)
     {
-        $newFormation = $repo->find($id);
-        $form = $this->createForm(FormationType::class, $newFormation);
+        $user = new User();
+        $newApprenant = new Apprenant();
+        $form = $this->createForm(ApprenantType::class, $newApprenant);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
+
             $Manager = $this->getDoctrine()->getManager();
+            $Manager->persist($newApprenant);
+            
+            $email = $newApprenant->getEmail();
+            // dd($newApprenant);
+            // if (!($repo->findOneBy(['email'=> $email]))){
+            //     dd($email);
+            // }
+            if (!($repoUser->findOneBy(['email'=> $email]))){
 
+                $mdp = strtolower($newApprenant->getNom().$newApprenant->getPrenom());
+                $mdp_hash=$encoder->encodePassword($user,$mdp);
+                $user->setEmail($email)
+                    ->setPassword($mdp_hash);
+                $Manager->persist($user);
+                $this->addFlash('success', 'Un utilisateur a été créée!');
+            }
             $Manager->flush();
-
-            $this->addFlash('warning', 'Une formation a été modifiée!');
-            return $this->redirectToRoute('editor_formation');
+            
+            $this->addFlash('success', 'Un apprenant a été créée!');
         }
-        return $this->render('editor/formation_edit.html.twig', [
+
+        $apprenant = $repo->findAll();
+
+        return $this->render('editor/apprenant.html.twig', [
+            'apprenants' => $apprenant,
             'form' => $form->createView()
         ]);
     }
