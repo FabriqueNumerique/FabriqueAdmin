@@ -2,6 +2,9 @@
 
 {% block title %}Gestion des apprenants{% endblock %}
 
+
+{% form_theme form _self %}
+
 {% block body %}
 
 <style>
@@ -177,4 +180,43 @@
 <script>
 
 </script>
+        
+
+{% endblock %}
+
+{% block _apprenant_reseaux_widget %}
+<p></p>
+    {{ form_widget(form) }}
+    <div class="form-group">
+        <button type="button" class="badge badge-success" id="add-reseau">Ajouter un réseau</button>
+    </div>
+{% endblock %}
+
+{% block _apprenant_reseaux_entry_row %}
+
+{{ form_widget(form) }}
+
+{% endblock %}
+
+{% block _apprenant_reseaux_entry_widget %}
+<div class="form-group">
+    <div class="row">
+        <div class="col">
+            {{ form_widget(form.nom) }}
+        </div>
+        <div class="col">
+            {{ form_widget(form.lien) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block javascripts %}
+<script>
+    $('#add-reaseu').click(function(){
+        console.log('hi')
+    })
+</script>
+
 {% endblock %}

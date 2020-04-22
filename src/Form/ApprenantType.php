@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Apprenant;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,7 +25,14 @@ class ApprenantType extends AbstractType
             ->add('Git')
             ->add('Avatar')
             // ->add('Promotion')
-            ->add('offre')
+            // ->add('offre')
+            ->add('reseaux', CollectionType::class,
+            [
+                'entry_type'=>ReseauxType::class,
+                // 'allow_add' => true,
+                // 'allow_delete' => true
+                ]
+            )
         ;
     }
 

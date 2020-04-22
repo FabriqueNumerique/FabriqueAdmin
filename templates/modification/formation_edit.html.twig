@@ -16,11 +16,8 @@
             <div class="container col-12 col-md-8 mt-5" style="font-family: 'Amiri', serif;">
                 <h4>Modification d'une formation</h4>
                 {{ form_start(form) }}
-                {{ form_row(form.Intitule,{attr:{'class':'form-control mb-3 '}}) }}
-                {{ form_row(form.Duree,{attr:{'class':'form-control mb-3 '}}) }}
-                {{ form_row(form.NombreHeure,{attr:{'class':'form-control mb-3','min':1}}) }}
-                {{ form_row(form.Diplome,{attr:{'class':'form-control mb-3'}}) }}
-                {{ form_row(form.Modalites,{attr:{'class':'form-control mb-3'}}) }}
+                {{ form_widget(form) }}
+               
 
                 <button class="btn btn-outline-danger d-block ml-auto">Enregistrer</button>
                 {{ form_end(form) }}

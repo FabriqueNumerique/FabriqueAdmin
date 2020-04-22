@@ -34,7 +34,7 @@ class ModificationController extends AbstractController
             $this->addFlash('warning', 'Une promotion a été modifiée!');
             return $this->redirectToRoute('editor_promotion');
         }
-        return $this->render('editor/promotion_edit.html.twig', [
+        return $this->render('modification/promotion_edit.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -58,7 +58,7 @@ class ModificationController extends AbstractController
             $this->addFlash('warning', 'Une formation a été modifiée!');
             return $this->redirectToRoute('editor_formation');
         }
-        return $this->render('editor/formation_edit.html.twig', [
+        return $this->render('modification/formation_edit.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -82,7 +82,7 @@ class ModificationController extends AbstractController
             $this->addFlash('warning', 'Un apprenant a été modifié!');
             return $this->redirectToRoute('editor_apprenant');
         }
-        return $this->render('editor/apprenant_edit.html.twig', [
+        return $this->render('modification/apprenant_edit.html.twig', [
             'form' => $form->createView()
         ]);
     }

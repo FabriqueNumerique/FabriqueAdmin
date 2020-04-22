@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des apprenants{% endblock %}
+
+{% block body %}
+<style>
+    input {
+        outline: none;
+        border: none;
+        border-bottom: 1px solid #777;
+    }
+
+    form input:focus {
+        border-color: blue;
+
+
+    }
+</style>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
+
+            {% include "template_parts/_nav_promotion.html.twig" %}
+
+            <div class="my-5">
+                <h4>Attribution des Apprenants</h4>
+                <label for="">Choisissez une promotion</label>
+                <select name="" id="" class="form-control">
+                    {% for promotion in promotions %}
+                        
+                        <option value="">{{promotion.annee}} {{promotion.formation.intitule}}</option>
+                        
+
+                    {% endfor %}
+                </select>
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button class="btn btn-outline-danger d-block ml-auto">Enregistrer</button>
+                {{ form_end(form) }}
+
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

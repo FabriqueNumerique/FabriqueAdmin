@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashbord{% endblock %}
+
+{% block body %}
+
+{# structure de la page 10 colonnes de largeur et alignée à droite #}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
+
+            <!-- body -->
+            <h4>Attribution des apprenants</h4>
+            <label for="">Choisissez la promotion</label>
+            <select name="" id="" class="form-control">
+                {% for promotion in promotions %}
+
+                <option value="">{{ promotion.annee }} {{ promotion.formation.intitule}}</option>
+                {% endfor %}
+
+            </select>
+            
+            <div class="container col-12 col-md-8">
+                <h4>Création d'un apprenant</h4>
+                {{ form_start(formAppr) }}
+                {{ form_widget(formAppr) }}
+                <button class="btn btn-outline-danger d-block ml-auto">Enregistrer</button>
+                {{ form_end(formAppr) }}
+            </div>
+
+            
+
+
+            {# end body #}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
