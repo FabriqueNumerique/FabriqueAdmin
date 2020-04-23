@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des apprenants{% endblock %}
+
+{% block body %}
+<style>
+    input {
+        outline: none;
+        border: none;
+        border-bottom: 1px solid #777;
+    }
+
+    form input:focus {
+        border-color: blue;
+
+
+    }
+
+    body {
+
+        font-family: 'Amiri', serif;
+    }
+</style>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
+
+            {% include "template_parts/_nav_promotion.html.twig" %}
+
+            <div class="my-5">
+                {% for message in app.flashes('success') %}
+                <div class="container alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+                {% for message in app.flashes('danger') %}
+                <div class="container alert alert-danger alert-dismissible fade show" role="alert">
+                    <span class="badge badge-danger mr-3">Erreur</span><strong>{{ message }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+                <h4 class="btn btn-info">Attribuer des Apprenants</h4>
+
+                
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+
+
+</script>
+
+{% endblock %}

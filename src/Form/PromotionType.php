@@ -24,6 +24,7 @@ class PromotionType extends AbstractType
             ))
             ->add('Commentaires')
             ->add('Formation')
+            // ->add('Apprenant')
         ;
     }
 

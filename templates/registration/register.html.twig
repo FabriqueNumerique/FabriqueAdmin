@@ -4,8 +4,8 @@
 
 {% block body %}
     
-{% if app.user %}
-{% if app.user.roles[0] == 'ROLE_ADMIN' %}
+<!--  if app.user 
+if app.user.roles[0] == 'ROLE_ADMIN' %} -->
 
 <div class="container-fluid">
     <div class="row">
@@ -15,12 +15,34 @@
                     <div class="col-lg-5">
                         <div class="card shadow-lg border-0 rounded-lg mt-5">
                             <div class="card-header">
-                                <h3 class="text-center font-weight-light my-4">Créer un compte</h3>
+                                <h3 class="text-center font-weight-light my-3">Créer un compte</h3>
                             </div>
                             <div class="card-body">
                                 
                                 {{ form_start(registrationForm) }}      
                                 {{ form_widget(registrationForm) }}
+
+                                <label for="">Choisissez le rôle</label>
+                                <div class="">
+                                    <label for="admin">
+                                    <input type="radio" name="role" value="ROLE_ADMIN" class="ml-3" id="admin">
+                                    Administrateur</label>
+
+                                </div>
+                                <div class="">
+                                    <label for="editor">
+                                    <input type="radio" name="role" value="ROLE_EDITOR" class="ml-3" id="editor">
+                                    Editeur</label>
+
+                                </div>
+                                <div class="form-group">
+
+                                    <label for="reserve">
+                                    <input type="radio" name="role" value="ROLE_RESERVE" class="ml-3" id="reserve">
+                                    Accèss Réservé</label>
+                                </div>
+
+                                
                                 <button class="btn btn-outline-danger d-block ml-auto">Enregistrer</button>
                                 {{ form_end(registrationForm) }}
 
@@ -35,6 +57,5 @@
         </div>
     </div>
 </div>
-{% endif %}
-{% endif %}
+
 {% endblock %}

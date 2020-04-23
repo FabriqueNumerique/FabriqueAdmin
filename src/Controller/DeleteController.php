@@ -25,7 +25,7 @@ class DeleteController extends AbstractController
         $manager->flush();
 
         $this->addFlash('danger', 'Une promotion a été supprimée!');
-        return $this->redirectToRoute('editor_promotion');
+        return $this->redirectToRoute('editor_promo_liste');
 
         // return $this->json([
         //     'message' => 'Une promotion a été supprimée '

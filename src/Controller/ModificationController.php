@@ -32,7 +32,7 @@ class ModificationController extends AbstractController
             $Manager->flush();
 
             $this->addFlash('warning', 'Une promotion a été modifiée!');
-            return $this->redirectToRoute('editor_promotion');
+            // return $this->redirectToRoute('editor_promotion');
         }
         return $this->render('modification/promotion_edit.html.twig', [
             'form' => $form->createView()

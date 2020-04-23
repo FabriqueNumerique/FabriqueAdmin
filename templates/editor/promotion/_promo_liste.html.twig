@@ -15,6 +15,9 @@
 
 
     }
+    body{
+        font-family: 'Amiri', serif;
+    }
 </style>
 
 
@@ -25,7 +28,15 @@
             {% include "template_parts/_nav_promotion.html.twig" %}
 
             <div class="my-5">
-                <h4>Liste des Promotions</h4>
+                {% for message in app.flashes('danger') %}
+                <div class="container alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+                <h4  class="btn btn-info">Liste des Promotions</h4>
                 <form action="" class="  ml-auto w-50 bg-info" style="position: relative;">
                     <input class="float-right form-group mr-2 " placeholder="chercher" type="text" name="chercher_promotion">
                     <button class=" badge badge-primary mr-2" style="position: absolute;right:0;cursor:pointer" id="chercher_user"
@@ -40,8 +51,7 @@
                         <th>Fin</th>
                         <th>Aapprenants</th>
                         <th>Formation</th>
-                        <th>Commentaire</th>
-                
+
                         <th style="width: 15%;">Actions</th>
                     </thead>
                     <tbody>
@@ -55,7 +65,6 @@
                             {% if promotion.formation.intitule is defined %}
                             <td>{{ promotion.formation.intitule }}</td>
                             {% endif %}
-                            <td>{{ promotion.commentaires }}</td>
                 
                             <td>
                                 <a class="badge badge-danger delete-record" title="supprimer" href="#"><i
