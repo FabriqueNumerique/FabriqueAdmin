@@ -11,6 +11,8 @@
                     
                     <div class="dropdown-divider"></div>
 
+                    <!-- tester le rôle et l'afficher  -->
+
                     {% if app.user.roles[0]=='ROLE_ADMIN' %}
                         <h5 class="text-center text-light">Rôle: Aministrateur</h5>
                     {% endif %}
@@ -28,88 +30,90 @@
                     {% endif %}
 
                     <div class="dropdown-divider"></div>
+
+                    <!-- vertical menu with many buttons -->
                     <ul class="navbar-nav flex-column mt-4 ">
                     
+                        <!-- seleon le rôle on affiche les boutons de menu -->
+                        <!-- نقوم بتفحص دور المستخدم وبناءً عليه نقوم بعرض القائمة ذات العلاقة -->
                         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR') %}
-                        <li class="nav-item">
-                            <a href="{{ path('editor_dashbord') }}" class="nav-link text-white p-3 mb-2 sidebar-link"><i
-                                    class="fas fa-home text-light fa-lg mr-3"></i> Dashboard</a>
-                        </li>
+                            <li class="nav-item">
+                                <a href="{{ path('editor_dashbord') }}" class="nav-link text-white p-3 mb-2 sidebar-link"><i
+                                        class="fas fa-home text-light fa-lg mr-3"></i> Dashboard</a>
+                            </li>
                     
-                        {% if is_granted('ROLE_ADMIN') %}
-                        <li class="nav-item"><a href="{{ path('admin_utilisateur') }}" class="nav-link text-white p-3 mb-2 sidebar-link"><i
-                                    class="fas fa-users text-light fa-lg mr-3"></i> Utilisateurs</a></li>
-                        {% endif %}
-                    
-                        <li class="nav-item">
-                            <a class="nav-link p-3 mb-2 sidebar-link text-white" href="{{ path('editor_promo_liste') }}"><i
-                                    class="fas fa-certificate text-light fa-lg mr-3"></i> Promotion</a>
-                        </li>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <li class="nav-item"><a href="{{ path('admin_utilisateur') }}" class="nav-link text-white p-3 mb-2 sidebar-link"><i
+                                            class="fas fa-users text-light fa-lg mr-3"></i> Utilisateurs</a></li>
+                            {% endif %}
+                            
+                                <li class="nav-item">
+                                    <a class="nav-link p-3 mb-2 sidebar-link text-white" href="{{ path('editor_promo_liste') }}"><i
+                                            class="fas fa-certificate text-light fa-lg mr-3"></i> Promotion</a>
+                                </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link p-3 mb-2 sidebar-link text-white" href="{{ path('editor_formation') }}"><i
-                                    class="fas fa-laptop-code text-light fa-lg mr-3"></i> Formation</a>
-                        </li>
-                    
-                        <li class="nav-item">
-                            <a class="nav-link p-3 mb-2 sidebar-link text-white" href="{{ path('editor_apprenant') }}"><i
-                                    class="fas fa-user-graduate text-light fa-lg mr-3"></i> Apprenants</a>
-                        </li>
-                    
-                        <li class="nav-item">
-                            <a class="nav-link p-3 mb-2 sidebar-link text-white" href=""><i
-                                    class="fas fa-chart-line text-light fa-lg mr-3"></i> Entreprises</a>
-                        </li>
-                    
-                        <li class="nav-item ">
-                            <a class="nav-link p-3 mb-2 sidebar-link text-white" href=""><i
-                                    class="far fa-address-card text-light fa-lg mr-3"></i> Fiche profil</a>
-                        </li>
-
-
+                                <li class="nav-item">
+                                    <a class="nav-link p-3 mb-2 sidebar-link text-white" href="{{ path('editor_formation') }}"><i
+                                            class="fas fa-laptop-code text-light fa-lg mr-3"></i> Formation</a>
+                                </li>
+                            
+                                <li class="nav-item">
+                                    <a class="nav-link p-3 mb-2 sidebar-link text-white" href="{{ path('editor_apprenant_liste') }}"><i
+                                            class="fas fa-user-graduate text-light fa-lg mr-3"></i> Apprenants</a>
+                                </li>
+                            
+                                <li class="nav-item">
+                                    <a class="nav-link p-3 mb-2 sidebar-link text-white" href=""><i
+                                            class="fas fa-chart-line text-light fa-lg mr-3"></i> Entreprises</a>
+                                </li>
+                            
+                                <li class="nav-item ">
+                                    <a class="nav-link p-3 mb-2 sidebar-link text-white" href=""><i
+                                            class="far fa-address-card text-light fa-lg mr-3"></i> Fiche profil</a>
+                                </li>
 
                         {% endif %}
                     
                         {% if app.user.roles[0]=='ROLE_RESERVE' %}
                     
-                        <li class="nav-item">
-                            <a class="nav-link p-3 mb-2 sidebar-link text-white" href="{{ path('reserve_promotion') }}"><i
-                                    class="fas fa-certificate text-light fa-lg mr-3"></i> Promotions</a>
-                        </li>
-                    
-                        <li class="nav-item">
-                            <a class="nav-link p-3 mb-2 sidebar-link text-white" href=""><i
-                                    class="fas fa-user-graduate text-light fa-lg mr-3"></i> Apprenants</a>
-                        </li>
-                    
-                        <li class="nav-item">
-                            <a href="" class="nav-link text-white p-3 mb-2 sidebar-link"><i class="fas fa-table text-light fa-lg mr-3"></i>
-                                Bilan
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link p-3 mb-2 sidebar-link text-white" href="{{ path('reserve_promotion') }}"><i
+                                        class="fas fa-certificate text-light fa-lg mr-3"></i> Promotions</a>
+                            </li>
+                        
+                            <li class="nav-item">
+                                <a class="nav-link p-3 mb-2 sidebar-link text-white" href=""><i
+                                        class="fas fa-user-graduate text-light fa-lg mr-3"></i> Apprenants</a>
+                            </li>
+                        
+                            <li class="nav-item">
+                                <a href="" class="nav-link text-white p-3 mb-2 sidebar-link"><i class="fas fa-table text-light fa-lg mr-3"></i>
+                                    Bilan
+                                </a>
+                            </li>
                         {% endif %}
                     
                         {% if app.user.roles[0]=='ROLE_USER' %}
                     
-                        <li class="nav-item">
-                            <a class="nav-link p-3 mb-2 sidebar-link text-white" href=""><i
-                                    class="fas fa-certificate text-light fa-lg mr-3"></i> Promotions</a>
-                        </li>
-                    
-                        <li class="nav-item">
-                            <a class="nav-link p-3 mb-2 sidebar-link text-white" href=""><i
-                                    class="fas fa-user-graduate text-light fa-lg mr-3"></i> Apprenants</a>
-                        </li>
-                    
-                        <li class="nav-item">
-                            <a href="" class="nav-link text-white p-3 mb-2 sidebar-link"><i
-                                    class="fas fa-table text-light fa-lg mr-3"></i> Bilan Individuel</a>
-                        </li>
-                    
-                        <li class="nav-item">
-                            <a href="" class="nav-link text-white p-3 mb-2 sidebar-link"><i
-                                    class="fa fa-cubes text-light fa-lg mr-3"></i> Mes Compétences</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link p-3 mb-2 sidebar-link text-white" href=""><i
+                                        class="fas fa-certificate text-light fa-lg mr-3"></i> Promotions</a>
+                            </li>
+                        
+                            <li class="nav-item">
+                                <a class="nav-link p-3 mb-2 sidebar-link text-white" href=""><i
+                                        class="fas fa-user-graduate text-light fa-lg mr-3"></i> Apprenants</a>
+                            </li>
+                        
+                            <li class="nav-item">
+                                <a href="" class="nav-link text-white p-3 mb-2 sidebar-link"><i
+                                        class="fas fa-table text-light fa-lg mr-3"></i> Bilan Individuel</a>
+                            </li>
+                        
+                            <li class="nav-item">
+                                <a href="" class="nav-link text-white p-3 mb-2 sidebar-link"><i
+                                        class="fa fa-cubes text-light fa-lg mr-3"></i> Mes Compétences</a>
+                            </li>
                     
                         {% endif %}
                     
@@ -118,6 +122,7 @@
                 <!-- end of sidebar -->
 
                 <!-- top-nav -->
+                <!-- this menu contain an application title, email and avatar user and finally a logout button -->
                 <div class="col-xl-10 col-lg-9 col-md-8 ml-auto bg-dark fixed-top py-2 top-navbar">
                     <div class="row align-items-center">
                         <div class="col-md-4">
@@ -129,6 +134,7 @@
                         </div>
                         <div class="col-md-4">
                             <ul class="navbar-nav">
+                                <!-- logout button -->
                                 <li class="nav-item ml-md-auto">
                                     <a href="" class="nav-link" data-toggle="modal" data-target="#sign-out">
                                         <i class="fas fa-sign-out-alt text-light fa-lg"></i>
@@ -146,6 +152,7 @@
 <!-- end of navbar -->
 
 <!-- modal -->
+<!-- this modal is called when we want to logout to confirm -->
 <div class="modal fade" id="sign-out">
     <div class="modal-dialog">
         <div class="modal-content">

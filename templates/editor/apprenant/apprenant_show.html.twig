@@ -1,0 +1,149 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une Promotion{% endblock %}
+
+{% block body %}
+{% if app.user %}
+
+
+    <style>
+        /* masquer les tableaux qui ont la class hid (tableau de promotion et de réseaux sociaux) */
+        .hid{
+            display: none;
+        }
+    </style>
+
+    <div class="container-fluid" style="font-family: 'Amiri', serif;">
+        <div class="row">
+            <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
+                <!-- insert apprenant nav -->
+                {% include "editor/apprenant/_nav_apprenant.html.twig" %}
+
+                <div class="my-5">
+                    <!-- un tableau d'un seul apprenant -->
+                    <h4 class="btn btn-info">Afficher un apprenant</h4>
+
+                    <table class="table">
+
+                        <thead>
+
+                            <th scope="col">Nom</th>
+                            <th scope="col">Prénom</th>
+                            <th scope="col">Date de naissance</th>
+                            <th scope="col">Email</th>
+
+                        </thead>
+                        <tbody>
+
+
+                            <tr>
+                                <td>{{ apprenant.Nom }}</td>
+                                <td>{{ apprenant.Prenom }}</td>
+                                <td>{{ apprenant.DateNaissance|date("m/d/Y") }}</td>
+                                <td>{{ apprenant.Email }}</td>
+                                
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <div>
+                        <!-- ce bouton pour afficher et masquer les promotion d'un apprenant -->
+                        <h4 class="btn btn-info show-liste">Liste des promotions <i class="fa fa-chevron-down icon"></i></h4>
+                        <table class="table hid">
+                        
+                            <thead>
+                                <th scope="col">N°</th>
+                                <th scope="col">Annee</th>
+                                <th scope="col">Début</th>
+                                <th scope="col">Fin</th>
+                                <th scope="col">N° d'heures</th>
+                                <th scope="col">Intitulé</th>
+                                <th></th>
+                        
+                            </thead>
+                            <tbody >
+                                {% set i = 0 %}
+                                {% for promotion in apprenant.Promotion %}
+                                    {% set i = i + 1 %}
+                                    <tr>
+                                        <td>{{i}}</td>
+                                        <td>{{ promotion.annee }}</td>
+                                        <td>{{ promotion.dateDebut|date("m/d/Y") }}</td>
+                                        <td>{{ promotion.dateFin|date("m/d/Y") }}</td>
+                                        <td>{{ promotion.formation.nombreHeure }}</td>
+                                        <td>{{ promotion.formation.intitule }}</td>
+
+                                        <!-- un lien vers unr promotion -->
+                                        <td><a class="badge badge-info modif_promotion" title="visualiser"
+                                            href="{{ path('editor_promo_show',{'id':promotion.id}) }}"><i class="fa fa-eye"></i></a></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div>
+                        <!-- ce bouton pour afficher et masquer les réseaux sociaux d'un apprenant -->
+                        <h4 class="btn btn-info show-liste">Liste des réseaux sociaux <i class="fa fa-chevron-down icon"></i></h4>
+                        <table class="table hid">
+                        
+                            <thead>
+                        
+                                <th scope="col">N°</th>
+                                <th scope="col">Intitulé</th>
+                                <th scope="col">Lien</th>
+        
+                        
+                            </thead>
+                            <tbody>
+                                {% set i = 0 %}
+                                {% for reseau in apprenant.Reseaux %}
+                                    {% set i = i + 1 %}
+                                    <tr>
+                                        <td>{{i}}</td>
+                                        <td>{{reseau.nom}}</td>
+                                        <td>{{reseau.lien}}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
+
+{% block javascripts %}
+
+<script>
+
+    //selectionner les boutons
+    let btn = document.querySelectorAll('.show-liste');
+    for (let i=0;i<btn.length;i++){
+        btn[i].addEventListener('click',function(){
+        //en cliquant sur le bouton, on selectionne la class en relation (le tableau qui la class hid) 
+        let tab = this.parentElement.querySelector('.hid')
+        // et sélctionne l'icon pour le changer
+        let icon = this.querySelector('.icon')
+          
+        if ((icon.getAttribute('class')) == 'svg-inline--fa fa-chevron-down fa-w-14 icon') {
+             
+              icon.setAttribute('class', 'svg-inline--fa fa-chevron-up fa-w-14 icon')
+        }else{
+            icon.setAttribute('class', 'svg-inline--fa fa-chevron-down fa-w-14 icon')
+        }
+
+          $(tab).toggle('slow')
+        })
+    }
+
+
+
+</script>
+
+{% endblock %}

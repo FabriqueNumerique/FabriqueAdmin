@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gestion des promotions{% endblock %}
+{% block title %}Gestion des apprenants{% endblock %}
+
+
+{% form_theme form _self %}
 
 {% block body %}
 
@@ -17,17 +20,18 @@
         background-color: #343a40;
         color: white;
     }
-    input{
-        outline: none;	
-        border:none;
+
+    input {
+        outline: none;
+        border: none;
         border-bottom: 1px solid #777;
     }
-    form input:focus{
-        border-color: blue;
-        
-        
-    }
 
+    form input:focus {
+        border-color: blue;
+
+
+    }
 </style>
 {% if app.user %}
 
@@ -41,20 +45,20 @@
             <ul class="nav nav-pills my-3" id="pills-tab" role="tablist">
                 <li class="nav-item pill mr-1 mb-1">
                     <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
-                        aria-controls="pills-home" aria-selected="true">Liste des Promotions</a>
+                        aria-controls="pills-home" aria-selected="true">Liste des Apprenants</a>
                 </li>
                 <li class="nav-item pill  mr-1 mb-1">
                     <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab"
-                        aria-controls="pills-profile" aria-selected="false">Créer une Promotion</a>
+                        aria-controls="pills-profile" aria-selected="false">Créer un Apprenant</a>
+                </li>
+                {# <li class="nav-item pill mr-1 mb-1">
+                    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab"
+                        aria-controls="pills-contact" aria-selected="false">Liste des formations</a>
                 </li>
                 <li class="nav-item pill mr-1 mb-1">
-                    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab"
-                        aria-controls="pills-contact" aria-selected="false">Attribuer des apprenants</a>
-                </li>
-                <!-- <li class="nav-item pill mr-1 mb-1">
                     <a class="nav-link" id="pills-formation-tab" data-toggle="pill" href="#pills-formation" role="tab"
                         aria-controls="pills-formation" aria-selected="false">Créer une formation</a>
-                </li> -->
+                </li> #}
             </ul>
             <div class="tab-content" id="pills-tabContent">
 
@@ -66,7 +70,7 @@
                     </button>
                 </div>
                 {% endfor %}
-                
+
                 {% for message in app.flashes('warning') %}
                 <div class="container alert alert-warning alert-dismissible fade show" role="alert">
                     <strong>{{ message }}</strong>
@@ -75,7 +79,7 @@
                     </button>
                 </div>
                 {% endfor %}
-                
+
                 {% for message in app.flashes('success') %}
                 <div class="container alert alert-success alert-dismissible fade show" role="alert">
                     <strong>{{ message }}</strong>
@@ -87,55 +91,57 @@
 
                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                     <form action="" class="  ml-auto w-50 bg-info" style="position: relative;">
-                        <input class="float-right form-group mr-2 " placeholder="chercher" type="text" name="chercher_promotion">
-                        <button class=" badge badge-primary mr-2" style="position: absolute;right:0;cursor:pointer" id="chercher_user" type="submit"><i class="fa fa-search "></i></button>
+                        <input class="float-right form-group mr-2 " placeholder="chercher" type="text"
+                            name="chercher_apprenant">
+                        <button class=" badge badge-primary mr-2" style="position: absolute;right:0;cursor:pointer"
+                            type="submit"><i class="fa fa-search "></i></button>
                     </form>
                     <table class="table">
-                        
+
                         <thead>
-                            
-                            <th >Année</th>
-                            <th >Début</th>
-                            <th>Fin</th>
-                            <th >Aapprenants</th>
-                            <th>Formation</th>
-                            <th>Commentaire</th>
-                    
+
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Date de naissance</th>
+                            <th>Email</th>
+
+
                             <th style="width: 15%;">Actions</th>
                         </thead>
                         <tbody>
-                    
-                            {% for promotion in promotions %}
+
+                            {% for apprenant in apprenants %}
                             <tr>
-                                <td>{{ promotion.annee }}</td>
-                                <td>{{ promotion.dateDebut|date("m/d/Y") }}</td>
-                                <td>{{ promotion.dateFin|date("m/d/Y") }}</td>
-                                <td>{{ promotion.nombreEleves }}</td>
-                                {% if promotion.formation.intitule is defined %}
-                                <td>{{ promotion.formation.intitule }}</td>
-                                {% endif %}
-                                <td>{{ promotion.commentaires }}</td>
-                                
-                                <td>
-                                    <a class="badge badge-danger delete-record" title="supprimer" href="#"><i
-                                            class="fas fa-trash-alt delete-promotion"></i></a>
-                                    <a class="badge badge-success modif_promotion" title="modifier" href="{{ path('editor_edit_promotion',{'id':promotion.id}) }}"><i
-                                            class="far fa-edit"></i></a>
-                                    <a class="badge badge-info modif_promotion" title="visualiser"
-                                        href="#"><i class="fa fa-eye"></i></a>
-                                    <div class="delete-confirm border bg-light  m-auto rounded p-3" style="position: absolute;top:40%;left:30%">
-                                        <div>
-                                            <h4>Vous êtes sûr de vouloir supprimer?</h4>
-                                        </div>
-                                        <div>
-                                            <a class="btn btn-success non" href="">Non</a>
-                                            <a class="btn btn-danger" href="{{ path('editor_delete_promotion',{'id':promotion.id}) }}">Oui</a>
-                                    
-                                        </div>
+                                <td>{{ apprenant.Nom }}</td>
+                                <td>{{ apprenant.Prenom }}</td>
+                                <td>{{ apprenant.DateNaissance|date("m/d/Y") }}</td>
+                                <td>{{ apprenant.Email }}</td>
+                            
+                            
+
+                            <td>
+                                <a class="badge badge-danger delete-record" title="supprimer" href="#"><i
+                                        class="fas fa-trash-alt delete-promotion"></i></a>
+                                <a class="badge badge-success modif_promotion" title="modifier" 
+                                    href="{{ path('editor_edit_apprenant',{'id':apprenant.id}) }}"><i
+                                        class="far fa-edit"></i></a>
+                                <a class="badge badge-info modif_promotion" title="visualiser" href="#"><i
+                                        class="fa fa-eye"></i></a>
+                                <div class="delete-confirm border bg-light  m-auto rounded p-3"
+                                    style="position: absolute;top:40%;left:30%">
+                                    <div>
+                                        <h4>Vous êtes sûr de vouloir supprimer?</h4>
                                     </div>
-                                </td>
+                                    <div>
+                                        <a class="btn btn-success non" href="">Non</a>
+                                        <a class="btn btn-danger" href="">Oui</a>
+
+                                    </div>
+                                </div>
+                            </td>
                             </tr>
                             {% endfor %}
+                            {# {% endfor %} #}
                         </tbody>
                     </table>
 
@@ -143,31 +149,26 @@
 
 
                 <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                    <div class="container col-12 col-md-8">
-                        <h4>Création d'une promotion</h4>
+                    <div class="container col-12">
+                        <h4>Création d'un apprenant</h4>
                         {{ form_start(form) }}
                         {{ form_widget(form) }}
                         <button class="btn btn-outline-danger d-block ml-auto">Enregistrer</button>
                         {{ form_end(form) }}
                     </div>
 
-                    
-                
+
+
                 </div>
 
 
-                <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-                    <div class="container col-12 col-md-8">
-                        
-                    </div>
-
-                </div>
+                {# <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...</div>
 
                     
 
-                <!-- <div class="tab-pane fade" id="pills-formation" role="tabpanel" aria-labelledby="pills-formation-tab">...
+                <div class="tab-pane fade" id="pills-formation" role="tabpanel" aria-labelledby="pills-formation-tab">...
                     oussama
-                </div>  -->
+                </div> #}
             </div>
 
             {# end body #}
@@ -178,6 +179,45 @@
 {% endif %}
 
 <script>
-    
+
 </script>
+        
+
+{% endblock %}
+
+{% block _apprenant_reseaux_widget %}
+<p></p>
+    {{ form_widget(form) }}
+    <div class="form-group">
+        <button type="button" class="badge badge-success" id="add-reseau">Ajouter un réseau</button>
+    </div>
+{% endblock %}
+
+{% block _apprenant_reseaux_entry_row %}
+
+{{ form_widget(form) }}
+
+{% endblock %}
+
+{% block _apprenant_reseaux_entry_widget %}
+<div class="form-group">
+    <div class="row">
+        <div class="col">
+            {{ form_widget(form.nom) }}
+        </div>
+        <div class="col">
+            {{ form_widget(form.lien) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block javascripts %}
+<script>
+    $('#add-reaseu').click(function(){
+        console.log('hi')
+    })
+</script>
+
 {% endblock %}

@@ -64,7 +64,7 @@ class Apprenant extends User
     private $Avatar;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Promotion", inversedBy="apprenants")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Promotion", mappedBy="apprenants")
      */
     private $Promotion;
 
@@ -275,8 +275,8 @@ class Apprenant extends User
         return $this;
     }
 
-    // public function __toString()
-    // {
-    //     return (string) $this->Nom;
-    // }
+    public function __toString()
+    {
+        return (string) $this->Nom.' '.(string) $this->Prenom;
+    }
 }

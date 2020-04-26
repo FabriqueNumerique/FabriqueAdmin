@@ -3,97 +3,171 @@
 {% block title %}Gestion des apprenants{% endblock %}
 
 {% block body %}
-<style>
-    input {
-        outline: none;
-        border: none;
-        border-bottom: 1px solid #777;
-    }
-
-    form input:focus {
-        border-color: blue;
+{% if app.user %}
 
 
-    }
-    body{
-        font-family: 'Amiri', serif;
-    }
-</style>
+    <style>
+        input {
+            outline: none;
+            border: none;
+            border-bottom: 1px solid #777;
+        }
+
+        form input:focus {
+            border-color: blue;
 
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
+        }
+        body{
+            font-family: 'Amiri', serif;
+        }
+        .hid{
+            display: none;
+        }
+    </style>
 
-            {% include "template_parts/_nav_promotion.html.twig" %}
 
-            <div class="my-5">
-                {% for message in app.flashes('danger') %}
-                <div class="container alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{ message }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
+
+                {% include "editor/promotion/_nav_promotion.html.twig" %}
+
+                {# pour afficher le flash message #}
+                <div class="my-5">
+                    {% for message in app.flashes('danger') %}
+                    <div class="container alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{{ message }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+
+                    <h4  class="btn btn-info">Liste des Promotions</h4>
+
+                    {# formulaire de recherche #}
+                    <form action="" class="  ml-auto w-50 bg-info" style="position: relative;">
+                        <input class="float-right form-group mr-2 " placeholder="chercher" type="text" name="chercher_promotion">
+                        <button class=" badge badge-primary mr-2" style="position: absolute;right:0;cursor:pointer" id="chercher_user"
+                            type="submit"><i class="fa fa-search "></i></button>
+                    </form>
+                    
+                    {# parcourir la table des promotions #}
+                    {# استعراض كامل جدول البروموسييون #}
+                    {% for promotion in promotions %}
+                    <table class="table">
+                    
+                        <thead class="table-warning">
+                            <tr class="show-liste" style="cursor: pointer;">
+                                <th scope="col" style="width: 10%;">Année</th>
+                                <th scope="col" style="width: 10%;">Début</th>
+                                <th scope="col" style="width: 10%;">Fin</th>
+                                <th scope="col" style="width: 50%;">Formation</th>
+        
+                                <th style="width: 20%; margin-right:15px">Actions </th>
+                                <th><i class="fa fa-chevron-down icon"></i></th>
+                            </tr>
+                            <tr>
+                                <td>{{ promotion.annee }}</td>
+                                <td>{{ promotion.dateDebut|date("m/d/Y") }}</td>
+                                <td>{{ promotion.dateFin|date("m/d/Y") }}</td>
+                                <td>{{ promotion.formation.intitule }}</td>
+
+                                <td colspan="2">
+                                    {# 3link to delete or edit or show #}
+                                    <a class="badge badge-danger delete-record" title="supprimer" href="#"><i
+                                            class="fas fa-trash-alt delete-promotion"></i></a>
+                                    <a class="badge badge-success modif_promotion" title="modifier"
+                                        href="{{ path('editor_edit_promotion',{'id':promotion.id}) }}"><i class="far fa-edit"></i></a>
+                                    <a class="badge badge-info modif_promotion" title="visualiser"
+                                        href="{{ path('editor_promo_show',{'id':promotion.id}) }}"><i class="fa fa-eye"></i></a>
+                                    
+
+                                    {# delete confirmation #}
+                                    <div class="delete-confirm border bg-light  m-auto rounded p-3" style="position: absolute;top:40%;left:30%">
+                                        <div>
+                                            <h4>Vous êtes sûr de vouloir supprimer?</h4>
+                                        </div>
+                                        <div>
+                                            <a class="btn btn-success non" href="">Non</a>
+                                            <a class="btn btn-danger" href="{{ path('editor_delete_promotion',{'id':promotion.id}) }}">Oui</a>
+
+                                        </div>
+                                    </div>
+                                    {# end delete confirmation #}
+                                </td>
+                            </tr>
+                        </thead>
+                            <tr class="hid ">
+                                <th scope="col">Nom</th>
+                                <th scope="col">Prénom</th>
+                                <th scope="col">Date De Naissance</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Mobile</th>
+                                <th></th>
+                            </tr>
+                    
+                            {# liste of arrayCollection of apprenant included in Promotion class #}
+                            {# استعراض أسماء الطلاب عند النقر على إحدى الدورات التي تم عرضها آنفاً #}
+                            {% for apprenant in promotion.apprenants %}
+                            <tr class="hid">
+                                <td>{{apprenant.nom}}</td>
+                                <td>{{apprenant.prenom}}</td>
+                                <td>{{apprenant.dateNaissance|date("m/d/Y")}}</td>
+                                <td>{{apprenant.email}}</td>
+                                <td>{{apprenant.tel}}</td>
+                                <td><a class="badge badge-info modif_promotion" title="visualiser"
+                                    href="{{ path('editor_apprenant_show',{'id':apprenant.id}) }}"><i class="fa fa-eye"></i></a></td>
+                            </tr>
+
+
+                            {% endfor %}
+                            
+                    {% endfor %}
+                    
+                    </table>
+
+
                 </div>
-                {% endfor %}
-                <h4  class="btn btn-info">Liste des Promotions</h4>
-                <form action="" class="  ml-auto w-50 bg-info" style="position: relative;">
-                    <input class="float-right form-group mr-2 " placeholder="chercher" type="text" name="chercher_promotion">
-                    <button class=" badge badge-primary mr-2" style="position: absolute;right:0;cursor:pointer" id="chercher_user"
-                        type="submit"><i class="fa fa-search "></i></button>
-                </form>
-                <table class="table">
-                
-                    <thead>
-                
-                        <th>Année</th>
-                        <th>Début</th>
-                        <th>Fin</th>
-                        <th>Aapprenants</th>
-                        <th>Formation</th>
-
-                        <th style="width: 15%;">Actions</th>
-                    </thead>
-                    <tbody>
-                
-                        {% for promotion in promotions %}
-                        <tr>
-                            <td>{{ promotion.annee }}</td>
-                            <td>{{ promotion.dateDebut|date("m/d/Y") }}</td>
-                            <td>{{ promotion.dateFin|date("m/d/Y") }}</td>
-                            <td>{{ promotion.nombreEleves }}</td>
-                            {% if promotion.formation.intitule is defined %}
-                            <td>{{ promotion.formation.intitule }}</td>
-                            {% endif %}
-                
-                            <td>
-                                <a class="badge badge-danger delete-record" title="supprimer" href="#"><i
-                                        class="fas fa-trash-alt delete-promotion"></i></a>
-                                <a class="badge badge-success modif_promotion" title="modifier"
-                                    href="{{ path('editor_edit_promotion',{'id':promotion.id}) }}"><i class="far fa-edit"></i></a>
-                                <a class="badge badge-info modif_promotion" title="visualiser" href="#"><i class="fa fa-eye"></i></a>
-                                <div class="delete-confirm border bg-light  m-auto rounded p-3"
-                                    style="position: absolute;top:40%;left:30%">
-                                    <div>
-                                        <h4>Vous êtes sûr de vouloir supprimer?</h4>
-                                    </div>
-                                    <div>
-                                        <a class="btn btn-success non" href="">Non</a>
-                                        <a class="btn btn-danger"
-                                            href="{{ path('editor_delete_promotion',{'id':promotion.id}) }}">Oui</a>
-                
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-
 
             </div>
-
         </div>
     </div>
-</div>
+{% endif %}
+{% endblock %}
+
+
+{% block javascripts %}
+
+
+
+<script>
+
+    let btn = document.querySelectorAll('.show-liste');
+    console.log(btn)
+    for (let i = 0; i < btn.length; i++) {
+        btn[i].addEventListener('click', function () {
+
+            //عند النقر على سطر من الجدول سنصعد مستويين لاختيار الأسطر المسماة hid
+            //monter deux niveux afin d'arriver à la balise table et puis selectionner la class .hid
+
+            let tab = this.parentElement.parentElement.querySelectorAll('.hid')
+
+            let icon = this.querySelector('.icon')
+
+            //we repalce the class name
+            if ((icon.getAttribute('class')) == 'svg-inline--fa fa-chevron-down fa-w-14 icon') {
+
+                icon.setAttribute('class', 'svg-inline--fa fa-chevron-up fa-w-14 icon')
+            } else {
+                icon.setAttribute('class', 'svg-inline--fa fa-chevron-down fa-w-14 icon')
+            }
+
+            $(tab).toggle('slow')
+        })
+    }
+
+</script>
+
 {% endblock %}

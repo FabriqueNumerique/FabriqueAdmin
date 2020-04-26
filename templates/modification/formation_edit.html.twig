@@ -7,23 +7,23 @@
 
 {% if app.user %}
 
-{# structure de la page 10 colonnes de largeur et alignée à droite #}
-<div class="container-fluid ">
-    <div class="row">
-        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto my-5">
+    {# structure de la page 10 colonnes de largeur et alignée à droite #}
+    <div class="container-fluid ">
+        <div class="row">
+            <div class="col-xl-10 col-lg-9 col-md-8 ml-auto my-5">
 
+                <!-- display formation form to edit -->
+                <div class="container col-12 col-md-8 mt-5" style="font-family: 'Amiri', serif;">
+                    <h4>Modification d'une formation</h4>
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                
 
-            <div class="container col-12 col-md-8 mt-5" style="font-family: 'Amiri', serif;">
-                <h4>Modification d'une formation</h4>
-                {{ form_start(form) }}
-                {{ form_widget(form) }}
-               
-
-                <button class="btn btn-outline-danger d-block ml-auto">Enregistrer</button>
-                {{ form_end(form) }}
+                    <button class="btn btn-outline-danger d-block ml-auto">Enregistrer</button>
+                    {{ form_end(form) }}
+                </div>
             </div>
         </div>
     </div>
-</div>
 {% endif %}
 {% endblock %}

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\FormationType;
 use App\Form\PromotionType;
 use App\Form\ApprenantType;
+use App\Form\PromoType;
 use App\Repository\ApprenantRepository;
 use App\Repository\FormationRepository;
 use App\Repository\PromotionRepository;
@@ -24,7 +25,7 @@ class ModificationController extends AbstractController
     public function edit_promotion($id, PromotionRepository $repo, Request $request)
     {
         $newPromotion = $repo->find($id);
-        $form = $this->createForm(PromotionType::class, $newPromotion);
+        $form = $this->createForm(PromoType::class, $newPromotion);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $Manager = $this->getDoctrine()->getManager();

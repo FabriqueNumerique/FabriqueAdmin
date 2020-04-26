@@ -49,7 +49,7 @@ class Promotion
     private $Formation;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Apprenant", mappedBy="Promotion")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Apprenant", inversedBy="Promotion")
      */
     private $apprenants;
 

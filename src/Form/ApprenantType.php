@@ -16,24 +16,46 @@ class ApprenantType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('Promotion'
-            // ,EntityType::class, array
-            //     (
-            //     'label' => 'Choisir une promotion',
-            //     'class'=>Promotion::class,
-            //     'mapped'=>false
-            //     )
-                )
+            
             ->add('Nom')
             ->add('Prenom')
             ->add('Email')
             ->add('Tel')
-            ->add('DateNaissance', DateType::class, array('years' => range(1970, 2020, 1), 'format' => 'dd-MM-yyyy'))
+            ->add('DateNaissance', DateType::class, [
+                    'widget'=> 'single_text'
+                ])
             ->add('Adresse')
             ->add('Ville')
             ->add('Git')
             ->add('Avatar')
+            // ->add('Reseaux', CollectionType::class, array(
+            //         'entry_type' => ReseauxType::class,
+            //         'entry_options' => ['label' => false],
+            //         'allow_add' => true,
+            //         'allow_delete' => true,
+            //         'prototype' => true,
+            //         'by_reference' => false,
+            //         'label'=>'Réseaux Sociaux'
+            //     ))
             ;
+
+
+                
+            // ->add('Reseaux', CollectionType::class, [
+            //     'entry_type' => ReseauxType::class,
+            //     'entry_options' => ['label' => false],
+            //     'allow_add' => true,
+            // ]);
+            
+                // 'Promotion'
+                // ,EntityType::class, array
+                //     (
+                //     'label' => 'Choisir une promotion',
+                //     'class'=>Promotion::class,
+                //     'mapped'=>false
+                //     )
+            // )
+            // ;
             // ->add('offre')
             // ->add('reseaux', CollectionType::class,
             // [

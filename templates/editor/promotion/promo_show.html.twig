@@ -1,0 +1,134 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Afficher une promotion{% endblock %}
+
+{% block body %}
+{% if app.user %}
+
+
+    <style>
+        input {
+            outline: none;
+            border: none;
+            border-bottom: 1px solid #777;
+        }
+
+        form input:focus {
+            border-color: blue;
+
+
+        }
+        .hid{
+            display: none;
+        }
+    </style>
+
+
+    <div class="container-fluid" style="font-family: 'Amiri', serif;">
+        <div class="row">
+            <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
+
+                {% include "editor/promotion/_nav_promotion.html.twig" %}
+
+                <div class="my-5">
+                    <!-- flash message -->
+                    {% for message in app.flashes('success') %}
+                    <div class="container alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>{{ message }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+
+                    <h4 class="btn btn-info ">Afficher une Promotion </h4>
+
+                    <!-- afficher une seule promotion -->
+                    <table class="table ">
+                    
+                        <thead>
+                    
+                            <th scope="col">Année</th>
+                            <th scope="col">Début</th>
+                            <th scope="col">Fin</th>
+                            <th scope="col">Formation</th>
+                    
+                        </thead>
+                        <tbody>
+                    
+
+                            <tr>
+
+                                <td>{{ promotions.annee }}</td>
+                                <td>{{ promotions.dateDebut|date("m/d/Y") }}</td>
+                                <td>{{ promotions.dateFin|date("m/d/Y") }}</td>
+                                <td>{{ promotions.formation.intitule }}</td>
+                    
+                            
+                            </tr>
+
+                        </tbody>
+                    </table>
+                        <div>
+                            <!-- un tableau masqué des apprenants appartenant à une promotion -->
+                            <h4 class="btn btn-info show-liste">Liste des apprenants <i class="fa fa-chevron-down icon"></i></h4>
+                            <table class="table hid">
+                                <th scope="col">N°</th>
+                                <th scope="col">Nom</th> 
+                                <th scope="col">Prénom</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Date de Naissance</th>
+                                <th></th>
+                                {% set i = 0 %}
+                                {% for apprenant in promotions.apprenants %}
+                                    {% set i = i + 1 %}
+                                    <tr>
+                                        <td>{{i}}</td>
+                                        <td>{{ apprenant.nom }}</td>
+                                        <td>{{ apprenant.prenom }}</td>
+                                        <td>{{ apprenant.email }}</td>
+                                        <td>{{ apprenant.dateNaissance|date("m/d/Y") }}</td>
+
+                                        <!-- un lien vers un apprenant -->
+                                        <td><a class="badge badge-info modif_promotion" title="visualiser"
+                                                href="{{ path('editor_apprenant_show',{'id':apprenant.id}) }}"><i class="fa fa-eye"></i></a></td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
+
+{% block javascripts %}
+
+<script>
+    // sélectionner le bouton ayant la class show-list
+    let btn = document.querySelector('.show-liste');
+    
+    btn.addEventListener('click', function () {
+        //en cliquant sur le bouton, on affiche et on masque la liste des apprenant
+        let tab = this.parentElement.querySelector('.hid')
+        //et on change l'icon
+        let icon = this.querySelector('.icon')
+
+
+        if ((icon.getAttribute('class')) == 'svg-inline--fa fa-chevron-down fa-w-14 icon') {
+
+            icon.setAttribute('class', 'svg-inline--fa fa-chevron-up fa-w-14 icon')
+        } else {
+            icon.setAttribute('class', 'svg-inline--fa fa-chevron-down fa-w-14 icon')
+        }
+
+        $(tab).toggle('slow')
+    })
+
+</script>
+
+{% endblock %}

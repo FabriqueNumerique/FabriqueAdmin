@@ -1,50 +1,55 @@
 
 {% extends 'base.html.twig' %}
 
-{% block title %}Gestion des apprenants{% endblock %}
+{% block title %}Ajouter une Promotion{% endblock %}
 
 {% block body %}
-<style>
-    input {
-        outline: none;
-        border: none;
-        border-bottom: 1px solid #777;
-    }
-
-    form input:focus {
-        border-color: blue;
+{% if app.user %}
 
 
-    }
-</style>
+    <style>
+        input {
+            outline: none;
+            border: none;
+            border-bottom: 1px solid #777;
+        }
+
+        form input:focus {
+            border-color: blue;
 
 
-<div class="container-fluid" style="font-family: 'Amiri', serif;">
-    <div class="row">
-        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
+        }
+    </style>
 
-            {% include "template_parts/_nav_promotion.html.twig" %}
 
-            <div class="my-5">
+    <div class="container-fluid" style="font-family: 'Amiri', serif;">
+        <div class="row">
+            <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
 
-                {% for message in app.flashes('success') %}
-                <div class="container alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{ message }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                {% include "editor/promotion/_nav_promotion.html.twig" %}
+
+                <div class="my-5">
+                    <!-- flash messages -->
+                    {% for message in app.flashes('success') %}
+                    <div class="container alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>{{ message }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+
+                    <!-- afficher le formulaire d'ajout d'une promotion -->
+                    <h4  class="btn btn-info">Créer une Promotion</h4>
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <button class="btn btn-outline-danger d-block ml-auto">Enregistrer</button>
+                    {{ form_end(form) }}
+
                 </div>
-                {% endfor %}
-
-                <h4  class="btn btn-info">Créer une Promotion</h4>
-                {{ form_start(form) }}
-                {{ form_widget(form) }}
-                <button class="btn btn-outline-danger d-block ml-auto">Enregistrer</button>
-                {{ form_end(form) }}
 
             </div>
-
         </div>
     </div>
-</div>
+{% endif %}
 {% endblock %}

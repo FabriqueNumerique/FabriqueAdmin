@@ -1,0 +1,149 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une Promotion{% endblock %}
+
+{% form_theme form _self %}
+
+{% block body %}
+{% if app.user %}
+
+
+    <style>
+        input {
+            outline: none;
+            border: none;
+            border-bottom: 1px solid #777;
+        }
+
+        form input:focus {
+            border-color: blue;
+
+
+        }
+    </style>
+    <div class="container-fluid" style="font-family: 'Amiri', serif;">
+        <div class="row">
+            <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
+
+                {% include "editor/apprenant/_nav_apprenant.html.twig" %}
+
+                <div class="my-5">
+                    <!-- falsh message -->
+                    {% for message in app.flashes('danger') %}
+                    <div class="container alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{{ message }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+
+                    <!-- afficher le formulaire d'ajout d'un apprenant -->
+                    <div class="container col-12">
+                        <h4 class="btn btn-info">Créer un apprenant</h4>
+                        {{ form_start(form) }}
+                        {{ form_widget(form) }}
+                        {# {{ form_row(form.Nom) }}
+                        {{ form_row(form.Prenom) }}
+                        {{ form_row(form.Email) }}
+                        {{ form_row(form.DateNaissance) }}
+                        {{ form_row(form.Tel) }}
+                        {{ form_row(form.Adresse) }}
+                        {{ form_row(form.Ville) }}
+                        {{ form_row(form.Git) }}
+                        {{ form_row(form.Avatar) }} #}
+
+
+                        {# <div class="col-sm-8 col-sm-offset-2" id="apprenant_Reseaux" data-prototype="{{ form_widget(form.Reseaux.vars.prototype)|e('html_attr') }}">
+                            {% for row in form.Reseaux %}
+                                {{ form_row(row) }}
+                            {% endfor %}
+                        </div> #}
+                        <button class="btn btn-outline-danger d-block ml-auto">Enregistrer</button>
+                        {{ form_end(form) }}
+                    </div>
+
+
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+{% endif %}
+{% endblock %}
+
+
+
+{% block _apprenant_Reseaux_widget %}
+
+    {{ form_widget(form) }}
+
+
+        <div class="form-group">
+            <button type="button" class="btn btn-info" id="add-reseau">Ajouter un réseau</button>
+        </div>
+
+{% endblock %}
+
+{% block _apprenant_Reseaux_entry_row %}
+
+    {{ form_widget(form) }}
+
+{% endblock %}
+
+{% block _apprenant_Reseaux_entry_widget %}
+
+        <div class="form-group" id="oussama_{{id}}">
+            <div class="row">
+                <div class="col-10">
+                    <div class="row">
+                        <div class="col">
+                            {{ form_widget(form.Nom) }}
+                        </div>
+                        <div class="col">
+                            {{ form_widget(form.Lien) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <button type="button" data-action="delete" data-target="#{{id}}" class="btn btn-danger">X</button>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
+
+
+
+
+
+
+{% block javascripts %}
+        
+
+<script>
+    $('#add-reseau').click(function () {
+        // here we get the future number of field to add
+        const index = $('#add-reseau div.form-group').length
+        
+
+        // ici on récupere le prototype des entrées
+        const tmpl = $('#apprenant_Reseaux').data('prototype').replace(/__name__/g, index)
+
+        //ici, j'injecte le code récupéré dans mon fromulaire
+        $('#apprenant_Reseaux').append(tmpl)
+        deleteSousFrom()
+    })
+
+    function deleteSousFrom(){
+        $('button[data-action="delete"]').click(function(){
+            const target= this.dataset.target
+            console.log(target)
+            $(target).remove()
+        })
+    }
+     deleteSousFrom()
+</script>
+
+{% endblock %}

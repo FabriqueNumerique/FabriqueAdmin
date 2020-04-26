@@ -7,32 +7,36 @@
 
 {% if app.user %}
 
-{# structure de la page 10 colonnes de largeur et alignée à droite #}
-<div class="container-fluid" style="font-family: 'Amiri', serif;">
-    <div class="row">
-        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto my-5">
-        {% include "template_parts/_nav_promotion.html.twig" %}
+    {# structure de la page 10 colonnes de largeur et alignée à droite #}
+    <div class="container-fluid" style="font-family: 'Amiri', serif;">
+        <div class="row">
+            <div class="col-xl-10 col-lg-9 col-md-8 ml-auto my-5">
+                <!-- inserer le menu bar de promotion -->
+                {% include "editor/promotion/_nav_promotion.html.twig" %}
 
-            <div class="my-5">
-                {% for message in app.flashes('warning') %}
-                <div class="container alert alert-warning alert-dismissible fade show" role="alert">
-                    <strong>{{ message }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {% endfor %}
-                    <h4  class="btn btn-info">Modifier une promotion</h4>
-                    {{ form_start(form) }}
-                    {{ form_widget(form) }}
+                <div class="my-5">
+                    <!-- afficher le message flach -->
+                    {% for message in app.flashes('warning') %}
+                    <div class="container alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>{{ message }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+
+                        <!-- display promotion form to be edited -->
+                        <h4  class="btn btn-info">Modifier une promotion</h4>
+                        {{ form_start(form) }}
+                        {{ form_widget(form) }}
+                        
+                        <button class="btn btn-outline-danger d-block ml-auto">Enregistrer</button>
+                        {{ form_end(form) }}
                     
-                    <button class="btn btn-outline-danger d-block ml-auto">Enregistrer</button>
-                    {{ form_end(form) }}
-                
-            </div>
+                </div>
 
+            </div>
         </div>
     </div>
-</div>
 {% endif %}
 {% endblock %}
