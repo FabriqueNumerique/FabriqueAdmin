@@ -92,28 +92,6 @@
 
 {% endblock %}
 
-{% block _apprenant_Reseaux_entry_widget %}
-
-        <div class="form-group" id="oussama_{{id}}">
-            <div class="row">
-                <div class="col-10">
-                    <div class="row">
-                        <div class="col">
-                            {{ form_widget(form.Nom) }}
-                        </div>
-                        <div class="col">
-                            {{ form_widget(form.Lien) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-2">
-                    <button type="button" data-action="delete" data-target="#{{id}}" class="btn btn-danger">X</button>
-                </div>
-            </div>
-        </div>
-
-{% endblock %}
-
 
 
 
@@ -126,6 +104,7 @@
     $('#add-reseau').click(function () {
         // here we get the future number of field to add
         const index = $('#add-reseau div.form-group').length
+        console.log(index)
         
 
         // ici on récupere le prototype des entrées
@@ -145,5 +124,28 @@
     }
      deleteSousFrom()
 </script>
+
+{% endblock %}
+
+{% block _apprenant_Reseaux_entry_widget %}
+
+<div class="form-group" id="{{id}}">
+    <div class="row">
+        <div class="col-10">
+            <div class="row">
+
+                <div class="col">
+                    {{ form_widget(form.Nom) }}
+                </div>
+                <div class="col">
+                    {{ form_widget(form.Lien) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <button type="button" data-action="delete" data-target="#{{id}}" class="btn btn-danger">X</button>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

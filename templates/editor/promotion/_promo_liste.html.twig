@@ -55,33 +55,39 @@
                     
                     {# parcourir la table des promotions #}
                     {# استعراض كامل جدول البروموسييون #}
-                    {% for promotion in promotions %}
                     <table class="table">
                     
-                        <thead class="table-warning">
-                            <tr class="show-liste" style="cursor: pointer;">
+                        <thead class="">
+                            <tr >
                                 <th scope="col" style="width: 10%;">Année</th>
                                 <th scope="col" style="width: 10%;">Début</th>
                                 <th scope="col" style="width: 10%;">Fin</th>
                                 <th scope="col" style="width: 50%;">Formation</th>
         
-                                <th style="width: 20%; margin-right:15px">Actions </th>
-                                <th><i class="fa fa-chevron-down icon"></i></th>
+                                <th colspan="2" scope="col" >Actions </th>
+                                
                             </tr>
-                            <tr>
+                        </thead>
+                    {% for promotion in promotions %}
+                    
+
+                    <tbody>
+
+                    
+                            <tr class=" alert-secondary" >
                                 <td>{{ promotion.annee }}</td>
                                 <td>{{ promotion.dateDebut|date("m/d/Y") }}</td>
                                 <td>{{ promotion.dateFin|date("m/d/Y") }}</td>
                                 <td>{{ promotion.formation.intitule }}</td>
 
-                                <td colspan="2">
+                                <td >
                                     {# 3link to delete or edit or show #}
                                     <a class="badge badge-danger delete-record" title="supprimer" href="#"><i
                                             class="fas fa-trash-alt delete-promotion"></i></a>
                                     <a class="badge badge-success modif_promotion" title="modifier"
                                         href="{{ path('editor_edit_promotion',{'id':promotion.id}) }}"><i class="far fa-edit"></i></a>
-                                    <a class="badge badge-info modif_promotion" title="visualiser"
-                                        href="{{ path('editor_promo_show',{'id':promotion.id}) }}"><i class="fa fa-eye"></i></a>
+                                    <!-- <a class="badge badge-info modif_promotion" title="visualiser"
+                                        href="{{ path('editor_promo_show',{'id':promotion.id}) }}"><i class="fa fa-eye"></i></a> -->
                                     
 
                                     {# delete confirmation #}
@@ -97,9 +103,10 @@
                                     </div>
                                     {# end delete confirmation #}
                                 </td>
+                                <td class="show-liste" style="cursor: pointer;" title="afficher les apprenants"><i class="fa fa-chevron-down icon"></i></td>
                             </tr>
-                        </thead>
-                            <tr class="hid ">
+                        
+                            <tr class="hid alert-danger ">
                                 <th scope="col">Nom</th>
                                 <th scope="col">Prénom</th>
                                 <th scope="col">Date De Naissance</th>
@@ -118,12 +125,12 @@
                                 <td>{{apprenant.email}}</td>
                                 <td>{{apprenant.tel}}</td>
                                 <td><a class="badge badge-info modif_promotion" title="visualiser"
-                                    href="{{ path('editor_apprenant_show',{'id':apprenant.id}) }}"><i class="fa fa-eye"></i></a></td>
+                                    href="{{ path('editor_pro_apprenant_show',{'id':apprenant.id}) }}"><i class="fa fa-eye"></i></a></td>
                             </tr>
 
-
                             {% endfor %}
-                            
+                        
+                    </tbody>
                     {% endfor %}
                     
                     </table>

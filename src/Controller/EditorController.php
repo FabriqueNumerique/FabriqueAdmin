@@ -199,11 +199,12 @@ class EditorController extends AbstractController
         // $reseau->setNom('instagram')->setLien('instagram.com/mouna.ed');
         // $newApprenant->addReseaux($reseau);
 
+
         $form = $this->createForm(ApprenantType::class, $newApprenant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-           
+        dd($form->getData());   
 
             
 
@@ -242,6 +243,19 @@ class EditorController extends AbstractController
         return $this->render('editor/apprenant/apprenant_show.html.twig', [
             'apprenant' => $apprenant
         ]);
-    }    
+    }
 
+
+    /**
+     * afficher un apprenant
+     * 
+     * @Route("/editor/pro_apprenant_show/{id}", name="editor_pro_apprenant_show")
+     */
+    public function pro_apprenant_show(ApprenantRepository $repo, $id)
+    {
+        $apprenant = $repo->find($id);
+        return $this->render('editor/promotion/apprenant_show.html.twig', [
+            'apprenant' => $apprenant
+        ]);
+    }    
 }
