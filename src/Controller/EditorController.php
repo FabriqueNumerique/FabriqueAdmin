@@ -19,6 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Validator\Constraints\Date;
 
 class EditorController extends AbstractController
 {
@@ -95,8 +96,8 @@ class EditorController extends AbstractController
      */
     public function promo_attr_appr(PromotionRepository $repo, Request $request, ApprenantRepository $repoAppr, UserPasswordEncoderInterface $encoder)
     {
-        $promotion = $repo->findBy(array(), array('Annee' => 'asc'));
-
+        // $promotion = $repo->findBy(array(), array('Annee' => 'asc'));
+        $promotion = $repo->selectPromotion(new \DateTime);
         $newApprenant = new Apprenant();
 
         // $form = $this->createForm(ApprenantType::class, $newApprenant);
@@ -195,20 +196,25 @@ class EditorController extends AbstractController
     {
         $newApprenant = new Apprenant();
         $Manager = $this->getDoctrine()->getManager();
-        // $reseau = new Reseau();
-        // $reseau->setNom('instagram')->setLien('instagram.com/mouna.ed');
-        // $newApprenant->addReseaux($reseau);
-
-
+        
         $form = $this->createForm(ApprenantType::class, $newApprenant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-       
+            
+            // ici on récupére les réseaux qu'on a dans le formulaire de l'apprenant et on les persiste dans reseau
+            // sans ce code, on arrivait à ajouter les réseaux dans reseau mais le id de l'apprenant était toujours vide
+            // mail il falait avant tout permettre de persister et de 
+            // remove dans l'annotation du reseaux dans l'entité apprenant
+            foreach ($newApprenant->getReseaux() as $reseau) {
+                $reseau->setApprenant($newApprenant);
+                $Manager->persist($reseau);
+            }
 
-
+            // ici on récupère le fichier téléversé.et on teste s'il existe ou non.
+            // s'il existe, on appelle le service FileUploader et on stock le fichier 
+            // dans une variable pour le stocker dans l'apprenent en question
             $brochureFile = $form['brochure']->getData();
-            // dd($brochureFile);
             if ($brochureFile) {
                 $brochureFileName = $fileUploader->upload($brochureFile);
                 $newApprenant->setAvatar($brochureFileName);
@@ -221,8 +227,8 @@ class EditorController extends AbstractController
 
             try {
                 $Manager->persist($newApprenant);
-
                 $Manager->flush();
+
                 $this->addFlash('success', 'Un utilisateur a été créé!');
                 $this->addFlash('success', 'Un apprenant a été attribué à une promotion!');
                 return $this->redirectToRoute('editor_apprenant_liste');

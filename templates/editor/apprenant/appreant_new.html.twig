@@ -20,6 +20,9 @@
 
 
         }
+        .custom-file-input{
+            opacity: .4;
+        }
     </style>
     <div class="container-fluid" style="font-family: 'Amiri', serif;">
         <div class="row">
@@ -43,22 +46,7 @@
                         <h4 class="btn btn-info">Créer un apprenant</h4>
                         {{ form_start(form) }}
                         {{ form_widget(form) }}
-                        {# {{ form_row(form.Nom) }}
-                        {{ form_row(form.Prenom) }}
-                        {{ form_row(form.Email) }}
-                        {{ form_row(form.DateNaissance) }}
-                        {{ form_row(form.Tel) }}
-                        {{ form_row(form.Adresse) }}
-                        {{ form_row(form.Ville) }}
-                        {{ form_row(form.Git) }}
-                        {{ form_row(form.Avatar) }} #}
-
-
-                        {# <div class="col-sm-8 col-sm-offset-2" id="apprenant_Reseaux" data-prototype="{{ form_widget(form.Reseaux.vars.prototype)|e('html_attr') }}">
-                            {% for row in form.Reseaux %}
-                                {{ form_row(row) }}
-                            {% endfor %}
-                        </div> #}
+                        
                         <button class="btn btn-outline-danger d-block ml-auto">Enregistrer</button>
                         {{ form_end(form) }}
                     </div>
@@ -79,10 +67,11 @@
 
     {{ form_widget(form) }}
 
+    <input type="hidden" id="widgets-counter" value="0">
+    <div class="form-group">
+        <button type="button" class="btn btn-info" id="add-reseau">Ajouter un réseau</button>
 
-        <div class="form-group">
-            <button type="button" class="btn btn-info" id="add-reseau">Ajouter un réseau</button>
-        </div>
+    </div>
 
 {% endblock %}
 
@@ -93,25 +82,20 @@
 {% endblock %}
 
 
-
-
-
-
 {% block javascripts %}
-        
-
+      
 <script>
     $('#add-reseau').click(function () {
-        // here we get the future number of field to add
-        const index = $('#add-reseau div.form-group').length
-        console.log(index)
-        
+       
+        const index = +$('#widgets-counter').val()
 
         // ici on récupere le prototype des entrées
         const tmpl = $('#apprenant_Reseaux').data('prototype').replace(/__name__/g, index)
 
         //ici, j'injecte le code récupéré dans mon fromulaire
         $('#apprenant_Reseaux').append(tmpl)
+
+        $('#widgets-counter').val(index+1)
         deleteSousFrom()
     })
 
@@ -136,6 +120,10 @@
 
                 <div class="col">
                     {{ form_widget(form.Nom) }}
+                    <!-- <select name="" id="" class="form-control">
+                        <option value="">Facebook</option>
+                        <option value="">Twitter</option>
+                    </select> -->
                 </div>
                 <div class="col">
                     {{ form_widget(form.Lien) }}

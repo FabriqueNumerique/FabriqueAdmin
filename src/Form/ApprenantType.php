@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -20,12 +21,16 @@ class ApprenantType extends AbstractType
     {
         $builder
             ->add('Promotion')
+                // 'class'=>Promotion::class,
+                // 'query_builder' => function (PromotionRepository $er) {
+                //     return $er->createQueryBuilder('u')
+                //         ->where('u.DateFin > :date')
+                //         ->setParameter('date', new \DateTime);
+                    
+                // }
+           
             // ->add('Promotion', EntityType::class,[
             //     'class' => Promotion::class,
-            //     'query_builder' => function (PromotionRepository $er) {
-            //         return $er->createQueryBuilder('u')
-            //         ->orderBy('u.Annee', 'ASC');
-            //     },
             // ])
             ->add('Nom')
             ->add('Prenom')
@@ -43,6 +48,9 @@ class ApprenantType extends AbstractType
 
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
+                'attr'=>[
+                    'opacity'=>1
+                ],
 
                 // make it optional so you don't have to re-upload the PDF file
                 // every time you edit the Product details
@@ -61,43 +69,16 @@ class ApprenantType extends AbstractType
                     ])
                 ],
             ])
-            // ->add('Reseaux', CollectionType::class, array(
-            //         'entry_type' => ReseauxType::class,
-            //         // 'entry_options' => ['label' => false],
-            //         'allow_add' => true,
-            //         // 'allow_delete' => true,
-            //         // 'prototype' => true,
-            //         // 'by_reference' => false,
-            //         // 'label'=>'Réseaux Sociaux'
-            //     ))
+            ->add('Reseaux', CollectionType::class, array(
+                    'entry_type' => ReseauxType::class,
+                    // 'entry_options' => ['label' => false],
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    // 'prototype' => true,
+                    // 'by_reference' => false,
+                    'label'=>'Réseaux Sociaux'
+                ))
             ;
-
-
-                
-            // ->add('Reseaux', CollectionType::class, [
-            //     'entry_type' => ReseauxType::class,
-            //     'entry_options' => ['label' => false],
-            //     'allow_add' => true,
-            // ]);
-            
-                // 'Promotion'
-                // ,EntityType::class, array
-                //     (
-                //     'label' => 'Choisir une promotion',
-                //     'class'=>Promotion::class,
-                //     'mapped'=>false
-                //     )
-            // )
-            // ;
-            // ->add('offre')
-            // ->add('reseaux', CollectionType::class,
-            // [
-            //     'entry_type'=>ReseauxType::class,
-            //     // 'allow_add' => true,
-            //     // 'allow_delete' => true
-            //     ]
-            // )
-            
         ;
     }
 

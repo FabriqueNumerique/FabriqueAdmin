@@ -47,4 +47,14 @@ class PromotionRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+    public function selectPromotion($date)
+    {
+        return $this->createQueryBuilder('n')
+            // ->orderBy('n.email', 'DESC')
+            ->where('n.DateFin < :date')
+            ->setParameter('date', $date)
+            ->getQuery()->getResult();
+    }
 }

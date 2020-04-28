@@ -68,10 +68,10 @@ class Apprenant extends User
      */
     private $Promotion;
 
-    
+
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Reseau", mappedBy="Apprenant")
+     * @ORM\OneToMany(targetEntity="App\Entity\Reseau", mappedBy="Apprenant", cascade={"persist", "remove"})
      */
     private $reseaux;
 

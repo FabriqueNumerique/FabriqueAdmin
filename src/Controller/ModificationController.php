@@ -73,10 +73,21 @@ class ModificationController extends AbstractController
      */
     public function edit_apprenant($id, ApprenantRepository $repo, Request $request, FileUploader $fileUploader)
     {
+        $Manager = $this->getDoctrine()->getManager();
         $newApprenant = $repo->find($id);
+        
         $form = $this->createForm(ApprenantType::class, $newApprenant);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // ici on récupére les réseaux qu'on a dans le formulaire de l'apprenant et on les persiste dans reseau
+            // sans ce code, on arrivait à ajouter les réseaux dans reseau mais le id de l'apprenant était toujours vide
+            // mail il falait avant tout permettre de persister et de 
+            // remove dans l'annotation du reseaux dans l'entité apprenant
+            foreach ($newApprenant->getReseaux() as $reseau) {
+                $reseau->setApprenant($newApprenant);
+                $Manager->persist($reseau);
+            }
 
             $brochureFile = $form['brochure']->getData();
             // dd($brochureFile);
@@ -85,7 +96,6 @@ class ModificationController extends AbstractController
                 $newApprenant->setAvatar($brochureFileName);
             }
 
-            $Manager = $this->getDoctrine()->getManager();
             
             $Manager->flush();
             // dd($newApprenant);
@@ -94,7 +104,8 @@ class ModificationController extends AbstractController
             // return $this->redirectToRoute('editor_apprenant');
         }
         return $this->render('modification/apprenant_edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'apprenant'=>$newApprenant
         ]);
     }
 
