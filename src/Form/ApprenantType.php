@@ -53,23 +53,23 @@ class ApprenantType extends AbstractType
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'application/pdf',
-                            'application/x-pdf',
-                        ],
+                        // 'mimeTypes' => [
+                        //     'application/pdf',
+                        //     'application/x-pdf',
+                        // ],
                         'mimeTypesMessage' => 'Please upload a valid PDF document',
                     ])
                 ],
             ])
-            ->add('Reseaux', CollectionType::class, array(
-                    'entry_type' => ReseauxType::class,
-                    // 'entry_options' => ['label' => false],
-                    'allow_add' => true,
-                    // 'allow_delete' => true,
-                    // 'prototype' => true,
-                    // 'by_reference' => false,
-                    // 'label'=>'Réseaux Sociaux'
-                ))
+            // ->add('Reseaux', CollectionType::class, array(
+            //         'entry_type' => ReseauxType::class,
+            //         // 'entry_options' => ['label' => false],
+            //         'allow_add' => true,
+            //         // 'allow_delete' => true,
+            //         // 'prototype' => true,
+            //         // 'by_reference' => false,
+            //         // 'label'=>'Réseaux Sociaux'
+            //     ))
             ;
 
 

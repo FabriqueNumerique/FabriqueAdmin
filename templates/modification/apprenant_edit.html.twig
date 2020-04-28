@@ -15,6 +15,14 @@
                 {% include "editor/apprenant/_nav_apprenant.html.twig" %}
 
                 <!-- display flash message -->
+                {% for message in app.flashes('warning') %}
+                <div class="container alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
                 <div class="my-5">
                     <div class="container col-12 " style="font-family: 'Amiri', serif;">
                         <h4 class="btn btn-info">Modifier un apprenant</h4>

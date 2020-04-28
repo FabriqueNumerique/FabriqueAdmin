@@ -84,7 +84,7 @@
                             <th>Prénom</th>
                             <th>Date de naissance</th>
                             <th>Email</th>
-                    
+                            <th>Avatar</th>
                     
                             <th style="width: 15%;">Actions</th>
                         </thead>
@@ -96,6 +96,7 @@
                                 <td>{{ apprenant.Prenom }}</td>
                                 <td>{{ apprenant.DateNaissance|date("m/d/Y") }}</td>
                                 <td>{{ apprenant.Email }}</td>
+                                <td><img src="{{ asset('uploads/brochures/') }}{{ apprenant.Avatar }}" alt="" class="w-25 rounded"></td>
                     
                                 <!-- dans la dernère cellule, il trois liens: suuprimer, modifier et visualiser -->
                                 <td>

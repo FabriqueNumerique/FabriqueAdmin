@@ -125,14 +125,17 @@
                 <!-- this menu contain an application title, email and avatar user and finally a logout button -->
                 <div class="col-xl-10 col-lg-9 col-md-8 ml-auto bg-dark fixed-top py-2 top-navbar">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <h4 class="text-light mb-0" style="font-family: 'Amiri', serif;">Fabrique Admin</h4>
                         </div>
-                        <div class="col-md-4 d-flex align-items-center ">
-                            <img src="{{ asset('assets/img/osm.png') }}" class="rounded-circle" width="50">
+                        
+                        <div class="col-md-5 d-flex align-items-center ">
+                            {% if app.user.roles[0] == 'ROLE_USER' %}
+                                <img src="{{ asset('uploads/brochures/') }}{{app.user.avatar}}" class="rounded-circle"  >
+                            {% endif %}
                             <h5 class="text-white ml-2 " style="font-family: 'Amiri', serif;">{{ app.user.email }}</h5>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             <ul class="navbar-nav">
                                 <!-- logout button -->
                                 <li class="nav-item ml-md-auto">

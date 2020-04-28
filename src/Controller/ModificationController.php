@@ -9,6 +9,7 @@ use App\Form\PromoType;
 use App\Repository\ApprenantRepository;
 use App\Repository\FormationRepository;
 use App\Repository\PromotionRepository;
+use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -70,18 +71,27 @@ class ModificationController extends AbstractController
      * 
      * @Route("/editor/edit_apprenant/{id}", name="editor_edit_apprenant")
      */
-    public function edit_apprenant($id, ApprenantRepository $repo, Request $request)
+    public function edit_apprenant($id, ApprenantRepository $repo, Request $request, FileUploader $fileUploader)
     {
         $newApprenant = $repo->find($id);
         $form = $this->createForm(ApprenantType::class, $newApprenant);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $Manager = $this->getDoctrine()->getManager();
 
+            $brochureFile = $form['brochure']->getData();
+            // dd($brochureFile);
+            if ($brochureFile) {
+                $brochureFileName = $fileUploader->upload($brochureFile);
+                $newApprenant->setAvatar($brochureFileName);
+            }
+
+            $Manager = $this->getDoctrine()->getManager();
+            
             $Manager->flush();
+            // dd($newApprenant);
 
             $this->addFlash('warning', 'Un apprenant a été modifié!');
-            return $this->redirectToRoute('editor_apprenant');
+            // return $this->redirectToRoute('editor_apprenant');
         }
         return $this->render('modification/apprenant_edit.html.twig', [
             'form' => $form->createView()

@@ -21,32 +21,40 @@
 
                 <div class="my-5">
                     <!-- un tableau d'un seul apprenant -->
-                    <h4 class="btn btn-info">Afficher un apprenant</h4>
-
-                    <table class="table">
-
-                        <thead>
-
-                            <th scope="col">Nom</th>
-                            <th scope="col">Prénom</th>
-                            <th scope="col">Date de naissance</th>
-                            <th scope="col">Email</th>
-
-                        </thead>
-                        <tbody>
-
-
-                            <tr>
-                                <td>{{ apprenant.Nom }}</td>
-                                <td>{{ apprenant.Prenom }}</td>
-                                <td>{{ apprenant.DateNaissance|date("m/d/Y") }}</td>
-                                <td>{{ apprenant.Email }}</td>
+                    <h4 class="btn btn-info">Fiche apprenant</h4>
+                    <div class="row">
+                        <div class="col-12 col-md-4">
+                            
                                 
-
-                            </tr>
-
-                        </tbody>
-                    </table>
+                                    <img src="{{ asset('uploads/brochures/') }}{{apprenant.avatar}}" alt="">
+                               
+                                
+                                    <span class="ml-3 font-weight-bold">{{apprenant.nom|upper}} {{apprenant.prenom|upper}}</span>
+                                
+                           
+                        </div>
+                        <div class="col-12 col-md-4 ">
+                            
+                                <div class="col">
+                                    <p><strong>Date de naissance:</strong> {{ apprenant.DateNaissance|date("m/d/Y") }}</p>
+                                </div>
+                                <div class="col">
+                                    <p> <strong>Email:</strong> {{ apprenant.email }}</p>
+                                </div>
+                        </div>
+                        <div class="col-12 col-md-4 ">
+                        
+                            <div class="col">
+                                <p><strong>Adresse:</strong> {{ apprenant.adresse }}</p>
+                            </div>
+                            <div class="col">
+                                <p><strong>Ville:</strong> {{ apprenant.ville }}</p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                    
                     <div>
                         <!-- ce bouton pour afficher et masquer les promotion d'un apprenant -->
                         <h6 class="show-liste alert-dark p-2">Formations</h6>

@@ -12,7 +12,7 @@ use App\Form\ApprenantType;
 use App\Repository\ApprenantRepository;
 use App\Repository\FormationRepository;
 use App\Repository\PromotionRepository;
-
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -191,7 +191,7 @@ class EditorController extends AbstractController
      * 
      * @Route("/editor/apprenant_new", name="editor_apprenant_new")
      */
-    public function apprenant_new(Request $request, UserPasswordEncoderInterface $encoder)
+    public function apprenant_new(Request $request, UserPasswordEncoderInterface $encoder, FileUploader $fileUploader)
     {
         $newApprenant = new Apprenant();
         $Manager = $this->getDoctrine()->getManager();
@@ -204,10 +204,15 @@ class EditorController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-        dd($form->getData());   
+       
 
-            
 
+            $brochureFile = $form['brochure']->getData();
+            // dd($brochureFile);
+            if ($brochureFile) {
+                $brochureFileName = $fileUploader->upload($brochureFile);
+                $newApprenant->setAvatar($brochureFileName);
+            }
             $mdp = strtolower($newApprenant->getNom() . $newApprenant->getPrenom());
 
             $mdp_hash = $encoder->encodePassword($newApprenant, $mdp);
