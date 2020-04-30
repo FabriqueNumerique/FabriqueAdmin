@@ -3,14 +3,174 @@
 {% block title %}Dashbord{% endblock %}
 
 {% block body %}
-
+<style>
+    .bar{
+        height: 150px;
+        box-shadow: 5px 7px 25px #999;
+        border-radius: 5px;
+        padding: 10px;
+    }
+    a{
+        text-decoration: none;
+    }
+</style>
 {# structure de la page 10 colonnes de largeur et alignée à droite #}
 <div class="container-fluid">
     <div class="row">
         <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
             
             {# page body #}
-            {% include "editor/promotion/_nav_promotion.html.twig" %}
+
+            <div class="container">
+                {# first line with title and icon #}
+                <div class="row my-1">
+                    <i class="fas fa-home text-danger fa-lg mr-3" style="font-size:32"></i> <p class="badge badge-danger">Tableau de bord</p>
+                </div>
+                {# second line, number of promotion, training, learner and partner #}
+                <div class="row my-1 text-light"  >
+                    <div class="col p-1 text-center">
+                        <a class="text-light" href="#promotion">
+                            <div class=" bar alert-secondary">
+                                <i class="fas fa-certificate h1"></i>
+                                <h3>Promotions</h3>
+                                <h3>{{ countPro }}</h3>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col  p-1 text-center">
+                        <a class="text-light" href="#formation">
+                            <div class="alert-light bar">
+                                <i class="fas fa-laptop-code h1"></i>
+                                <h2>Formations</h2>
+                                <h3>{{ countFor }}</h3>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col  p-1 text-center">
+                        <div class="alert-success bar">
+                            <i class="fas fa-user-graduate h1"></i>
+                            <h2>Apprenants</h2>
+                            <h3>{{ countApp }}</h3>
+                        </div>
+                    </div>
+                    <div class="col p-1 text-center">
+                        <div class="alert-warning bar">
+                           <i class="far fa-handshake h1"></i>
+                            <h2>Partenanires</h2>
+                            <h3>N°</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row my-1 text-light">
+                    <div class="col p-1 text-center">
+                        <div class=" bar alert-primary">
+                            <i class="fas fa-users h1"></i>
+                            <h2>Utilisateurs</h2>
+                            <h3>{{ countPro }}</h3>
+                        </div>
+                    </div>
+                    <div class="col p-1 text-center">
+                        <div class="alert-dark bar">
+                            <i class="fas fa-chart-line h1"></i>
+                            <h2>Entreprises</h2>
+                            <h3>{{ countFor }}</h3>
+                        </div>
+                    </div>
+                    <div class="col p-1 text-center">
+                        <div class="alert-info bar">
+                            <i class="fas fa-toolbox h1"></i>
+                            <h2>Stages</h2>
+                            <h3>{{ countApp }}</h3>
+                        </div>
+                    </div>
+                    <div class="col p-1 text-center">
+                        <div class="alert-danger bar">
+                            <i class="fas fa-phone-alt h1"></i>
+                            <h2>Contacts</h2>
+                            <h3>N°</h3>
+                        </div>
+                    </div>
+                </div>
+                {# third line: details of all #}
+                <div class="row my-1 text-light">
+                    <div class="col p-1">
+                        <div class="bg-info p-2 rounded">
+                            <h2>Apprenants</h2>
+                            <table class="table">
+                                <thead>
+                                    <th scope="col">Nom et Prénom</th>
+                                    <th scope="col">Date de naissance</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Tel</th>
+                                </thead>
+                                {% for apprenant in apprenants %}
+                                <tr>
+                                    <td><a class="text-light"
+                                            href="{{ path('editor_apprenant_show',{'id':apprenant.id}) }}">{{apprenant.nom|upper}}
+                                            {{apprenant.prenom|upper}}</a></td>
+                                    <td><a class="text-light"
+                                            href="{{ path('editor_apprenant_show',{'id':apprenant.id}) }}">{{ apprenant.dateNaissance|date('d/m/Y') }}
+                                    </a></td>
+                                    <td><a class="text-light"
+                                            href="{{ path('editor_apprenant_show',{'id':apprenant.id}) }}">{{ apprenant.email }}</a></td>
+                                    
+                                    <td><a class="text-light"
+                                            href="{{ path('editor_apprenant_show',{'id':apprenant.id}) }}"></a>{{ apprenant.tel }}</td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-1 text-light">
+                    <div class="col p-1">
+                        <div class="bg-secondary p-2 rounded" id="promotion">
+                            <h2>Promotions</h2>
+                            <table class="table ">
+                                <thead>
+                                    <th scope="col">Année</th>
+                                    <th scope="col">Début</th>
+                                    <th scope="col">Fin</th>
+                                    <th scope="col">Formation</th>
+                                </thead>
+                                    {% for promotion in promotions %}
+                                    <tr>
+                                            <td><a class="text-light" href="{{ path('editor_promo_show',{'id':promotion.id}) }}">{{promotion.annee}}</a></td>
+                                            <td><a class="text-light" href="{{ path('editor_promo_show',{'id':promotion.id}) }}">{{promotion.dateDebut|date('d/m/Y')}}</a></td>
+                                            <td><a class="text-light" href="{{ path('editor_promo_show',{'id':promotion.id}) }}">{{promotion.dateFin|date('d/m/Y')}}</a></td>
+                                            <td><a class="text-light" href="{{ path('editor_promo_show',{'id':promotion.id}) }}">{{promotion.formation.intitule}}</a></td>
+                                        </tr>
+                                    {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-1 text-light">
+                    <div class="col p-1">
+                        <div class="bg-success p-2 rounded" id="formation">
+                            <h2>Formations</h2>
+                            <table class="table">
+                                <thead>
+                                    <th scope="col">Intitulé</th>
+                                    <th scope="col">Diplôme</th>
+                                    <th scope="col">Durée</th>
+                                    <th scope="col">N° d'heures</th>
+                                </thead>
+                                    {% for formation in formations %}
+                                        <tr>
+                                            <td><a class="text-light" href="{{ path('editor_formation',{'id':formation.id}) }}">{{formation.intitule}}</a></td>
+                                            <td><a class="text-light" href="{{ path('editor_formation',{'id':formation.id}) }}">{{formation.diplome}}</a></td>
+                                            <td><a class="text-light" href="{{ path('editor_formation',{'id':formation.id}) }}">{{formation.duree}}</a></td>
+                                            <td><a class="text-light" href="{{ path('editor_formation',{'id':formation.id}) }}">{{formation.nombreHeure}}</a></td>
+                                        </tr>
+                                    {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             
 
 

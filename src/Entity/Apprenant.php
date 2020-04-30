@@ -71,7 +71,7 @@ class Apprenant extends User
 
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Reseau", mappedBy="Apprenant", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Reseau", mappedBy="Apprenant", orphanRemoval=true)
      */
     private $reseaux;
 

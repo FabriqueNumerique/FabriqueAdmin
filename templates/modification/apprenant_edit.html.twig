@@ -2,7 +2,7 @@
 
 {% block title %}Modification d'un apprenant{% endblock %}
 
-{% form_theme form _self %}
+{% form_theme form 'editor/apprenant/_collectionReseaux.html.twig' %}
 
 {% block body %}
 
@@ -22,20 +22,22 @@
 
                 <!-- display flash message -->
                 {% for message in app.flashes('warning') %}
-                <div class="container alert alert-warning alert-dismissible fade show" role="alert">
-                    <strong>{{ message }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+                    <div class="container alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>{{ message }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                 {% endfor %}
                 <div class="my-5">
-                    <div class="container col-12 " style="font-family: 'Amiri', serif;">
+                    <div class="container col-12 " >
                         <h4 class="btn btn-info">Modifier les infos de <strong>{{apprenant.nom|upper}} {{apprenant.prenom|upper}}</strong></h4>
+                        <div>
+
+                            <img width="64" class="ml-auto rounded" src="{{ asset('uploads/brochures/') }}{{apprenant.avatar}}" alt="">
+                        </div>
                         {{ form_start(form) }}
                         {{ form_widget(form) }}
-        
-        
                         <button class="btn btn-outline-danger d-block ml-auto">Enregistrer</button>
                         {{ form_end(form) }}
                     </div>
@@ -47,80 +49,10 @@
 {% endif %}
 {% endblock %}
 
-{% block _apprenant_Reseaux_widget %}
-
-{{ form_widget(form) }}
-
-<input type="hidden" id="widgets-counter" value="0">
-<div class="form-group">
-    <button type="button" class="btn btn-info" id="add-reseau">Ajouter un réseau</button>
-
-</div>
-
-{% endblock %}
-
-{% block _apprenant_Reseaux_entry_row %}
-
-{{ form_widget(form) }}
-
-{% endblock %}
 
 
 {% block javascripts %}
 
-<script>
-    $('#add-reseau').click(function () {
-
-        const index = +$('#widgets-counter').val()
-
-        // ici on récupere le prototype des entrées
-        const tmpl = $('#apprenant_Reseaux').data('prototype').replace(/__name__/g, index)
-
-        //ici, j'injecte le code récupéré dans mon fromulaire
-        $('#apprenant_Reseaux').append(tmpl)
-
-        $('#widgets-counter').val(index + 1)
-        deleteSousFrom()
-    })
-
-    function deleteSousFrom() {
-        $('button[data-action="delete"]').click(function () {
-            const target = this.dataset.target
-            console.log(target)
-            $(target).remove()
-        })
-    }
-
-
-    function updateCounter(){
-        const count = +$('#apprenant_Reseaux div.form-group').length
-        $('#widgets-counter').val(count+1)
-    }
-    updateCounter()
-    deleteSousFrom()
-</script>
-
-{% endblock %}
-
-{% block _apprenant_Reseaux_entry_widget %}
-
-<div class="form-group" id="{{id}}">
-    <div class="row">
-        <div class="col-10">
-            <div class="row">
-
-                <div class="col">
-                    {{ form_widget(form.Nom) }}
-                </div>
-                <div class="col">
-                    {{ form_widget(form.Lien) }}
-                </div>
-            </div>
-        </div>
-        <div class="col-2">
-            <button type="button" data-action="delete" data-target="#{{id}}" class="btn btn-danger">X</button>
-        </div>
-    </div>
-</div>
+<script src="{{asset('assets/js/collection.js')}}"></script>
 
 {% endblock %}

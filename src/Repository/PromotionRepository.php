@@ -57,4 +57,12 @@ class PromotionRepository extends ServiceEntityRepository
             ->setParameter('date', $date)
             ->getQuery()->getResult();
     }
+
+    public function countPro()
+    {
+        return $this->createQueryBuilder('titre')
+            ->select('COUNT(titre)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    } 
 }

@@ -20,7 +20,7 @@ class ApprenantType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('Promotion')
+            // ->add('Promotion')
                 // 'class'=>Promotion::class,
                 // 'query_builder' => function (PromotionRepository $er) {
                 //     return $er->createQueryBuilder('u')

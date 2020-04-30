@@ -12,6 +12,7 @@ use App\Form\ApprenantType;
 use App\Repository\ApprenantRepository;
 use App\Repository\FormationRepository;
 use App\Repository\PromotionRepository;
+use App\Repository\UserRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -28,12 +29,26 @@ class EditorController extends AbstractController
     /**
      * @Route("/editor/dashbord", name="editor_dashbord")
      */
-    public function dashbord()
+    public function dashbord(PromotionRepository $repoPro, FormationRepository $repoFor, ApprenantRepository $repoApp)
     {
-       
-        return $this->render('editor/dashbord.html.twig');
-    }
+        $promotions=$repoPro->findAll();
+        $countPro=count($promotions);
 
+        $formations = $repoFor->findAll();
+        $countFor = count($formations);
+
+        $apprenants = $repoApp->findAll();
+        $countApp = count($apprenants);
+
+        return $this->render('editor/dashbord.html.twig',[
+            'countPro' =>$countPro,
+            'countFor' => $countFor,
+            'countApp' => $countApp,
+            'promotions' => $promotions,
+            'formations' => $formations,
+            'apprenants' => $apprenants
+        ]);
+    }
 
     /**
      * Afficher toutes les promotions avec la possibilité de modifier et de supprimer
@@ -206,6 +221,7 @@ class EditorController extends AbstractController
             // sans ce code, on arrivait à ajouter les réseaux dans reseau mais le id de l'apprenant était toujours vide
             // mail il falait avant tout permettre de persister et de 
             // remove dans l'annotation du reseaux dans l'entité apprenant
+            
             foreach ($newApprenant->getReseaux() as $reseau) {
                 $reseau->setApprenant($newApprenant);
                 $Manager->persist($reseau);

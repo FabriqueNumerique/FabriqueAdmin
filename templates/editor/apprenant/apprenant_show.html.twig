@@ -13,7 +13,7 @@
         }*/
     </style>
 
-    <div class="container-fluid" style="font-family: 'Amiri', serif;">
+    <div class="container-fluid" >
         <div class="row">
             <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
                 <!-- insert apprenant nav -->
@@ -22,11 +22,11 @@
                 <div class="my-5">
                     <!-- un tableau d'un seul apprenant -->
                     <h4 class="btn btn-info">Fiche apprenant</h4>
-                    <div class="row">
+                    <div class="row my-3 align-items-center">
                         <div class="col-12 col-md-4">
                         
                         
-                            <img src="{{ asset('uploads/brochures/') }}{{apprenant.avatar}}" alt="">
+                            <img style="max-width: 128px;" src="{{ asset('uploads/brochures/') }}{{apprenant.avatar}}" alt="">
                         
                         
                             <span class="ml-3 font-weight-bold">{{apprenant.nom|upper}} {{apprenant.prenom|upper}}</span>

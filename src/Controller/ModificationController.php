@@ -88,6 +88,7 @@ class ModificationController extends AbstractController
                 $reseau->setApprenant($newApprenant);
                 $Manager->persist($reseau);
             }
+            // dd($newApprenant);
 
             $brochureFile = $form['brochure']->getData();
             // dd($brochureFile);

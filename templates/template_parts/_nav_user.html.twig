@@ -39,7 +39,7 @@
                         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR') %}
                             <li class="nav-item">
                                 <a href="{{ path('editor_dashbord') }}" class="nav-link text-white p-3 mb-2 sidebar-link"><i
-                                        class="fas fa-home text-light fa-lg mr-3"></i> Dashboard</a>
+                                        class="fas fa-home text-light fa-lg mr-3"></i> Tableau de bord</a>
                             </li>
                     
                             {% if is_granted('ROLE_ADMIN') %}
@@ -126,14 +126,14 @@
                 <div class="col-xl-10 col-lg-9 col-md-8 ml-auto bg-dark fixed-top py-2 top-navbar">
                     <div class="row align-items-center">
                         <div class="col-md-5">
-                            <h4 class="text-light mb-0" style="font-family: 'Amiri', serif;">Fabrique Admin</h4>
+                            <h4 class="text-light mb-0" >Fabrique Admin</h4>
                         </div>
                         
                         <div class="col-md-5 d-flex align-items-center ">
                             {% if app.user.roles[0] == 'ROLE_USER' %}
                                 <img src="{{ asset('uploads/brochures/') }}{{app.user.avatar}}" class="rounded-circle"  >
                             {% endif %}
-                            <h5 class="text-white ml-2 " style="font-family: 'Amiri', serif;">{{ app.user.email }}</h5>
+                            <h5 class="text-white ml-2 " >{{ app.user.email }}</h5>
                         </div>
                         <div class="col-md-2">
                             <ul class="navbar-nav">

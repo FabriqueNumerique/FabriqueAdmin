@@ -2,29 +2,19 @@
 
 {% block title %}Ajouter une Promotion{% endblock %}
 
-{% form_theme form _self %}
+{% form_theme form 'editor/apprenant/_collectionReseaux.html.twig' %}
 
 {% block body %}
 {% if app.user %}
 
 
     <style>
-        input {
-            outline: none;
-            border: none;
-            border-bottom: 1px solid #777;
-        }
-
-        form input:focus {
-            border-color: blue;
-
-
-        }
         .custom-file-input{
             opacity: .4;
         }
+        
     </style>
-    <div class="container-fluid" style="font-family: 'Amiri', serif;">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
 
@@ -63,77 +53,9 @@
 
 
 
-{% block _apprenant_Reseaux_widget %}
-
-    {{ form_widget(form) }}
-
-    <input type="hidden" id="widgets-counter" value="0">
-    <div class="form-group">
-        <button type="button" class="btn btn-info" id="add-reseau">Ajouter un réseau</button>
-
-    </div>
-
-{% endblock %}
-
-{% block _apprenant_Reseaux_entry_row %}
-
-    {{ form_widget(form) }}
-
-{% endblock %}
-
-
 {% block javascripts %}
       
-<script>
-    $('#add-reseau').click(function () {
-       
-        const index = +$('#widgets-counter').val()
-
-        // ici on récupere le prototype des entrées
-        const tmpl = $('#apprenant_Reseaux').data('prototype').replace(/__name__/g, index)
-
-        //ici, j'injecte le code récupéré dans mon fromulaire
-        $('#apprenant_Reseaux').append(tmpl)
-
-        $('#widgets-counter').val(index+1)
-        deleteSousFrom()
-    })
-
-    function deleteSousFrom(){
-        $('button[data-action="delete"]').click(function(){
-            const target= this.dataset.target
-            console.log(target)
-            $(target).remove()
-        })
-    }
-     deleteSousFrom()
-</script>
+<script src="{{asset('assets/js/collection.js')}}"></script>
 
 {% endblock %}
 
-{% block _apprenant_Reseaux_entry_widget %}
-
-<div class="form-group" id="{{id}}">
-    <div class="row">
-        <div class="col-10">
-            <div class="row">
-
-                <div class="col">
-                    {{ form_widget(form.Nom) }}
-                    <!-- <select name="" id="" class="form-control">
-                        <option value="">Facebook</option>
-                        <option value="">Twitter</option>
-                    </select> -->
-                </div>
-                <div class="col">
-                    {{ form_widget(form.Lien) }}
-                </div>
-            </div>
-        </div>
-        <div class="col-2">
-            <button type="button" data-action="delete" data-target="#{{id}}" class="btn btn-danger">X</button>
-        </div>
-    </div>
-</div>
-
-{% endblock %}
