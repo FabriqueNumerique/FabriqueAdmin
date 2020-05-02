@@ -19,6 +19,20 @@ body{
    box-shadow: 5px 7px 25px #999;
 }
 
+.avatar{
+  max-width: 128px;
+  max-height: 128px;
+}
+.avatar-md{
+  max-width: 64px;
+  max-height: 64px;
+  border-radius: 50%;
+}
+.avatar-sd{
+  max-width: 32px;
+  max-height: 32px;
+  border-radius: 50%;
+}
 
 table{
 font-family: 'Roboto', sans-serif;

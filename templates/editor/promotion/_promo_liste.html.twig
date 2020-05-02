@@ -22,6 +22,10 @@
         .hid{
             display: none;
         }
+
+        table{
+            width: 100%;
+        }
     </style>
 
 
@@ -29,7 +33,7 @@
         <div class="row">
             <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
 
-                {% include "editor/promotion/_nav_promotion.html.twig" %}
+                {% include "editor/promotion/_nav_promotion.html.twig" with {'p':1} %}
 
                 {# pour afficher le flash message #}
                 <div class="my-5">
@@ -53,16 +57,16 @@
                     
                     {# parcourir la table des promotions #}
                     {# استعراض كامل جدول البروموسييون #}
-                    <table class="table">
+                    <table class="table rounded">
                     
                         <thead class="">
                             <tr >
                                 <th scope="col" style="width: 10%;">Année</th>
                                 <th scope="col" style="width: 10%;">Début</th>
                                 <th scope="col" style="width: 10%;">Fin</th>
+                                <th scope="col" style="width: 10%;">Nombre d'apprenants</th>
                                 <th scope="col" style="width: 50%;">Formation</th>
-        
-                                <th colspan="2" scope="col" >Actions </th>
+                                <th colspan="2" scope="col" style="width: 10%;" >Actions </th>
                                 
                             </tr>
                         </thead>
@@ -72,10 +76,11 @@
                     <tbody>
 
                     
-                            <tr class=" alert-secondary" >
+                            <tr class="alert-light" >
                                 <td>{{ promotion.annee }}</td>
                                 <td>{{ promotion.dateDebut|date("m/d/Y") }}</td>
                                 <td>{{ promotion.dateFin|date("m/d/Y") }}</td>
+                                <td>{{ promotion.apprenants|length }}</td>
                                 <td>{{ promotion.formation.intitule }}</td>
 
                                 <td >
@@ -101,28 +106,33 @@
                                     </div>
                                     {# end delete confirmation #}
                                 </td>
+                                {% if promotion.apprenants|length != 0 %}
                                 <td class="show-liste" style="cursor: pointer;" title="afficher les apprenants"><i class="fa fa-chevron-down icon"></i></td>
+                                {% else %}
+                                    <td></td>
+                                {% endif %}
                             </tr>
                         
-                            <tr class="hid alert-danger ">
+                            <tr class="hid bg-dark text-light">
                                 <th scope="col">Nom</th>
                                 <th scope="col">Prénom</th>
                                 <th scope="col">Date De Naissance</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Mobile</th>
                                 <th></th>
+                                <th></th>
                             </tr>
                     
                             {# liste of arrayCollection of apprenant included in Promotion class #}
                             {# استعراض أسماء الطلاب عند النقر على إحدى الدورات التي تم عرضها آنفاً #}
                             {% for apprenant in promotion.apprenants %}
-                            <tr class="hid">
+                            <tr class="hid bg-dark text-light" >
                                 <td>{{apprenant.nom}}</td>
                                 <td>{{apprenant.prenom}}</td>
                                 <td>{{apprenant.dateNaissance|date("m/d/Y")}}</td>
                                 <td>{{apprenant.email}}</td>
                                 <td>{{apprenant.tel}}</td>
-                                <td><a class="badge badge-info modif_promotion" title="visualiser"
+                                <td colspan="2"><a class="badge badge-info modif_promotion" title="visualiser"
                                     href="{{ path('editor_pro_apprenant_show',{'id':apprenant.id}) }}"><i class="fa fa-eye"></i></a></td>
                             </tr>
 

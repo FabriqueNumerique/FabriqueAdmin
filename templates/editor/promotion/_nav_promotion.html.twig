@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light" >
+<nav class="navbar navbar-expand-lg navbar-light bg-light mt-3" >
     <a class="navbar-brand text-danger" href="#"><i class="fas fa-certificate fa-lg mr-3"></i></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -6,16 +6,16 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-            <li class="nav-item">
+            <li class="nav-item {% if p == 1 %}active{% endif %}">
                 <a class="nav-link" href="{{ path('editor_promo_liste') }}">Liste des promotions</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {% if p == 2 %}active{% endif %}">
                 <a class="nav-link" href="{{ path('editor_promo_new') }}">Créer une promotion</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {% if p == 3 %}active{% endif %}">
                 <a class="nav-link" href="{{ path('editor_promo_attr_appr') }}">Attribuer un Apprenant</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {% if p == 4 %}active{% endif %}">
                 <a class="nav-link" href="{{ path('editor_promo_attr_many') }}">Attribuer des Apprenants</a>
             </li>
 

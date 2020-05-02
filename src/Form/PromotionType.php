@@ -23,9 +23,6 @@ class PromotionType extends AbstractType
             ->add('DateFin', DateType::class, [
                 'widget' => 'single_text'
             ])
-            ->add('NombreEleves', IntegerType::class, array(
-                'attr' => array('min' => 1)
-            ))
             ->add('Commentaires')
             ->add('Formation')
             // ->add('Apprenant')

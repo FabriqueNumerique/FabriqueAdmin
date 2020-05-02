@@ -10,7 +10,7 @@
         border-radius: 5px;
         padding: 10px;
     }
-    a{
+    .col a{
         text-decoration: none;
     }
 </style>
@@ -21,13 +21,22 @@
             
             {# page body #}
 
-            <div class="container">
+            <div class="container mt-4">
                 {# first line with title and icon #}
                 <div class="row my-1">
                     <i class="fas fa-home text-danger fa-lg mr-3" style="font-size:32"></i> <p class="badge badge-danger">Tableau de bord</p>
                 </div>
                 {# second line, number of promotion, training, learner and partner #}
                 <div class="row my-1 text-light"  >
+                    <div class="col p-1 text-center">
+                        <a class="text-light" href="#promotion">
+                            <div class=" bar alert-primary">
+                                <i class="fas fa-users h1"></i>
+                                <h2>Utilisateurs</h2>
+                                <h3>{{ countUse }}</h3>
+                            </div>
+                        </a>
+                    </div>
                     <div class="col p-1 text-center">
                         <a class="text-light" href="#promotion">
                             <div class=" bar alert-secondary">
@@ -53,21 +62,15 @@
                             <h3>{{ countApp }}</h3>
                         </div>
                     </div>
-                    <div class="col p-1 text-center">
-                        <div class="alert-warning bar">
-                           <i class="far fa-handshake h1"></i>
-                            <h2>Partenanires</h2>
-                            <h3>N°</h3>
-                        </div>
-                    </div>
+                   
                 </div>
 
                 <div class="row my-1 text-light">
                     <div class="col p-1 text-center">
-                        <div class=" bar alert-primary">
-                            <i class="fas fa-users h1"></i>
-                            <h2>Utilisateurs</h2>
-                            <h3>{{ countPro }}</h3>
+                        <div class="alert-warning bar">
+                            <i class="far fa-handshake h1"></i>
+                            <h2>Partenanires</h2>
+                            <h3>N°</h3>
                         </div>
                     </div>
                     <div class="col p-1 text-center">
@@ -133,6 +136,7 @@
                                     <th scope="col">Début</th>
                                     <th scope="col">Fin</th>
                                     <th scope="col">Formation</th>
+                                    <th scope="col">N° Apprenants</th>
                                 </thead>
                                     {% for promotion in promotions %}
                                     <tr>
@@ -140,6 +144,7 @@
                                             <td><a class="text-light" href="{{ path('editor_promo_show',{'id':promotion.id}) }}">{{promotion.dateDebut|date('d/m/Y')}}</a></td>
                                             <td><a class="text-light" href="{{ path('editor_promo_show',{'id':promotion.id}) }}">{{promotion.dateFin|date('d/m/Y')}}</a></td>
                                             <td><a class="text-light" href="{{ path('editor_promo_show',{'id':promotion.id}) }}">{{promotion.formation.intitule}}</a></td>
+                                            <td><a class="text-light" href="{{ path('editor_promo_show',{'id':promotion.id}) }}">{{promotion.apprenants|length}}</a></td>
                                         </tr>
                                     {% endfor %}
                             </table>

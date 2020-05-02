@@ -6,29 +6,19 @@
 {% if app.user %}
 
 
-    <style>
-        input {
-            outline: none;
-            border: none;
-            border-bottom: 1px solid #777;
-        }
-
-        form input:focus {
-            border-color: blue;
-
-
-        }
+    <!-- <style>
+       
         .hid{
             display: none;
         }
-    </style>
+    </style> -->
 
 
     <div class="container-fluid" >
         <div class="row">
             <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
 
-                {% include "editor/promotion/_nav_promotion.html.twig" %}
+                {% include "editor/promotion/_nav_promotion.html.twig" with {'p':1} %}
 
                 <div class="my-5">
                     <!-- flash message -->

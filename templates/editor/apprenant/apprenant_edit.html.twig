@@ -18,20 +18,20 @@
         <div class="row">
             <div class="col-xl-10 col-lg-9 col-md-8 ml-auto my-5">
                 <!-- insert apprenant menu -->
-                {% include "editor/apprenant/_nav_apprenant.html.twig" %}
+                {% include "editor/apprenant/_nav_apprenant.html.twig" with {'p':1} %}
 
                 <!-- display flash message -->
-                {% for message in app.flashes('warning') %}
-                    <div class="container alert alert-warning alert-dismissible fade show" role="alert">
-                        <strong>{{ message }}</strong>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                {% endfor %}
                 <div class="my-5">
+                    {% for message in app.flashes('warning') %}
+                        <div class="container alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>{{ message }}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
                     <div class="container col-12 " >
-                        <h4 class="btn btn-info">Modifier les infos de <strong>{{apprenant.nom|upper}} {{apprenant.prenom|upper}}</strong></h4>
+                        <h4 class="btn btn-info">Modifier les infos de <strong>{{apprenant.fullname|upper}}</strong></h4>
                         <div>
 
                             <img width="64" class="ml-auto rounded" src="{{ asset('uploads/brochures/') }}{{apprenant.avatar}}" alt="">

@@ -34,9 +34,9 @@
     </style>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
+            <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-3 mt-5">
 
-                {% include "editor/apprenant/_nav_apprenant.html.twig" %}
+                {% include "editor/apprenant/_nav_apprenant.html.twig" with {"p": 1} %}
 
                 <div class="my-5">
                     <!-- flash messages -->
@@ -76,7 +76,7 @@
                     </form>
 
                     <!-- lister toutes les promotion dans un tableau -->
-                    <table class="table">
+                    <table class="table table-hover">
                     
                         <thead>
                     
@@ -96,7 +96,7 @@
                                 <td>{{ apprenant.Prenom }}</td>
                                 <td>{{ apprenant.DateNaissance|date("m/d/Y") }}</td>
                                 <td>{{ apprenant.Email }}</td>
-                                <td><img src="{{ asset('uploads/brochures/') }}{{ apprenant.Avatar }}" alt="" class="w-25 rounded"></td>
+                                <td><img src="{{ asset('uploads/brochures/') }}{{ apprenant.Avatar }}" alt="" class="avatar-sd"></td>
                     
                                 <!-- dans la dernère cellule, il trois liens: suuprimer, modifier et visualiser -->
                                 <td>
@@ -120,7 +120,7 @@
                                         </div>
                                         <div>
                                             <a class="btn btn-success non" href="">Non</a>
-                                            <a class="btn btn-danger" href="">Oui</a>
+                                            <a class="btn btn-danger" href="{{ path('editor_apprenant_delete',{'id':apprenant.id}) }}">Oui</a>
                     
                                         </div>
                                     </div>
@@ -130,6 +130,24 @@
 
                         </tbody>
                     </table>
+
+                    <!-- pagination -->
+                    <nav class="">
+                        <ul class="pagination pagination-sm justify-content-center">
+                            <li class="page-item {% if page == 1 %}disabled{%  endif %}">
+                                <a class="page-link" href="{{ path('editor_apprenant_liste',{'page':page - 1}) }}" tabindex="-1">&laquo;</a>
+                            </li>
+                            {% for i in 1..pages %}                               
+                                <li class="page-item {% if page == i %}active{% endif %}">
+                                    <a class="page-link" href="{{ path('editor_apprenant_liste',{'page':i}) }}">{{i}} <span class="sr-only">(current)</span></a>
+                                </li>
+                            {% endfor %}
+
+                            <li class="page-item {% if page == pages %}disabled{%  endif %}">
+                                <a class="page-link" href="{{ path('editor_apprenant_liste',{'page':page + 1}) }}">&raquo;</a>
+                            </li>
+                        </ul>
+                    </nav>
 
 
                 </div>

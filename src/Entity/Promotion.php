@@ -33,11 +33,7 @@ class Promotion
      */
     private $DateFin;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $NombreEleves;
-
+    
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -99,17 +95,7 @@ class Promotion
         return $this;
     }
 
-    public function getNombreEleves(): ?int
-    {
-        return $this->NombreEleves;
-    }
 
-    public function setNombreEleves(int $NombreEleves): self
-    {
-        $this->NombreEleves = $NombreEleves;
-
-        return $this;
-    }
 
     public function getCommentaires(): ?string
     {

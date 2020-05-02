@@ -2,33 +2,57 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\ApprenantRepository;
+use App\Repository\FormationRepository;
+use App\Repository\PromotionRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 class AdminController extends AbstractController
 {
-    // /**
-    //  * @Route("/admin/dashbord", name="admin_dashbord")
-    //  */
-    // public function dashbord(UserRepository $repo)
-    // {
-    //     $user = $repo->findAll();
-    //     return $this->render('admin/dashbord.html.twig', [
-    //         'users' => $user
-    //     ]);
-    // }
 
+    /**
+     * @Route("/editor/dashbord", name="editor_dashbord")
+     */
+    public function dashbord(PromotionRepository $repoPro, FormationRepository $repoFor, ApprenantRepository $repoApp, UserRepository $repoUse)
+    {
+        $promotions = $repoPro->findAll();
+        $countPro = count($promotions);
+
+        $formations = $repoFor->findAll();
+        $countFor = count($formations);
+
+        $apprenants = $repoApp->findAll();
+        $countApp = count($apprenants);
+
+        $users = $repoUse->findByRole();
+        $countUse = count($users);
+
+        return $this->render('editor/dashbord.html.twig', [
+            'countPro' => $countPro,
+            'countFor' => $countFor,
+            'countApp' => $countApp,
+            'countUse' => $countUse,
+            'promotions' => $promotions,
+            'formations' => $formations,
+            'apprenants' => $apprenants,
+            'users' => $users
+        ]);
+    }
+
+    
     /**
      * @Route("/admin/utilisateur", name="admin_utilisateur")
      */
     public function utilisateur(UserRepository $repo)
     {
 
-        $user = $repo->findAll();
-        
+        // $user = $repo->findAll();
+        $user=$repo->findByRole();
         return $this->render('admin/utilisateur.html.twig',[
            'users'=>$user 
         ]);
@@ -38,20 +62,19 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/delete_user/{id}", name="admin_delete_user")
      */
-    public function delete_user($id,UserRepository $repo)
+    public function delete_user(User $user)
     {
-        $user=$repo->find($id);
 
+        $role=$user->getRoles();
         $manager = $this->getDoctrine()->getManager();
-
         $manager->remove($user);
         $manager->flush();
-
-        $this->addFlash('danger', 'Un utilisateur a été supprimée!');
-        return $this->redirectToRoute('admin_utilisateur');
-        // return $this->json([
-        //     'message' => 'Un utilisateur a été supprimé '
-        //     ]);        
+        if ($role[0]=='ROLE_USER'){
+            $this->addFlash('danger', 'Un apprenant a été supprimée!');
+        }else{
+            $this->addFlash('danger', 'Un utilisateur a été supprimée!');
+        }
+        return $this->redirectToRoute('admin_utilisateur');      
     }
 
     /**
@@ -87,8 +110,5 @@ class AdminController extends AbstractController
             'users' => $user,
             'message' => 'Aucun utilisateur trouvé !!'
         ]);
-        // return $this->json([
-        //     'users' => $user
-        // ]);
     }
 }

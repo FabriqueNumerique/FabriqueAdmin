@@ -6,126 +6,116 @@
 {% if app.user %}
 
 
-    <style>
-        /* masquer les tableaux qui ont la class hid (tableau de promotion et de réseaux sociaux) 
+<style>
+    /* masquer les tableaux qui ont la class hid (tableau de promotion et de réseaux sociaux) 
         .hid{
             display: none;
         }*/
-    </style>
+</style>
 
-    <div class="container-fluid" >
-        <div class="row">
-            <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
-                <!-- insert apprenant nav -->
-                {% include "editor/promotion/_nav_promotion.html.twig" %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
+            <!-- insert apprenant nav -->
+            {% include "editor/promotion/_nav_promotion.html.twig" with {'p':1} %}
 
-                <div class="my-5">
-                    <!-- un tableau d'un seul apprenant -->
-                    <h4 class="btn btn-info">Fiche apprenant</h4>
-                    <div class="row">
-                        <div class="col-12 col-md-4">
-                            
-                                
-                                    <img src="{{ asset('uploads/brochures/') }}{{apprenant.avatar}}" alt="">
-                               
-                                
-                                    <span class="ml-3 font-weight-bold">{{apprenant.nom|upper}} {{apprenant.prenom|upper}}</span>
-                                
-                           
-                        </div>
-                        <div class="col-12 col-md-4 ">
-                            
-                                <div class="col">
-                                    <p><strong>Date de naissance:</strong> {{ apprenant.DateNaissance|date("m/d/Y") }}</p>
-                                </div>
-                                <div class="col">
-                                    <p> <strong>Email:</strong> {{ apprenant.email }}</p>
-                                </div>
-                        </div>
-                        <div class="col-12 col-md-4 ">
-                        
-                            <div class="col">
-                                <p><strong>Adresse:</strong> {{ apprenant.adresse }}</p>
-                            </div>
-                            <div class="col">
-                                <p><strong>Ville:</strong> {{ apprenant.ville }}</p>
-                            </div>
-                        </div>
-                        
+            <div class="my-5">
+                <!-- un tableau d'un seul apprenant -->
+                <h4 class="btn btn-info">Fiche apprenant</h4>
+                <div class="row">
+                    <div class="col-md-4">
+                        <dl class="row">
+                            <dt class="col-md-4"><img class="avatar"
+                                    src="{{ asset('uploads/brochures/') }}{{apprenant.avatar}}"
+                                    alt="avatar de {{ apprenant.fullname}}"></dt>
+                            <dd class="col-md-8">{{apprenant.fullname|upper}}</dd>
+                        </dl>
                     </div>
-                    
-                    
-                    <div>
-                        <!-- ce bouton pour afficher et masquer les promotion d'un apprenant -->
-                        <h6 class="show-liste alert-dark p-2">Formations</h6>
-                        <table class="table hid">
-                        
-                            <thead>
-                                <th scope="col">N°</th>
-                                <th scope="col">Annee</th>
-                                <th scope="col">Début</th>
-                                <th scope="col">Fin</th>
-                                <th scope="col">N° d'heures</th>
-                                <th scope="col">Intitulé</th>
-                                <th></th>
-                        
-                            </thead>
-                            <tbody >
-                                {% set i = 0 %}
-                                {% for promotion in apprenant.Promotion %}
-                                    {% set i = i + 1 %}
-                                    <tr>
-                                        <td>{{i}}</td>
-                                        <td>{{ promotion.annee }}</td>
-                                        <td>{{ promotion.dateDebut|date("m/d/Y") }}</td>
-                                        <td>{{ promotion.dateFin|date("m/d/Y") }}</td>
-                                        <td>{{ promotion.formation.nombreHeure }}</td>
-                                        <td>{{ promotion.formation.intitule }}</td>
-
-                                        <!-- un lien vers unr promotion -->
-                                        <!-- <td><a class="badge badge-info modif_promotion" title="visualiser"
-                                            href="{{ path('editor_promo_show',{'id':promotion.id}) }}"><i class="fa fa-eye"></i></a></td> -->
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                    <div class="col-md-8">
+                        <dl class="row">
+                            <dt class="col-md-4">Date de naissance</dt>
+                            <dd class="col-md-8">{{ apprenant.DateNaissance|date("m/d/Y") }}</dd>
+                            <dt class="col-md-4">Email</dt>
+                            <dd class="col-md-8">{{ apprenant.email }}</dd>
+                            <dt class="col-md-4">Adresse</dt>
+                            <dd class="col-md-8">{{ apprenant.adresse }}</dd>
+                            <dt class="col-md-4">Ville</dt>
+                            <dd class="col-md-8">{{ apprenant.ville }}</dd>
+                        </dl>
                     </div>
-                    
-
-                    <div>
-                        <!-- ce bouton pour afficher et masquer les réseaux sociaux d'un apprenant -->
-                        <!-- <h4 class="btn btn-info show-liste">Liste des réseaux sociaux <i class="fa fa-chevron-down icon"></i></h4> -->
-                        <h6 class="show-liste alert-dark p-2">Réseaux Sociaux</h6>
-                        <table class="table hid">
-                        
-                            <thead>
-                        
-                                <th scope="col">N°</th>
-                                <th scope="col">Intitulé</th>
-                                <th scope="col">Lien</th>
-        
-                        
-                            </thead>
-                            <tbody>
-                                {% set i = 0 %}
-                                {% for reseau in apprenant.Reseaux %}
-                                    {% set i = i + 1 %}
-                                    <tr>
-                                        <td>{{i}}</td>
-                                        <td>{{reseau.nom}}</td>
-                                        <td>{{reseau.lien}}</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    <h6 class="show-liste alert-dark p-2">Fiche Profil</h6>
-
                 </div>
 
+                <div>
+                    <!-- ce bouton pour afficher et masquer les promotion d'un apprenant -->
+                    <h6 class="show-liste alert-dark p-2">Formations</h6>
+                    <table class="table hid">
+
+                        <thead>
+                            <th scope="col">N°</th>
+                            <th scope="col">Annee</th>
+                            <th scope="col">Début</th>
+                            <th scope="col">Fin</th>
+                            <th scope="col">N° d'heures</th>
+                            <th scope="col">Intitulé</th>
+                            <th></th>
+
+                        </thead>
+                        <tbody>
+                            {% set i = 0 %}
+                            {% for promotion in apprenant.Promotion %}
+                            {% set i = i + 1 %}
+                            <tr>
+                                <td>{{i}}</td>
+                                <td>{{ promotion.annee }}</td>
+                                <td>{{ promotion.dateDebut|date("m/d/Y") }}</td>
+                                <td>{{ promotion.dateFin|date("m/d/Y") }}</td>
+                                <td>{{ promotion.formation.nombreHeure }}</td>
+                                <td>{{ promotion.formation.intitule }}</td>
+
+                                <!-- un lien vers unr promotion -->
+                                <!-- <td><a class="badge badge-info modif_promotion" title="visualiser"
+                                            href="{{ path('editor_promo_show',{'id':promotion.id}) }}"><i class="fa fa-eye"></i></a></td> -->
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <div>
+                    <!-- ce bouton pour afficher et masquer les réseaux sociaux d'un apprenant -->
+                    <!-- <h4 class="btn btn-info show-liste">Liste des réseaux sociaux <i class="fa fa-chevron-down icon"></i></h4> -->
+                    <h6 class="show-liste alert-dark p-2">Réseaux Sociaux</h6>
+                    <table class="table hid">
+
+                        <thead>
+
+                            <th scope="col">N°</th>
+                            <th scope="col">Intitulé</th>
+                            <th scope="col">Lien</th>
+
+
+                        </thead>
+                        <tbody>
+                            {% set i = 0 %}
+                            {% for reseau in apprenant.Reseaux %}
+                            {% set i = i + 1 %}
+                            <tr>
+                                <td>{{i}}</td>
+                                <td>{{reseau.nom}}</td>
+                                <td>{{reseau.lien}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <h6 class="show-liste alert-dark p-2">Fiche Profil</h6>
+
             </div>
+
         </div>
     </div>
+</div>
 {% endif %}
 {% endblock %}
 

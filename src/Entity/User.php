@@ -46,7 +46,9 @@ class User implements UserInterface
      */
     private $password;
 
-    
+    // public function getDiscr(){
+    //     return $this->discr;
+    // }
 
     public function getId(): ?int
     {
