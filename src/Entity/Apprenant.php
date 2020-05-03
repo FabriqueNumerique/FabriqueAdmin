@@ -80,6 +80,11 @@ class Apprenant extends User
      */
     private $offre;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
+
     public function __construct()
     {
         $this->Promotion = new ArrayCollection();
@@ -277,6 +282,18 @@ class Apprenant extends User
 
     public function __toString()
     {
-        return (string) $this->Nom.' '.(string) $this->Prenom;
+        return (string) strtoupper($this->Nom).' '.(string) strtoupper($this->Prenom);
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
     }
 }

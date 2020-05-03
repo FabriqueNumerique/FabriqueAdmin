@@ -29,9 +29,9 @@ class EditApprenantController extends AbstractController
         $start = $page * $limit - $limit;
         $all = count($repo->findAll());
         $pages = ceil($all / $limit);
-        $apprenant = $repo->findBy([],[],$limit,$start);
+        // $apprenant = $repo->findBy([],[],$limit,$start);
         return $this->render('editor/apprenant/apprenant_liste.html.twig', [
-            'apprenants' => $apprenant,
+            'apprenants' => $repo->findBy([], ['Nom' => 'asc'], $limit, $start),
             'pages' => $pages,
             'page' =>$page
         ]);
@@ -138,6 +138,7 @@ class EditApprenantController extends AbstractController
             $manager->flush();
 
             $this->addFlash("warning", "L'apprenant {$newApprenant->getFullname()} a été modifié!");
+            return $this->redirectToRoute('editor_apprenant_liste');
         }
         return $this->render('editor/apprenant/apprenant_edit.html.twig', [
             'form' => $form->createView(),

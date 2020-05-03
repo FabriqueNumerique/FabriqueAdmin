@@ -46,6 +46,23 @@
                     </div>
                     {% endfor %}
 
+                    {% for message in app.flashes('success') %}
+                    <div class="container alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>{{ message }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                    {% for message in app.flashes('warning') %}
+                    <div class="container alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>{{ message }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+
                     <h4  class="btn btn-info">Liste des Promotions</h4>
 
                     {# formulaire de recherche #}
@@ -57,7 +74,7 @@
                     
                     {# parcourir la table des promotions #}
                     {# استعراض كامل جدول البروموسييون #}
-                    <table class="table rounded">
+                    <table class="table rounded table-hover">
                     
                         <thead class="">
                             <tr >
@@ -113,7 +130,7 @@
                                 {% endif %}
                             </tr>
                         
-                            <tr class="hid bg-dark text-light">
+                            <tr class="hid alert alert-dark">
                                 <th scope="col">Nom</th>
                                 <th scope="col">Prénom</th>
                                 <th scope="col">Date De Naissance</th>
@@ -126,7 +143,7 @@
                             {# liste of arrayCollection of apprenant included in Promotion class #}
                             {# استعراض أسماء الطلاب عند النقر على إحدى الدورات التي تم عرضها آنفاً #}
                             {% for apprenant in promotion.apprenants %}
-                            <tr class="hid bg-dark text-light" >
+                            <tr class="hid alert alert-secondary" >
                                 <td>{{apprenant.nom}}</td>
                                 <td>{{apprenant.prenom}}</td>
                                 <td>{{apprenant.dateNaissance|date("m/d/Y")}}</td>
@@ -142,6 +159,25 @@
                     {% endfor %}
                     
                     </table>
+
+                    <!-- pagination -->
+                    <nav class="">
+                        <ul class="pagination pagination-sm justify-content-center">
+                            <li class="page-item {% if page == 1 %}disabled{%  endif %}">
+                                <a class="page-link" href="{{ path('editor_promo_liste',{'page':page - 1}) }}" tabindex="-1">&laquo;</a>
+                            </li>
+                            {% for i in 1..pages %}
+                            <li class="page-item {% if page == i %}active{% endif %}">
+                                <a class="page-link" href="{{ path('editor_promo_liste',{'page':i}) }}">{{i}} <span
+                                        class="sr-only">(current)</span></a>
+                            </li>
+                            {% endfor %}
+                    
+                            <li class="page-item {% if page == pages %}disabled{%  endif %}">
+                                <a class="page-link" href="{{ path('editor_promo_liste',{'page':page + 1}) }}">&raquo;</a>
+                            </li>
+                        </ul>
+                    </nav>
 
 
                 </div>

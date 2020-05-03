@@ -7,6 +7,7 @@ use App\Entity\Promotion;
 use App\Repository\PromotionRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -41,6 +42,12 @@ class ApprenantType extends AbstractType
                 ])
             ->add('Adresse')
             ->add('Ville')
+            ->add('status', ChoiceType::class, [
+                'choices' => [
+                    'Nouvel apprenant' => 'new',
+                    'Ancien apprenant' => 'old'
+                ]
+            ])
             ->add('Git')
             // ->add('Avatar')
             ->add('brochure', FileType::class, [
@@ -69,6 +76,7 @@ class ApprenantType extends AbstractType
                     ])
                 ],
             ])
+            
             ->add('Reseaux', CollectionType::class, array(
                     'entry_type' => ReseauxType::class,
                     // 'entry_options' => ['label' => false],
@@ -76,7 +84,8 @@ class ApprenantType extends AbstractType
                     'allow_delete' => true,
                     // 'prototype' => true,
                     // 'by_reference' => false,
-                    'label'=>'Réseaux Sociaux'
+                    'label'=>'Réseaux Sociaux',
+                    'required' => false
                 ))
             ;
         ;

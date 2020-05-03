@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+use Exception;
 use App\Form\PromoType;
 use App\Entity\Apprenant;
 use App\Entity\Formation;
 use App\Entity\Promotion;
+use App\Form\ApprenantType;
 use App\Form\FormationType;
+use App\Form\ProApprType;
 use App\Form\PromotionType;
 use App\Repository\ApprenantRepository;
 use App\Repository\FormationRepository;
@@ -19,18 +22,25 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class EditPromotionController extends AbstractController
 {
-    
+
 
     /**
      * Afficher toutes les promotions avec la possibilité de modifier et de supprimer
      * 
-     * @Route("/editor/promo_liste", name="editor_promo_liste")
+     * @Route("/editor/promo_liste{page<\d+>?1}", name="editor_promo_liste")
      */
-    public function promo_list(PromotionRepository $repo)
+    public function promo_list(PromotionRepository $repo, $page)
     {
-        $promotion = $repo->findBy(array(), array('Annee' => 'asc'));
+        $limit = 5;
+        $start = $page * $limit - $limit;
+        $all = count($repo->findAll());
+        $pages = ceil($all / $limit);
+        // $apprenant = $repo->findBy([], ['Annee' => 'asc'], $limit, $start);
+        // $promotion = $repo->findBy(array(), array('Annee' => 'asc'));
         return $this->render('editor/promotion/_promo_liste.html.twig', [
-            'promotions' => $promotion
+            'promotions' => $repo->findBy([], ['Annee' => 'desc'], $limit, $start),
+            'pages' => $pages,
+            'page' => $page
         ]);
     }
 
@@ -53,17 +63,25 @@ class EditPromotionController extends AbstractController
      */
     public function promo_new(Request $request)
     {
+        $Manager = $this->getDoctrine()->getManager();
         $promotion = new Promotion();
-        $form = $this->createForm(PromotionType::class, $promotion);
+        $form = $this->createForm(PromoType::class, $promotion);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $Manager = $this->getDoctrine()->getManager();
+            // on change le statut des apprenants qui ont été attribués
+            $apprenants= $form->getData()->getApprenants();
+            foreach ($apprenants as $apprenant){
+                $apprenant->setStatus('old');
+                $Manager->persist($apprenant);
+            }
+
             $Manager->persist($promotion);
             $Manager->flush();
 
-            $this->addFlash('success', 'Une promotion a été créée!');
+            $this->addFlash('success', "La promotion de l'année {$promotion->getAnnee()} a été créée!");
+            return $this->redirectToRoute('editor_promo_liste');
         }
         return $this->render('editor/promotion/_promo_new.html.twig', [
             'form' => $form->createView()
@@ -76,39 +94,30 @@ class EditPromotionController extends AbstractController
      * 
      * @Route("/editor/promo_attr_appr", name="editor_promo_attr_appr")
      */
-    public function promo_attr_appr(PromotionRepository $repo, Request $request, ApprenantRepository $repoAppr, UserPasswordEncoderInterface $encoder)
+    public function promo_attr_appr(PromotionRepository $repo, Request $request, ApprenantRepository $repoAppr)
     {
         // $promotion = $repo->findBy(array(), array('Annee' => 'asc'));
-        $promotion = $repo->selectPromotion(new \DateTime);
-        $newApprenant = new Apprenant();
+        // $promotion = $repo->selectPromotion(new \DateTime);
+        // $newApprenant = new Apprenant();
+        // $promotion = new Promotion();
 
-        // $form = $this->createForm(ApprenantType::class, $newApprenant);
+        // $form = $this->createForm(ProApprType::class);
         // $form->handleRequest($request);
 
         // if ($form->isSubmitted() && $form->isValid()) {
+            
+        //     // dd($repo->findBy(['Apprenant'=>$request->get('pro_appr')]));
 
         //     $Manager = $this->getDoctrine()->getManager();
+        //     $Manager->persist($promotion);
+        //     $Manager->flush();
 
-        //     $mdp = strtolower($newApprenant->getNom() . $newApprenant->getPrenom());
-
-        //     $mdp_hash = $encoder->encodePassword($newApprenant, $mdp);
-
-        //     $newApprenant->setPassword($mdp_hash);
-
-        //     try {
-        //         $Manager->persist($newApprenant);
-
-        //         $Manager->flush();
-        //         $this->addFlash('success', 'Un utilisateur a été créé!');
-        //         $this->addFlash('success', 'Un apprenant a été attribué à une promotion!');
-        //     } catch (Exception $e) {
-        //         $this->addFlash('danger', 'Cet email existe déjà!');
-        //     }
+            
 
         // }
 
         return $this->render('editor/promotion/_promo_attr_appr.html.twig', [
-            'promotions' => $promotion,
+            // 'promotions' => $promotion,
             // 'form' => $form->createView()
         ]);
     }
@@ -130,18 +139,27 @@ class EditPromotionController extends AbstractController
      * 
      * @Route("/editor/edit_promotion/{id}", name="editor_edit_promotion")
      */
-    public function edit_promotion($id, PromotionRepository $repo, Request $request)
+    public function edit_promotion(Promotion $promotion, PromotionRepository $repo, Request $request)
     {
-        $newPromotion = $repo->find($id);
-        $form = $this->createForm(PromoType::class, $newPromotion);
+        $Manager = $this->getDoctrine()->getManager();
+        // $newPromotion = $repo->find($id);
+        $form = $this->createForm(PromotionType::class, $promotion);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $Manager = $this->getDoctrine()->getManager();
+            
+            // on change le statut des apprenants qui ont été attribués
+            $apprenants = $form->getData()->getApprenants();
+            
+            foreach ($apprenants as $apprenant) {
+                $apprenant->setStatus('old');
+                $Manager->persist($apprenant);
+            }
 
+            $Manager->persist($promotion);
             $Manager->flush();
 
-            $this->addFlash('warning', 'Une promotion a été modifiée!');
-            // return $this->redirectToRoute('editor_promotion');
+            $this->addFlash('warning', "La promotion de l'année {$promotion->getAnnee()} intitulée / {$promotion->getFormation()->getIntitule()} / a été modifiée!");
+            return $this->redirectToRoute('editor_promo_liste');
         }
         return $this->render('editor/promotion/promotion_edit.html.twig', [
             'form' => $form->createView()
