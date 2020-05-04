@@ -63,7 +63,7 @@
                     </div>
                     {% endfor %}
 
-                    <h4  class="btn btn-info">Liste des Promotions</h4>
+                    <h4  class="btn btn-info btn-sm">Liste des Promotions</h4>
 
                     {# formulaire de recherche #}
                     <form action="" class="  ml-auto w-50 bg-info" style="position: relative;">
@@ -82,8 +82,8 @@
                                 <th scope="col" style="width: 10%;">Début</th>
                                 <th scope="col" style="width: 10%;">Fin</th>
                                 <th scope="col" style="width: 10%;">Nombre d'apprenants</th>
-                                <th scope="col" style="width: 50%;">Formation</th>
-                                <th colspan="2" scope="col" style="width: 10%;" >Actions </th>
+                                <th scope="col" style="width: 45%;">Formation</th>
+                                <th colspan="2" scope="col" style="width: 15%;" >Actions </th>
                                 
                             </tr>
                         </thead>
@@ -102,12 +102,11 @@
 
                                 <td >
                                     {# 3link to delete or edit or show #}
-                                    <a class="badge badge-danger delete-record" title="supprimer" href="#"><i
+                                    <a class="btn btn-danger btn-sm delete-record" title="supprimer" href="#"><i
                                             class="fas fa-trash-alt delete-promotion"></i></a>
-                                    <a class="badge badge-success modif_promotion" title="modifier"
+                                    <a class="btn btn-success btn-sm modif_promotion" title="modifier"
                                         href="{{ path('editor_edit_promotion',{'id':promotion.id}) }}"><i class="far fa-edit"></i></a>
-                                    <!-- <a class="badge badge-info modif_promotion" title="visualiser"
-                                        href="{{ path('editor_promo_show',{'id':promotion.id}) }}"><i class="fa fa-eye"></i></a> -->
+                                    
                                     
 
                                     {# delete confirmation #}
@@ -117,7 +116,7 @@
                                         </div>
                                         <div>
                                             <a class="btn btn-success non" href="">Non</a>
-                                            <a class="btn btn-danger" href="{{ path('editor_delete_promotion',{'id':promotion.id}) }}">Oui</a>
+                                            <a class="btn btn-danger " href="{{ path('editor_delete_promotion',{'id':promotion.id}) }}">Oui</a>
 
                                         </div>
                                     </div>
@@ -149,7 +148,7 @@
                                 <td>{{apprenant.dateNaissance|date("m/d/Y")}}</td>
                                 <td>{{apprenant.email}}</td>
                                 <td>{{apprenant.tel}}</td>
-                                <td colspan="2"><a class="badge badge-info modif_promotion" title="visualiser"
+                                <td colspan="2"><a class="btn btn-info btn-sm modif_promotion" title="visualiser"
                                     href="{{ path('editor_pro_apprenant_show',{'id':apprenant.id}) }}"><i class="fa fa-eye"></i></a></td>
                             </tr>
 
@@ -159,8 +158,11 @@
                     {% endfor %}
                     
                     </table>
-
+                    <a class="btn btn-primary btn-sm" title="ajouter" href="{{ path('editor_promo_new') }}"><i class="fas fa-plus-square"></i></a>
                     <!-- pagination -->
+                    {% if pages == 0 %}
+                        {% set pages = 1 %}
+                    {% endif %}
                     <nav class="">
                         <ul class="pagination pagination-sm justify-content-center">
                             <li class="page-item {% if page == 1 %}disabled{%  endif %}">

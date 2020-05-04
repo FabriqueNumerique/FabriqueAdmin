@@ -35,9 +35,8 @@ class EditPromotionController extends AbstractController
         $start = $page * $limit - $limit;
         $all = count($repo->findAll());
         $pages = ceil($all / $limit);
-        // $apprenant = $repo->findBy([], ['Annee' => 'asc'], $limit, $start);
-        // $promotion = $repo->findBy(array(), array('Annee' => 'asc'));
-        return $this->render('editor/promotion/_promo_liste.html.twig', [
+
+        return $this->render('editor/promotion/promo_liste.html.twig', [
             'promotions' => $repo->findBy([], ['Annee' => 'desc'], $limit, $start),
             'pages' => $pages,
             'page' => $page
@@ -83,7 +82,7 @@ class EditPromotionController extends AbstractController
             $this->addFlash('success', "La promotion de l'année {$promotion->getAnnee()} a été créée!");
             return $this->redirectToRoute('editor_promo_liste');
         }
-        return $this->render('editor/promotion/_promo_new.html.twig', [
+        return $this->render('editor/promotion/promo_new.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -96,27 +95,9 @@ class EditPromotionController extends AbstractController
      */
     public function promo_attr_appr(PromotionRepository $repo, Request $request, ApprenantRepository $repoAppr)
     {
-        // $promotion = $repo->findBy(array(), array('Annee' => 'asc'));
-        // $promotion = $repo->selectPromotion(new \DateTime);
-        // $newApprenant = new Apprenant();
-        // $promotion = new Promotion();
+        
 
-        // $form = $this->createForm(ProApprType::class);
-        // $form->handleRequest($request);
-
-        // if ($form->isSubmitted() && $form->isValid()) {
-            
-        //     // dd($repo->findBy(['Apprenant'=>$request->get('pro_appr')]));
-
-        //     $Manager = $this->getDoctrine()->getManager();
-        //     $Manager->persist($promotion);
-        //     $Manager->flush();
-
-            
-
-        // }
-
-        return $this->render('editor/promotion/_promo_attr_appr.html.twig', [
+        return $this->render('editor/promotion/promo_attr_appr.html.twig', [
             // 'promotions' => $promotion,
             // 'form' => $form->createView()
         ]);
@@ -131,7 +112,7 @@ class EditPromotionController extends AbstractController
     public function promo_attr_apprs()
     {
 
-        return $this->render('editor/promotion/_promo_attr_many.html.twig');
+        return $this->render('editor/promotion/promo_attr_many.html.twig');
     }
 
     /**
@@ -201,9 +182,30 @@ class EditPromotionController extends AbstractController
     /**
      * afficher les formations et créer une formation
      * 
-     * @Route("/editor/formation", name="editor_formation")
+     * @Route("/editor/formation{page<\d+>?1}", name="editor_formation")
      */
-    public function formation(EntityManagerInterface $em, FormationRepository $repo, Request $request)
+    public function formation(FormationRepository $repo, $page)
+    {
+        $limit = 5;
+        $start = $page * $limit - $limit;
+        $all = count($repo->findAll());
+        $pages = ceil($all / $limit);
+
+        $formation = $repo->findBy(array(), array('Intitule' => 'asc'));
+        return $this->render('editor/formation/formation_liste.html.twig', [
+            'formations' => $repo->findBy([], ['Intitule' => 'asc'], $limit, $start),
+            'pages' => $pages,
+            'page' => $page
+        ]);
+    }
+
+
+    /**
+     * afficher les formations et créer une formation
+     * 
+     * @Route("/editor/formation_new", name="editor_formation_new")
+     */
+    public function formation_new(EntityManagerInterface $em, Request $request)
     {
         $newFormation = new Formation();
         $form = $this->createForm(FormationType::class, $newFormation);
@@ -211,16 +213,15 @@ class EditPromotionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // $Manager = $this->getDoctrine()->getManager();
             $em->persist($newFormation);
             $em->flush();
 
             $this->addFlash('success', 'Une formation a été créée!');
+            return $this->redirectToRoute('editor_formation');
         }
 
-        $formation = $repo->findBy(array(), array('Intitule' => 'asc'));
-        return $this->render('editor/formation/formation.html.twig', [
-            'formations' => $formation,
+        
+        return $this->render('editor/formation/formation_new.html.twig', [
             'form' => $form->createView()
         ]);
     }
