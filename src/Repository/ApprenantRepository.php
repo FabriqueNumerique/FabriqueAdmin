@@ -3,8 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Apprenant;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+
+use Doctrine\ORM\QueryBuilder;
+
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Apprenant|null find($id, $lockMode = null, $lockVersion = null)
@@ -46,5 +49,22 @@ class ApprenantRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
+
     */
+
+
+    public function test(){
+        
+            return $this->createQueryBuilder('u')
+                
+                ->leftjoin('u.Promotion', 'c')
+                ->andWhere('c.DateFin >= :date')
+                ->setParameter('date', new \DateTime)
+                
+                ->getQuery()
+                ->getResult();
+                
+
+    }
+    
 }

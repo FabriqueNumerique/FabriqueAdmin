@@ -95,8 +95,8 @@
                     
                             <tr class="alert-light" >
                                 <td>{{ promotion.annee }}</td>
-                                <td>{{ promotion.dateDebut|date("m/d/Y") }}</td>
-                                <td>{{ promotion.dateFin|date("m/d/Y") }}</td>
+                                <td>{{ promotion.dateDebut|date("d/m/Y") }}</td>
+                                <td>{{ promotion.dateFin|date("d/m/Y") }}</td>
                                 <td>{{ promotion.apprenants|length }}</td>
                                 <td>{{ promotion.formation.intitule }}</td>
 

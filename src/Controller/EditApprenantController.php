@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Apprenant;
+use App\Form\AppProType;
 use App\Form\ApprenantType;
 use App\Service\FileUploader;
 use App\Repository\ApprenantRepository;
@@ -157,6 +158,19 @@ class EditApprenantController extends AbstractController
         $this->addFlash("danger", "L'apprenant {$apprenant->getFullname()} a été supprimée!");
 
         return $this->redirectToRoute('editor_apprenant_liste');
+    }
+
+
+    /**
+     * gestion de retartd et absence
+     * 
+     * @Route("/editor/retard", name="editor_retard")
+     */
+    public function retard(ApprenantRepository $repo){
+        
+        return $this->render('editor/apprenant/retard.html.twig', [
+           'apprenants'=>$repo->test()
+        ]);
     }
 
 

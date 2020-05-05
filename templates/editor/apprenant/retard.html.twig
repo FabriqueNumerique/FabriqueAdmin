@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashbord{% endblock %}
+
+{% block body %}
+{% if app.user %}
+
+
+{# structure de la page 10 colonnes de largeur et alignée à droite #}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
+            {% include "editor/apprenant/_nav_apprenant.html.twig" with {"p": 2} %}
+            {# page body #}
+            {# {% include "template_parts/_nav_promotion.html.twig" %} #}
+            <div class="my-5">
+                <table class="table table-hover">
+                <pre>
+                    {{ dump(apprenants) }}
+                </pre>
+                    <thead>
+                
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Date de naissance</th>
+                        <th>Email</th>
+                        <th>Avatar</th>
+                
+                        <th style="width: 15%;">Actions</th>
+                    </thead>
+                    <tbody>
+                
+                        {% for apprenant in apprenants %}
+                        <tr>
+                            <td>{{ apprenant.nom }}</td>
+                            <td>{{ apprenant.prenom }}</td>
+                            <td>{{ apprenant.datenaissance|date("m/d/Y") }}</td>
+                            <td>{{ apprenant.email }}</td>
+                            <td><img src="{{ asset('uploads/brochures/') }}{{ apprenant.Avatar }}" alt="" class="avatar-sd"></td>
+                
+                            <!-- dans la dernère cellule, il trois liens: suuprimer, modifier et visualiser -->
+                            <td>
+                                <!-- supprimer un apprenant qui va afficher d'abord un message de confirmation -->
+                                <a class="btn btn-danger btn-sm delete-record" title="supprimer" href="#"><i
+                                        class="fas fa-trash-alt delete-promotion"></i></a>
+                
+                                <!-- modifier un apprenant -->
+                                <a class="btn btn-success btn-sm modif_promotion" title="modifier"
+                                    href="{{ path('editor_edit_apprenant',{'id':apprenant.id}) }}"><i class="far fa-edit"></i></a>
+                
+                                <!-- visualiser un apprenant -->
+                                <a class="btn btn-info btn-sm modif_promotion" title="visualiser"
+                                    href="{{ path('editor_apprenant_show',{'id':apprenant.id}) }}"><i class="fa fa-eye"></i></a>
+                
+                                <!-- div qui contient le message de confirmation afin de supprimer un apprenant -->
+                                <div class="delete-confirm border bg-light  m-auto rounded p-3"
+                                    style="position: absolute;top:40%;left:30%">
+                                    <div>
+                                        <h4>Vous êtes sûr de vouloir supprimer?</h4>
+                                    </div>
+                                    <div>
+                                        <a class="btn btn-success non" href="">Non</a>
+                                        <a class="btn btn-danger "
+                                            href="{{ path('editor_apprenant_delete',{'id':apprenant.id}) }}">Oui</a>
+                
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
+
+
+
+
+            {# end body #}
+
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

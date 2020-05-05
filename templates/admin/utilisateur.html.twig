@@ -4,33 +4,24 @@
 
 {% block body %}
 
+
 <style>
-
-/* when tab not active*/
-    .nav-pills .pill .nav-link:not(.active) {
-        background-color: #343a40;
-        color: rgb(145, 145, 145);
-    }
-
-    /* active (faded) */
-    .nav-pills .pill .nav-link {
-        /*background-color: #dc3545;*/
-        background-color: #343a40;
-        color: white;
-    }
-
-input{
-        outline: none;	
-        border:none;
+    input {
+        outline: none;
+        border: none;
         border-bottom: 1px solid #777;
     }
-    form input:focus{
+
+    form input:focus {
         border-color: blue;
-       
+
     }
 
+    .active {
+        background-color: black;
+        color: white;
+    }
 </style>
-
 {# structure de la page 10 colonnes de largeur et alignée à droite #}
 {% if app.user %}
 <div class="container-fluid ">
@@ -39,21 +30,8 @@ input{
 
             {# page body #}
 
-            <ul class="nav nav-pills my-3" id="pills-tab" role="tablist">
-                <li class="nav-item pill mr-1 mb-1">
-                    <a class="nav-link active" id="" data-toggle="pill" href="#pills-home" role="tab"
-                        aria-controls="pills-home" aria-selected="true">Liste des utilisateurs</a>
-                </li>
-                {# <li class="nav-item pill  mr-1 mb-1">
-                    <a class="nav-link" id="" data-toggle="pill" href="#pills-profile" role="tab"
-                        aria-controls="pills-profile" aria-selected="false">Créer un utilisateur</a>
-                </li>
-                <li class="nav-item pill mr-1 mb-1">
-                    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab"
-                        aria-controls="pills-contact" aria-selected="false">Contact</a>
-                </li> #}
-            </ul>
-            <div class="tab-content" id="pills-tabContent">
+            
+            <div class="my-5">
 
                 {% for message in app.flashes('danger') %}
                 <div class="container alert alert-danger alert-dismissible fade show" role="alert">
@@ -73,8 +51,8 @@ input{
                 </div>
                 {% endfor %}
                 
-                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-
+                
+                    <h4 class="btn btn-info btn-sm">Liste des utilisateurs</h4>
                     <form action="{{ path('admin_chercher_user')}}" class="  ml-auto w-50 bg-info" style="position: relative;">
                         <input class="float-right form-group mr-2 " placeholder="chercher" type="text" name="chercher">
                         <button class=" badge badge-primary mr-2" style="position: absolute;right:0;cursor:pointer" id="chercher_user" type="submit"><i
@@ -103,9 +81,9 @@ input{
                                     </td>
                                     <td>
                                         {% if app.user.email != user.email %}
-                                        <a class="badge badge-danger delete-record" title="supprimer" href="#"><i
+                                        <a class="btn btn-danger btn-sm delete-record" title="supprimer" href="#"><i
                                                 class="fas fa-trash-alt "></i></a>
-                                        <a class="badge badge-success modif_user" title="modifier" href="{{ path('admin_modif_user',{'id':user.id}) }}"><i class="far fa-edit"></i></a>
+                                        <a class="btn btn-success btn-sm modif_user" title="modifier" href="{{ path('admin_modif_user',{'id':user.id}) }}"><i class="far fa-edit"></i></a>
                                         {% endif %}
                                         <div class="delete-confirm border bg-light  m-auto rounded p-3" style="position: absolute;top:40%;left:30%">
                                             
@@ -124,15 +102,10 @@ input{
                             {% endfor %}
                         </tbody>
                     </table>
-                    <a class="badge badge-primary" title="ajouter" href="{{ path('app_register') }}"><i class="fa fa-user-plus"></i></a>
+                    <a class="btn btn-primary btn-sm" title="ajouter" href="{{ path('app_register') }}"><i class="fa fa-user-plus"></i></a>
                    
-                </div>
-
-
-                {# <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">...</div>
-                <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...</div> #}
             </div>
-
+                
             {# end body #}
 
         </div>

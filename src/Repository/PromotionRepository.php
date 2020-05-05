@@ -65,4 +65,6 @@ class PromotionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     } 
+
+    
 }
