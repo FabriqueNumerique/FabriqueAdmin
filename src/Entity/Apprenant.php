@@ -85,10 +85,16 @@ class Apprenant extends User
      */
     private $status;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Retard", mappedBy="apprenant", orphanRemoval=true)
+     */
+    private $retards;
+
     public function __construct()
     {
         $this->Promotion = new ArrayCollection();
         $this->reseaux = new ArrayCollection();
+        $this->retards = new ArrayCollection();
     }
 
     public function getFullname()
@@ -293,6 +299,37 @@ class Apprenant extends User
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Retard[]
+     */
+    public function getRetards(): Collection
+    {
+        return $this->retards;
+    }
+
+    public function addRetard(Retard $retard): self
+    {
+        if (!$this->retards->contains($retard)) {
+            $this->retards[] = $retard;
+            $retard->setApprenant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRetard(Retard $retard): self
+    {
+        if ($this->retards->contains($retard)) {
+            $this->retards->removeElement($retard);
+            // set the owning side to null (unless already changed)
+            if ($retard->getApprenant() === $this) {
+                $retard->setApprenant(null);
+            }
+        }
 
         return $this;
     }

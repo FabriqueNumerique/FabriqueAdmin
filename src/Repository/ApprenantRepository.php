@@ -56,11 +56,9 @@ class ApprenantRepository extends ServiceEntityRepository
     public function test(){
         
             return $this->createQueryBuilder('u')
-                
-                ->leftjoin('u.Promotion', 'c')
+                ->join('u.Promotion', 'c')
                 ->andWhere('c.DateFin >= :date')
                 ->setParameter('date', new \DateTime)
-                
                 ->getQuery()
                 ->getResult();
                 

@@ -36,8 +36,11 @@
                     
                         <!-- seleon le rôle on affiche les boutons de menu -->
                         <!-- نقوم بتفحص دور المستخدم وبناءً عليه نقوم بعرض القائمة ذات العلاقة -->
+                       
+                       
+
                         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR') %}
-                            <li class="nav-item ">
+                            <li class="nav-item">
                                 <a href="{{ path('editor_dashbord') }}" class="nav-link text-white p-3 mb-2 sidebar-link"><i
                                         class="fas fa-home text-light fa-lg mr-3"></i> Tableau de bord</a>
                             </li>

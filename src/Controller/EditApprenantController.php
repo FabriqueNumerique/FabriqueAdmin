@@ -2,11 +2,16 @@
 
 namespace App\Controller;
 
-use App\Entity\Apprenant;
+use App\Entity\Retard;
 use App\Form\AppProType;
+use App\Form\RetardType;
+use App\Entity\Apprenant;
 use App\Form\ApprenantType;
+use Monolog\Handler\Handler;
 use App\Service\FileUploader;
+use App\Repository\RetardRepository;
 use App\Repository\ApprenantRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -166,12 +171,47 @@ class EditApprenantController extends AbstractController
      * 
      * @Route("/editor/retard", name="editor_retard")
      */
-    public function retard(ApprenantRepository $repo){
-        
+    public function retard(RetardRepository $repo)
+    {
+
         return $this->render('editor/apprenant/retard.html.twig', [
-           'apprenants'=>$repo->test()
+            'retards'=>$repo->retardActuel()
         ]);
     }
+
+    /**
+     * gestion de retartd et absence
+     * 
+     * @Route("/editor/retard/new", name="editor_retard_new")
+     */
+    public function retard_new(Request $request, EntityManagerInterface $manager)
+    {
+        $retard = new Retard();
+        $form = $this->createForm(RetardType::class, $retard);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($retard);
+            $manager->flush();
+            return $this->redirectToRoute('editor_retard');
+        }
+        return $this->render('editor/apprenant/retard_new.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * gestion de competence
+     * 
+     * @Route("/editor/competence", name="editor_competence")
+     */
+    public function competence()
+    {
+
+        return $this->render('editor/apprenant/competence.html.twig', [
+           
+        ]);
+    }
+
 
 
 }
