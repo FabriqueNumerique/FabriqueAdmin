@@ -53,9 +53,11 @@ class RetardRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('r')
             ->join('r.apprenant', 'a')
             ->join('a.Promotion', 'p')
-            ->where('p.DateFin >= :date')
+            ->where('p.DateFin > :date')
             ->setParameter('date', new \DateTime)
-            ->orderBy('a.Nom')
+            // ->where('r.Apprenant.Promotion.Annee = :nom')
+            // ->setParameter('nom','2020')
+            // ->orderBy('a.Nom')
             ->getQuery()
             ->getResult();      
     }

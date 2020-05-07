@@ -71,16 +71,25 @@ class EditPromotionController extends AbstractController
 
             // on change le statut des apprenants qui ont été attribués
             $apprenants= $form->getData()->getApprenants();
-            foreach ($apprenants as $apprenant){
-                $apprenant->setStatus('old');
-                $Manager->persist($apprenant);
+
+            $dateDebut = $form->getData()->getdateDebut();
+            $dateFin = $form->getData()->getdateFin();
+
+            if ($dateFin > $dateDebut){
+                foreach ($apprenants as $apprenant){
+                    $apprenant->setStatus('old');
+                    $Manager->persist($apprenant);
+                }
+    
+                $Manager->persist($promotion);
+                $Manager->flush();
+    
+                $this->addFlash('success', "La promotion de l'année {$promotion->getAnnee()} a été créée!");
+                return $this->redirectToRoute('editor_promo_liste');
             }
-
-            $Manager->persist($promotion);
-            $Manager->flush();
-
-            $this->addFlash('success', "La promotion de l'année {$promotion->getAnnee()} a été créée!");
-            return $this->redirectToRoute('editor_promo_liste');
+            else{
+                $this->addFlash('danger', "La date de fin doit être supérieure à la date de début !"); 
+            }
         }
         return $this->render('editor/promotion/promo_new.html.twig', [
             'form' => $form->createView()
@@ -130,17 +139,26 @@ class EditPromotionController extends AbstractController
             
             // on change le statut des apprenants qui ont été attribués
             $apprenants = $form->getData()->getApprenants();
+            $dateDebut = $form->getData()->getdateDebut();
+            $dateFin = $form->getData()->getdateFin();
             
-            foreach ($apprenants as $apprenant) {
-                $apprenant->setStatus('old');
-                $Manager->persist($apprenant);
+            if ($dateFin > $dateDebut){
+
+                foreach ($apprenants as $apprenant) {
+                    $apprenant->setStatus('old');
+                    $Manager->persist($apprenant);
+                }
+    
+                $Manager->persist($promotion);
+                $Manager->flush();
+    
+                $this->addFlash('warning', "La promotion de l'année {$promotion->getAnnee()} intitulée / {$promotion->getFormation()->getIntitule()} / a été modifiée!");
+                return $this->redirectToRoute('editor_promo_liste');
             }
-
-            $Manager->persist($promotion);
-            $Manager->flush();
-
-            $this->addFlash('warning', "La promotion de l'année {$promotion->getAnnee()} intitulée / {$promotion->getFormation()->getIntitule()} / a été modifiée!");
-            return $this->redirectToRoute('editor_promo_liste');
+            else{
+                $this->addFlash('danger', "La date de fin doit être supérieure à la date de début !"); 
+            }
+            
         }
         return $this->render('editor/promotion/promotion_edit.html.twig', [
             'form' => $form->createView()

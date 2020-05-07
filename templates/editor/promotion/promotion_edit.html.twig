@@ -16,7 +16,14 @@
 
                 <div class="my-5">
                     <!-- afficher le message flach -->
-                    
+                    {% for message in app.flashes('danger') %}
+                    <div class="container alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{{ message }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
 
                         <!-- display promotion form to be edited -->
                         <h4  class="btn btn-info">Modifier une promotion</h4>

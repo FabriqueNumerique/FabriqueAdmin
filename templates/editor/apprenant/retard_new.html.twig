@@ -28,3 +28,29 @@
 </div>
 {% endif %}
 {% endblock %}
+
+{% block javascripts %}
+
+<script>
+    let $token = $('#retard__token')
+    let $retard_promotion =  $('#retard_promotion')
+    let $retard_date = $('#retard_date')
+
+    $retard_promotion.change(function(){
+        let $form = $(this).closest('form')
+        let data = {}
+        data[$token.attr('name')]=$token.val()
+        data[$retard_promotion.attr('name')]= $retard_promotion.val()
+        data[$retard_date.attr('name')] = $retard_date.val()
+
+
+        $.post($form.attr('action'), data).then(function(data){
+            $('#retard_apprenant').replaceWith(
+                $(data).find('#retard_apprenant')
+            )
+        })
+    })
+
+</script>
+
+{% endblock %}

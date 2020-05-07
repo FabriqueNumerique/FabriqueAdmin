@@ -49,9 +49,15 @@ class Promotion
      */
     private $apprenants;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Retard", mappedBy="promotion", orphanRemoval=true)
+     */
+    private $retards;
+
     public function __construct()
     {
         $this->apprenants = new ArrayCollection();
+        $this->retards = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -152,6 +158,37 @@ class Promotion
     public function __toString()
     {
         return (string) $this->Annee.' '.$this->Formation;
+    }
+
+    /**
+     * @return Collection|Retard[]
+     */
+    public function getRetards(): Collection
+    {
+        return $this->retards;
+    }
+
+    public function addRetard(Retard $retard): self
+    {
+        if (!$this->retards->contains($retard)) {
+            $this->retards[] = $retard;
+            $retard->setPromotion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRetard(Retard $retard): self
+    {
+        if ($this->retards->contains($retard)) {
+            $this->retards->removeElement($retard);
+            // set the owning side to null (unless already changed)
+            if ($retard->getPromotion() === $this) {
+                $retard->setPromotion(null);
+            }
+        }
+
+        return $this;
     }
 
     

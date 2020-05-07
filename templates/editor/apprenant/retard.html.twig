@@ -19,11 +19,11 @@
             
                 <thead>
             
-                    <th>Date</th>
-                    <th>N° d'heures</th>
-                    <th>Justifié</th>
-                    <th>Apprenant</th>
-                    
+                    <th scope="col">Date</th>
+                    <th scope="col">N° d'heures</th>
+                    <th scope="col">Justifié</th>
+                    <th scope="col">Apprenant</th>
+                    <th scope="col">Promotion</th>
             
                     <th style="width: 15%;">Actions</th>
                 </thead>
@@ -35,7 +35,7 @@
                         <td>{{ retard.nombreheure }}</td>
                         <td>{{ retard.justifie }}</td>
                         <td>{{ retard.apprenant.fullname|upper }}</td>
-                        
+                        <td>{{ retard.promotion.annee }}-{{ retard.promotion.formation.intitule }}</td>
                        
                         
                        

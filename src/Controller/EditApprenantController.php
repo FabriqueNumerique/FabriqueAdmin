@@ -175,7 +175,8 @@ class EditApprenantController extends AbstractController
     {
 
         return $this->render('editor/apprenant/retard.html.twig', [
-            'retards'=>$repo->retardActuel()
+            // 'retards'=>$repo->findAll()
+            'retards' => $repo->retardActuel()
         ]);
     }
 
@@ -189,10 +190,13 @@ class EditApprenantController extends AbstractController
         $retard = new Retard();
         $form = $this->createForm(RetardType::class, $retard);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($retard);
-            $manager->flush();
-            return $this->redirectToRoute('editor_retard');
+        if($form->getData()->getApprenant() != null){
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $manager->persist($retard);
+                $manager->flush();
+                return $this->redirectToRoute('editor_retard');
+            }
         }
         return $this->render('editor/apprenant/retard_new.html.twig', [
             'form' => $form->createView()

@@ -37,6 +37,12 @@ class Retard
      */
     private $apprenant;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Promotion", inversedBy="retards")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $promotion;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +92,18 @@ class Retard
     public function setApprenant(?Apprenant $apprenant): self
     {
         $this->apprenant = $apprenant;
+
+        return $this;
+    }
+
+    public function getPromotion(): ?Promotion
+    {
+        return $this->promotion;
+    }
+
+    public function setPromotion(?Promotion $promotion): self
+    {
+        $this->promotion = $promotion;
 
         return $this;
     }
