@@ -181,7 +181,7 @@ class EditApprenantController extends AbstractController
     }
 
     /**
-     * gestion de retartd et absence
+     * ajouter un retard
      * 
      * @Route("/editor/retard/new", name="editor_retard_new")
      */
@@ -190,11 +190,15 @@ class EditApprenantController extends AbstractController
         $retard = new Retard();
         $form = $this->createForm(RetardType::class, $retard);
         $form->handleRequest($request);
+
+        // if apprenant field is not null
         if($form->getData()->getApprenant() != null){
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $manager->persist($retard);
                 $manager->flush();
+                $this->addFlash("warning", "Un retard concernant l'apprenant {$retard->getApprenant()} a été ajouté!");
+
                 return $this->redirectToRoute('editor_retard');
             }
         }
@@ -203,6 +207,59 @@ class EditApprenantController extends AbstractController
         ]);
     }
 
+
+    /**
+     * modifier un retard
+     * 
+     * @Route("/editor/retard/edit/{id}", name="editor_retard_edit")
+     */
+    public function retard_edit(Request $request, EntityManagerInterface $manager, Retard $retard)
+    {
+        
+        $form = $this->createForm(RetardType::class, $retard);
+        $form->handleRequest($request);
+
+        // if apprenant field is not null
+        if ($form->getData()->getApprenant() != null) {
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $manager->persist($retard);
+                $manager->flush();
+                $this->addFlash("warning", "Le retard de l'apprenant {$retard->getApprenant()} a été modifié!");
+                return $this->redirectToRoute('editor_retard');
+            }
+        }
+        return $this->render('editor/apprenant/retard_edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * supprimer un retard
+     * 
+     * @Route("/editor/retard/delete/{id}", name="editor_retard_delete")
+     */
+    public function retard_delete(EntityManagerInterface $manager, Retard $retard)
+    {
+        $manager->remove($retard);
+        $manager->flush();
+        $this->addFlash("danger", "Le retard de l'apprenant {$retard->getApprenant()} a été supprimée!");
+
+        return $this->redirectToRoute('editor_retard');
+    }
+
+
+    /**
+     * gestion d'absence
+     * 
+     * @Route("/editor/absence", name="editor_absence")
+     */
+    public function absence()
+    {
+
+        return $this->render('editor/apprenant/absence.html.twig', []);
+    }
+    
     /**
      * gestion de competence
      * 

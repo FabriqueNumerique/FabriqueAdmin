@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des retards{% endblock %}
+
+{% block body %}
+{% if app.user %}
+
+
+<style>
+    input {
+        outline: none;
+        border: none;
+        border-bottom: 1px solid #777;
+    }
+
+    form input:focus {
+        border-color: blue;
+
+
+    }
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-3 mt-5">
+
+            {% include "editor/apprenant/_nav_apprenant.html.twig" with {"p": 3} %}
+
+            <div class="my-5">
+                <!-- flash messages -->
+                {% for message in app.flashes('danger') %}
+                <div class="container alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+
+                {% for message in app.flashes('warning') %}
+                <div class="container alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+
+                {% for message in app.flashes('success') %}
+                <div class="container alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+
+                <h4 class="btn btn-info btn-sm">Liste des retards</h4>
+                <!-- formulaire de recherche -->
+                <form action="" class="  ml-auto w-50 bg-info" style="position: relative;">
+                    <input class="float-right form-group mr-2 " placeholder="chercher" type="text"
+                        name="chercher_retard">
+                    <button class=" badge badge-primary mr-2" style="position: absolute;right:0;cursor:pointer"
+                        type="submit"><i class="fa fa-search "></i></button>
+                </form>
+
+                <table class="table table-hover">
+
+                    <thead>
+
+                        <th scope="col">Date</th>
+                        <th scope="col">N° d'heures</th>
+                        <th scope="col">Justifié</th>
+                        <th scope="col">Apprenant</th>
+                        <th scope="col">Promotion</th>
+
+                        <th style="width: 15%;">Actions</th>
+                    </thead>
+                    <tbody>
+
+                        
+
+                    </tbody>
+                </table>
+                <a class="btn btn-primary btn-sm" title="ajouter" href="{{ path('editor_retard_new') }}"><i
+                        class="fas fa-plus-square"></i></a>
+
+            </div>
+            {# end body #}
+
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

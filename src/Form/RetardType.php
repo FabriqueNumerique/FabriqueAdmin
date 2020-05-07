@@ -35,18 +35,20 @@ class RetardType extends AbstractType
             ])
             ->add('justifie', ChoiceType::class, [
                 'choices' => [
+                    ''=>'',
                     'Justifié' => 'oui',
                     'Non Justifié' => 'no'
-                ]
+                ],
+                'label' => 'Justifié oui ou non ?'
+                
             ])
             ->add('promotion', EntityType::class, [
-                'class' => Promotion::class
-               
-                // 'query_builder' => function (PromotionRepository $repo) {
-                //     return $repo->createQueryBuilder('p')
-                //         ->where('p.DateFin > :date')
-                //         ->setParameter('date', new \DateTime);
-                // }
+                'class' => Promotion::class,
+                'query_builder' => function (PromotionRepository $repo) {
+                    return $repo->createQueryBuilder('p')
+                        ->where('p.DateFin > :date')
+                        ->setParameter('date', new \DateTime);
+                }
 
             ]);
             // dd($builder->get('promotion')->getForm()->getData());
@@ -54,11 +56,10 @@ class RetardType extends AbstractType
             FormEvents::POST_SUBMIT,
             function (FormEvent $event) {
                 $form = $event->getForm();
-                dump($form->getData());
-                // dd($form->getData());
+                
                 $form->getParent()->add('apprenant', EntityType::class, [
                     'class' => Apprenant::class,
-                    'choices' => $form->getData()->getApprenants(),
+                    'choices' => $form->getData()->getApprenants()
                     // 'query_builder'=> function (ApprenantRepository $repo){
                     // return $repo->createQueryBuilder('a')
                     // ->where('a.Promotion = :promotion')
@@ -67,6 +68,20 @@ class RetardType extends AbstractType
                 ]);
             }
         );
+
+        // $builder->addEventListener(
+        //     FormEvents::POST_SET_DATA,
+        //     function (FormEvent $event){
+        //         $form = $event->getForm();
+        //         $data = $event->getData();
+        //         $apprenant = $data->getApprenant();
+        //         $form->get('promotion')->setData($apprenant->getPromotion());
+        //         $form->add('apprenant', EntityType::class, [
+        //             'class' => Apprenant::class,
+        //             'choices' => $apprenant->getPromotion()->addApprenant()
+        //         ]);
+        //     }
+        // );
             // ->add('apprenant',EntityType::class,[
             //     'class'=>Apprenant::class,
                 // 'query_builder'=> function (ApprenantRepository $repo){

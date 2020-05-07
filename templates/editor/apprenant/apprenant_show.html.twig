@@ -81,8 +81,7 @@
                    
 
                     <div>
-                        <!-- ce bouton pour afficher et masquer les réseaux sociaux d'un apprenant -->
-                        <!-- <h4 class="btn btn-info show-liste">Liste des réseaux sociaux <i class="fa fa-chevron-down icon"></i></h4> -->
+                        
                         <h6 class="show-liste alert-dark p-2">Réseaux Sociaux</h6>
                         <table class="table hid">
                         
@@ -107,8 +106,37 @@
                             </tbody>
                         </table>
                     </div>
-                    <h6 class="show-liste alert-dark p-2">Fiche Profil</h6>
+                   
+                </div>
 
+                <div>
+                
+                    <h6 class="show-liste alert-dark p-2">Retards</h6>
+                    <table class="table hid">
+                
+                        <thead>
+                
+                            <th scope="col">N°</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">N° d'heures</th>
+                
+                
+                        </thead>
+                        <tbody>
+                            {% set i = 0 %}
+                            {% for retard in apprenant.retards %}
+                            {% set i = i + 1 %}
+                            <tr>
+                                <td>{{i}}</td>
+                                <td>{{retard.date|date('d/m/y')}}</td>
+                                <td>{{retard.nombreheure}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <h6 class="show-liste alert-dark p-2">Fiche Profil</h6>
+                
                 </div>
 
             </div>

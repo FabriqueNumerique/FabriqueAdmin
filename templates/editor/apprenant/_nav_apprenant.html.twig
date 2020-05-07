@@ -9,11 +9,14 @@
             <li class="nav-item {% if p == 1 %}active{% endif %}">
                 <a class="nav-link" href="{{ path('editor_apprenant_liste') }}">APPRENANTS</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link {% if p == 2 %}active{% endif %}" href="{{ path('editor_retard') }}">ABSENCE ET RETARD</a>
+            <li class="nav-item {% if p == 2 %}active{% endif %}">
+                <a class="nav-link " href="{{ path('editor_retard') }}">RETARDS</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link {% if p == 3 %}active{% endif %}" href="{{ path('editor_competence') }}">COMPETENCES</a>
+            <li class="nav-item {% if p == 3 %}active{% endif %}">
+                <a class="nav-link " href="{{ path('editor_absence') }}">ABSENCES</a>
+            </li>
+            <li class="nav-item {% if p == 4 %}active{% endif %}">
+                <a class="nav-link " href="{{ path('editor_competence') }}">COMPETENCES</a>
             </li>
             
 
