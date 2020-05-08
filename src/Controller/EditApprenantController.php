@@ -174,7 +174,7 @@ class EditApprenantController extends AbstractController
     public function retard(RetardRepository $repo)
     {
 
-        return $this->render('editor/apprenant/retard.html.twig', [
+        return $this->render('editor/retard_absence/retard.html.twig', [
             // 'retards'=>$repo->findAll()
             'retards' => $repo->retardActuel()
         ]);
@@ -202,7 +202,7 @@ class EditApprenantController extends AbstractController
                 return $this->redirectToRoute('editor_retard');
             }
         }
-        return $this->render('editor/apprenant/retard_new.html.twig', [
+        return $this->render('editor/retard_absence/retard_new.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -229,7 +229,7 @@ class EditApprenantController extends AbstractController
                 return $this->redirectToRoute('editor_retard');
             }
         }
-        return $this->render('editor/apprenant/retard_edit.html.twig', [
+        return $this->render('editor/retard_absence/retard_edit.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -257,7 +257,7 @@ class EditApprenantController extends AbstractController
     public function absence()
     {
 
-        return $this->render('editor/apprenant/absence.html.twig', []);
+        return $this->render('editor/retard_absence/absence.html.twig', []);
     }
     
     /**
