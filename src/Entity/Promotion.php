@@ -54,10 +54,16 @@ class Promotion
      */
     private $retards;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Absence", mappedBy="promotion")
+     */
+    private $absences;
+
     public function __construct()
     {
         $this->apprenants = new ArrayCollection();
         $this->retards = new ArrayCollection();
+        $this->absences = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -185,6 +191,37 @@ class Promotion
             // set the owning side to null (unless already changed)
             if ($retard->getPromotion() === $this) {
                 $retard->setPromotion(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Absence[]
+     */
+    public function getAbsences(): Collection
+    {
+        return $this->absences;
+    }
+
+    public function addAbsence(Absence $absence): self
+    {
+        if (!$this->absences->contains($absence)) {
+            $this->absences[] = $absence;
+            $absence->setPromotion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAbsence(Absence $absence): self
+    {
+        if ($this->absences->contains($absence)) {
+            $this->absences->removeElement($absence);
+            // set the owning side to null (unless already changed)
+            if ($absence->getPromotion() === $this) {
+                $absence->setPromotion(null);
             }
         }
 

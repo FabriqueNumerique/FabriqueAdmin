@@ -30,11 +30,11 @@
 
 
     <div class="container-fluid">
-        <div class="row">
+        <div class="row" >
             <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
 
-                {% include "editor/promotion/_nav_promotion.html.twig" with {'p':1} %}
-
+                    {% include "editor/promotion/_nav_promotion.html.twig" with {'p':1} %}
+                
                 {# pour afficher le flash message #}
                 <div class="my-5">
                     {% for message in app.flashes('danger') %}

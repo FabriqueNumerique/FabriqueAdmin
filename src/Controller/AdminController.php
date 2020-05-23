@@ -16,19 +16,24 @@ class AdminController extends AbstractController
 {
 
     /**
+     * 
      * @Route("/editor/dashbord", name="editor_dashbord")
      */
     public function dashbord(PromotionRepository $repoPro, FormationRepository $repoFor, ApprenantRepository $repoApp, UserRepository $repoUse)
     {
+        // count promotions
         $promotions = $repoPro->findAll();
         $countPro = count($promotions);
 
+        // count formations
         $formations = $repoFor->findAll();
         $countFor = count($formations);
 
+        // count learners
         $apprenants = $repoApp->findAll();
         $countApp = count($apprenants);
 
+        // count users
         $users = $repoUse->findByRole();
         $countUse = count($users);
 
@@ -51,7 +56,7 @@ class AdminController extends AbstractController
     public function utilisateur(UserRepository $repo)
     {
 
-        // $user = $repo->findAll();
+        // afficher les utilisateurs qui n'ont pas le status apprenants
         $user=$repo->findByRole();
         return $this->render('admin/utilisateur.html.twig',[
            'users'=>$user 
@@ -60,7 +65,8 @@ class AdminController extends AbstractController
 
 
     /**
-     * @Route("/admin/delete_user/{id}", name="admin_delete_user")
+     * delete user
+     * @Route("/admin/utilisateur/delete/{id}", name="admin_delete_user")
      */
     public function delete_user(User $user)
     {
@@ -69,6 +75,8 @@ class AdminController extends AbstractController
         $manager = $this->getDoctrine()->getManager();
         $manager->remove($user);
         $manager->flush();
+        
+        // check main role
         if ($role[0]=='ROLE_USER'){
             $this->addFlash('danger', 'Un apprenant a été supprimée!');
         }else{
@@ -77,8 +85,10 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('admin_utilisateur');      
     }
 
+
     /**
-     * @Route("/admin/modif_user/{id}", name="admin_modif_user")
+     * éditer un utilisateur
+     * @Route("/admin/utilisateur/modif/{id}", name="admin_modif_user")
      */
     public function modif_user($id, UserRepository $repo)
     {
@@ -88,7 +98,6 @@ class AdminController extends AbstractController
 
         $manager->flush();
 
-
         return $this->json([
             'message' => 'Un utilisateur a été supprimé '
         ]);
@@ -96,15 +105,17 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/chercher_user", name="admin_chercher_user")
+     * chercher un utilisateur par son email
+     * @Route("/admin/utilisateur/chercher", name="admin_chercher_user")
      */
     public function chercher(Request $request, UserRepository $repo)
     {
 
         // récupérer l'input chercher
         $email = $request->get('chercher');
-        $user=$repo->findAllByEmail($email. "%");
 
+        // appeler la méthode dindByEmail() dans UserRepository
+        $user=$repo->findAllByEmail($email. "%");
 
         return $this->render('admin/utilisateur.html.twig', [
             'users' => $user,

@@ -75,10 +75,6 @@ class Apprenant extends User
      */
     private $reseaux;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Offres", mappedBy="Apprenant", cascade={"persist", "remove"})
-     */
-    private $offre;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -90,11 +86,22 @@ class Apprenant extends User
      */
     private $retards;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Offres", inversedBy="apprenant")
+     */
+    private $offres;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Absence", mappedBy="apprenant")
+     */
+    private $absences;
+
     public function __construct()
     {
         $this->Promotion = new ArrayCollection();
         $this->reseaux = new ArrayCollection();
         $this->retards = new ArrayCollection();
+        $this->absences = new ArrayCollection();
     }
 
     public function getFullname()
@@ -268,23 +275,6 @@ class Apprenant extends User
         return $this;
     }
 
-    public function getOffre(): ?Offres
-    {
-        return $this->offre;
-    }
-
-    public function setOffre(?Offres $offre): self
-    {
-        $this->offre = $offre;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newApprenant = null === $offre ? null : $this;
-        if ($offre->getApprenant() !== $newApprenant) {
-            $offre->setApprenant($newApprenant);
-        }
-
-        return $this;
-    }
 
     public function __toString()
     {
@@ -328,6 +318,49 @@ class Apprenant extends User
             // set the owning side to null (unless already changed)
             if ($retard->getApprenant() === $this) {
                 $retard->setApprenant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getOffres(): ?Offres
+    {
+        return $this->offres;
+    }
+
+    public function setOffres(?Offres $offres): self
+    {
+        $this->offres = $offres;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Absence[]
+     */
+    public function getAbsences(): Collection
+    {
+        return $this->absences;
+    }
+
+    public function addAbsence(Absence $absence): self
+    {
+        if (!$this->absences->contains($absence)) {
+            $this->absences[] = $absence;
+            $absence->setApprenant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAbsence(Absence $absence): self
+    {
+        if ($this->absences->contains($absence)) {
+            $this->absences->removeElement($absence);
+            // set the owning side to null (unless already changed)
+            if ($absence->getApprenant() === $this) {
+                $absence->setApprenant(null);
             }
         }
 

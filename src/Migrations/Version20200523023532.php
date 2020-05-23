@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200506180758 extends AbstractMigration
+final class Version20200523023532 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,9 +22,9 @@ final class Version20200506180758 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE retard ADD promotion_id INT NOT NULL');
-        $this->addSql('ALTER TABLE retard ADD CONSTRAINT FK_5C64DDBD139DF194 FOREIGN KEY (promotion_id) REFERENCES promotion (id)');
-        $this->addSql('CREATE INDEX IDX_5C64DDBD139DF194 ON retard (promotion_id)');
+        $this->addSql('ALTER TABLE absence ADD promotion_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE absence ADD CONSTRAINT FK_765AE0C9139DF194 FOREIGN KEY (promotion_id) REFERENCES promotion (id)');
+        $this->addSql('CREATE INDEX IDX_765AE0C9139DF194 ON absence (promotion_id)');
     }
 
     public function down(Schema $schema) : void
@@ -32,8 +32,8 @@ final class Version20200506180758 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE retard DROP FOREIGN KEY FK_5C64DDBD139DF194');
-        $this->addSql('DROP INDEX IDX_5C64DDBD139DF194 ON retard');
-        $this->addSql('ALTER TABLE retard DROP promotion_id');
+        $this->addSql('ALTER TABLE absence DROP FOREIGN KEY FK_765AE0C9139DF194');
+        $this->addSql('DROP INDEX IDX_765AE0C9139DF194 ON absence');
+        $this->addSql('ALTER TABLE absence DROP promotion_id');
     }
 }

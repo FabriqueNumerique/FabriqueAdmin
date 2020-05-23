@@ -55,9 +55,6 @@ class RetardRepository extends ServiceEntityRepository
             ->join('a.Promotion', 'p')
             ->where('p.DateFin > :date')
             ->setParameter('date', new \DateTime)
-            // ->where('r.Apprenant.Promotion.Annee = :nom')
-            // ->setParameter('nom','2020')
-            // ->orderBy('a.Nom')
             ->getQuery()
             ->getResult();      
     }

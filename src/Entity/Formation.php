@@ -151,7 +151,7 @@ class Formation
 
     public function __toString()
     {
-        return (string) $this->getIntitule();
+        return (string) $this->Intitule;
     }
 
 

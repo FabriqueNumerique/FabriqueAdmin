@@ -44,9 +44,10 @@
                     </div>
                     
                     <div>
-                        <!-- ce bouton pour afficher et masquer les promotion d'un apprenant -->
-                        <h6 class="show-liste alert-dark p-2">Formations</h6>
-                        <table class="table hid">
+                        {# si l'apprenant appartient à une promotion #}
+                        {% if apprenant.Promotion|length > 0 %}
+                        <h6 class="show-liste btn-dark p-2">Formations</h6>
+                        <table class="table table-hover">
                         
                             <thead>
                                 <th scope="col">N°</th>
@@ -55,7 +56,7 @@
                                 <th scope="col">Fin</th>
                                 <th scope="col">N° d'heures</th>
                                 <th scope="col">Intitulé</th>
-                                <th></th>
+                                
                         
                             </thead>
                             <tbody >
@@ -69,29 +70,23 @@
                                         <td>{{ promotion.dateFin|date("m/d/Y") }}</td>
                                         <td>{{ promotion.formation.nombreHeure }}</td>
                                         <td>{{ promotion.formation.intitule }}</td>
-
-                                        <!-- un lien vers unr promotion -->
-                                        <!-- <td><a class="badge badge-info modif_promotion" title="visualiser"
-                                            href="{{ path('editor_promo_show',{'id':promotion.id}) }}"><i class="fa fa-eye"></i></a></td> -->
                                     </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
+                        {% endif %}
                     </div>
                    
-
                     <div>
+                        {# si l'apprenant a des réseux sociaux #}
+                        {% if apprenant.Reseaux|length > 0 %}
+                        <h6 class="show-liste btn-dark p-2">Réseaux Sociaux</h6>
+                        <table class="table table-hover">
                         
-                        <h6 class="show-liste alert-dark p-2">Réseaux Sociaux</h6>
-                        <table class="table hid">
-                        
-                            <thead>
-                        
+                            <thead>                       
                                 <th scope="col">N°</th>
                                 <th scope="col">Intitulé</th>
                                 <th scope="col">Lien</th>
-        
-                        
                             </thead>
                             <tbody>
                                 {% set i = 0 %}
@@ -105,40 +100,64 @@
                                 {% endfor %}
                             </tbody>
                         </table>
+                        {% endif %}
                     </div>
-                   
-                </div>
 
-                <div>
-                
-                    <h6 class="show-liste alert-dark p-2">Retards</h6>
-                    <table class="table hid">
-                
-                        <thead>
-                
-                            <th scope="col">N°</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">N° d'heures</th>
-                
-                
-                        </thead>
-                        <tbody>
-                            {% set i = 0 %}
-                            {% for retard in apprenant.retards %}
-                            {% set i = i + 1 %}
-                            <tr>
-                                <td>{{i}}</td>
-                                <td>{{retard.date|date('d/m/y')}}</td>
-                                <td>{{retard.nombreheure}}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <h6 class="show-liste alert-dark p-2">Fiche Profil</h6>
-                
-                </div>
+                    <div>
+                        {# si l'apprenant a des retards #}
+                        {% if apprenant.retards|length > 0 %}
+                        <h6 class="show-liste btn-dark p-2">Retards</h6>
+                        <table class="table table-hover">
+                            <thead>              
+                                <th scope="col">N°</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">N° d'heures</th>   
+                            </thead>
+                            <tbody>
+                                {% set i = 0 %}
+                                {% for retard in apprenant.retards %}
+                                {% set i = i + 1 %}
+                                <tr>
+                                    <td>{{i}}</td>
+                                    <td>{{retard.date|date('d/m/y')}}</td>
+                                    <td>{{retard.nombreheure}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endif %}
+                    </div>
 
+                    <div> 
+                        {# si l'apprenant a des absences #}
+                        {% if apprenant.absences|length > 0 %}
+                        <h6 class="show-liste btn-dark p-2">Absences</h6>
+                        <table class="table table-hover">
+                            <thead>
+                                <th scope="col">N°</th>
+                                <th scope="col">Date de début</th>
+                                <th scope="col">Date de fin</th>
+                            </thead>
+                            <tbody>
+                                {% set i = 0 %}
+                                {% for absence in apprenant.absences %}
+                                {% set i = i + 1 %}
+                                <tr>
+                                    <td>{{i}}</td>
+                                    <td>{{absence.dateDebut|date('d/m/y')}}</td>
+                                    <td>{{absence.datefin|date('d/m/y')}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endif %}
+                            
+                    </div>
+
+                    <div>
+                        <h6 class="show-liste btn-dark p-2">Fiche Profil</h6>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

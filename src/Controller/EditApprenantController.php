@@ -2,16 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Retard;
-use App\Form\AppProType;
-use App\Form\RetardType;
 use App\Entity\Apprenant;
 use App\Form\ApprenantType;
-use Monolog\Handler\Handler;
 use App\Service\FileUploader;
-use App\Repository\RetardRepository;
 use App\Repository\ApprenantRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,20 +16,19 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class EditApprenantController extends AbstractController
 {
     
-
-
     /**
      * afficher les apprenants 
      * 
-     * @Route("/editor/apprenant_liste/{page<\d+>?1}", name="editor_apprenant_liste")
+     * @Route("/editor/apprenant/{page<\d+>?1}", name="editor_apprenant_liste")
      */
     public function apprenant_liste(ApprenantRepository $repo, $page)
     {
+        
         $limit = 5;
         $start = $page * $limit - $limit;
         $all = count($repo->findAll());
         $pages = ceil($all / $limit);
-        // $apprenant = $repo->findBy([],[],$limit,$start);
+        
         return $this->render('editor/apprenant/apprenant_liste.html.twig', [
             'apprenants' => $repo->findBy([], ['Nom' => 'asc'], $limit, $start),
             'pages' => $pages,
@@ -46,7 +39,7 @@ class EditApprenantController extends AbstractController
     /**
      * ajouter un nouveau apprenant et créer un nouveau utilisateur dans User class
      * 
-     * @Route("/editor/apprenant_new", name="editor_apprenant_new")
+     * @Route("/editor/apprenant/new", name="editor_apprenant_new")
      */
     public function apprenant_new(Request $request, UserPasswordEncoderInterface $encoder, FileUploader $fileUploader)
     {
@@ -102,7 +95,7 @@ class EditApprenantController extends AbstractController
     /**
      * afficher un apprenant
      * 
-     * @Route("/editor/apprenant_show/{id}", name="editor_apprenant_show")
+     * @Route("/editor/apprenant/show/{id}", name="editor_apprenant_show")
      */
     public function apprenant_show(Apprenant $apprenant)
     {
@@ -115,7 +108,7 @@ class EditApprenantController extends AbstractController
     /**
      * modifier un apprenant
      * 
-     * @Route("/editor/edit_apprenant/{id}", name="editor_edit_apprenant")
+     * @Route("/editor/apprenant/edit/{id}", name="editor_edit_apprenant")
      */
     public function edit_apprenant(Apprenant $newApprenant, EntityManagerInterface $manager, Request $request, FileUploader $fileUploader)
     {
@@ -154,7 +147,7 @@ class EditApprenantController extends AbstractController
 
 
     /**
-     * @Route("/editor/apprenant_delete/{id}", name="editor_apprenant_delete")
+     * @Route("/editor/apprenant/delete/{id}", name="editor_apprenant_delete")
      */
     public function delete_user(Apprenant $apprenant, EntityManagerInterface $manager)
     {
@@ -166,99 +159,7 @@ class EditApprenantController extends AbstractController
     }
 
 
-    /**
-     * gestion de retartd et absence
-     * 
-     * @Route("/editor/retard", name="editor_retard")
-     */
-    public function retard(RetardRepository $repo)
-    {
-
-        return $this->render('editor/retard_absence/retard.html.twig', [
-            // 'retards'=>$repo->findAll()
-            'retards' => $repo->retardActuel()
-        ]);
-    }
-
-    /**
-     * ajouter un retard
-     * 
-     * @Route("/editor/retard/new", name="editor_retard_new")
-     */
-    public function retard_new(Request $request, EntityManagerInterface $manager)
-    {
-        $retard = new Retard();
-        $form = $this->createForm(RetardType::class, $retard);
-        $form->handleRequest($request);
-
-        // if apprenant field is not null
-        if($form->getData()->getApprenant() != null){
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                $manager->persist($retard);
-                $manager->flush();
-                $this->addFlash("warning", "Un retard concernant l'apprenant {$retard->getApprenant()} a été ajouté!");
-
-                return $this->redirectToRoute('editor_retard');
-            }
-        }
-        return $this->render('editor/retard_absence/retard_new.html.twig', [
-            'form' => $form->createView()
-        ]);
-    }
-
-
-    /**
-     * modifier un retard
-     * 
-     * @Route("/editor/retard/edit/{id}", name="editor_retard_edit")
-     */
-    public function retard_edit(Request $request, EntityManagerInterface $manager, Retard $retard)
-    {
-        
-        $form = $this->createForm(RetardType::class, $retard);
-        $form->handleRequest($request);
-
-        // if apprenant field is not null
-        if ($form->getData()->getApprenant() != null) {
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                $manager->persist($retard);
-                $manager->flush();
-                $this->addFlash("warning", "Le retard de l'apprenant {$retard->getApprenant()} a été modifié!");
-                return $this->redirectToRoute('editor_retard');
-            }
-        }
-        return $this->render('editor/retard_absence/retard_edit.html.twig', [
-            'form' => $form->createView()
-        ]);
-    }
-
-    /**
-     * supprimer un retard
-     * 
-     * @Route("/editor/retard/delete/{id}", name="editor_retard_delete")
-     */
-    public function retard_delete(EntityManagerInterface $manager, Retard $retard)
-    {
-        $manager->remove($retard);
-        $manager->flush();
-        $this->addFlash("danger", "Le retard de l'apprenant {$retard->getApprenant()} a été supprimée!");
-
-        return $this->redirectToRoute('editor_retard');
-    }
-
-
-    /**
-     * gestion d'absence
-     * 
-     * @Route("/editor/absence", name="editor_absence")
-     */
-    public function absence()
-    {
-
-        return $this->render('editor/retard_absence/absence.html.twig', []);
-    }
+    
     
     /**
      * gestion de competence

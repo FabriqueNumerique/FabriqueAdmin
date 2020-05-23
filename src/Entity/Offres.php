@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,15 +38,22 @@ class Offres
      */
     private $CahierDesCharges;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Apprenant", inversedBy="offre", cascade={"persist", "remove"})
-     */
-    private $Apprenant;
+    
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Entreprise", inversedBy="offres")
      */
     private $Entreprise;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Apprenant", mappedBy="offres")
+     */
+    private $apprenant;
+
+    public function __construct()
+    {
+        $this->apprenant = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -99,17 +108,7 @@ class Offres
         return $this;
     }
 
-    public function getApprenant(): ?Apprenant
-    {
-        return $this->Apprenant;
-    }
 
-    public function setApprenant(?Apprenant $Apprenant): self
-    {
-        $this->Apprenant = $Apprenant;
-
-        return $this;
-    }
 
     public function getEntreprise(): ?Entreprise
     {
@@ -119,6 +118,37 @@ class Offres
     public function setEntreprise(?Entreprise $Entreprise): self
     {
         $this->Entreprise = $Entreprise;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Apprenant[]
+     */
+    public function getApprenant(): Collection
+    {
+        return $this->apprenant;
+    }
+
+    public function addApprenant(Apprenant $apprenant): self
+    {
+        if (!$this->apprenant->contains($apprenant)) {
+            $this->apprenant[] = $apprenant;
+            $apprenant->setOffres($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApprenant(Apprenant $apprenant): self
+    {
+        if ($this->apprenant->contains($apprenant)) {
+            $this->apprenant->removeElement($apprenant);
+            // set the owning side to null (unless already changed)
+            if ($apprenant->getOffres() === $this) {
+                $apprenant->setOffres(null);
+            }
+        }
 
         return $this;
     }

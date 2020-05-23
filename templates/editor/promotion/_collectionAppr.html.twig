@@ -1,0 +1,43 @@
+{% block _promotion_apprenants_widget %}
+
+{{ form_widget(form) }}
+
+<input type="hidden" id="widgets-counter" value="0">
+<div class="form-group">
+    <button type="button" class="btn btn-info" id="add-apprenant">Ajouter un apprenant</button>
+
+</div>
+
+{% endblock %}
+
+{% block _promotion_apprenants_entry_row %}
+
+{{ form_widget(form) }}
+
+{% endblock %}
+
+
+
+
+{% block _promotion_apprenants_entry_widget %}
+
+<div class="form-group" id="{{id}}">
+    <div class="row">
+        <div class="col-10">
+            <div class="row">
+
+                <div class="col">
+                    {{ form_widget(form.Fullname) }}
+                </div>
+                {# <div class="col">
+                    {{ form_widget(form.Prenom) }}
+                </div> #}
+            </div>
+        </div>
+        <div class="col-2">
+            <button type="button" data-action="delete" data-target="#{{id}}" class="btn btn-danger">X</button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

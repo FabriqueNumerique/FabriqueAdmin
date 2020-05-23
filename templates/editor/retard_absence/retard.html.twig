@@ -79,7 +79,7 @@
            
                     {% for retard in retards %}
                     <tr>
-                        <td>{{ retard.date|date("m/d/Y") }}</td>
+                        <td>{{ retard.date|date("d/m/Y") }}</td>
                         <td>{{ retard.nombreheure }}</td>
                         <td>{{ retard.justifie }}</td>
                         <td>{{ retard.apprenant.fullname|upper }}</td>

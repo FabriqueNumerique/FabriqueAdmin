@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier un absence{% endblock %}
+
+{% block body %}
+{% if app.user %}
+
+
+{# structure de la page 10 colonnes de largeur et alignée à droite #}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
+            {% include "editor/apprenant/_nav_apprenant.html.twig" with {"p": 3} %}
+            {# page body #}
+            {# {% include "template_parts/_nav_promotion.html.twig" %} #}
+            <div class="my-5">
+
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button class="btn btn-outline-danger d-block ml-auto">Enregistrer</button>
+                {{ form_end(form) }}
+
+            </div>
+            {# end body #}
+
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block javascripts %}
+
+<script>
+    let $token = $('#absence__token')
+    let $absence_promotion = $('#absence_promotion')
+    let $absence_dateDebut = $('#absence_dateDebut')
+    let $absence_dateFin = $('#absence_dateFin')
+
+    $absence_promotion.change(function () {
+        let $form = $(this).closest('form')
+        let data = {}
+        data[$token.attr('name')] = $token.val()
+        data[$absence_promotion.attr('name')] = $absence_promotion.val()
+        data[$absence_dateDebut.attr('name')] = $absence_dateDebut.val()
+        data[$absence_dateFin.attr('name')] = $absence_dateFin.val()
+
+
+
+        $.post($form.attr('action'), data).then(function (data) {
+            $('#absence_apprenant').replaceWith(
+                $(data).find('#absence_apprenant')
+            )
+        })
+    })
+
+</script>
+
+{% endblock %}
