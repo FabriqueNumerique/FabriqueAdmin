@@ -1,12 +1,12 @@
-$('#add-apprenant').click(function () {
+$('#add-contact').click(function () {
 
     const index = +$('#widgets-counter').val()
 
     // ici on récupere le prototype des entrées
-    const tmpl = $('#promotion_apprenants').data('prototype').replace(/__name__/g, index)
+    const tmpl = $('#entreprise_Contact').data('prototype').replace(/__name__/g, index)
 
     //ici, j'injecte le code récupéré dans mon fromulaire
-    $('#promotion_apprenants').append(tmpl)
+    $('#entreprise_Contact').append(tmpl)
 
     $('#widgets-counter').val(index + 1)
     deleteSousFrom()
@@ -23,7 +23,7 @@ function deleteSousFrom() {
 
 //recalculer combien j'ai de sous from
 function updateCounter() {
-    const count = +$('#promotion_apprenants div.form-group').length
+    const count = +$('#entreprise_Contact div.form-group').length
     $('#widgets-counter').val(count)
 }
 updateCounter()

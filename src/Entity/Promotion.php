@@ -55,7 +55,7 @@ class Promotion
     private $retards;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Absence", mappedBy="promotion")
+     * @ORM\OneToMany(targetEntity="App\Entity\Absence", mappedBy="promotion", orphanRemoval=true)
      */
     private $absences;
 

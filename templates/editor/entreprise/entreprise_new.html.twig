@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une entreprise{% endblock %}
+
+{% block body %}
+{% if app.user %}
+
+
+{# structure de la page 10 colonnes de largeur et alignée à droite #}
+<div class="container-fluid ">
+    <div class="row">
+        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto my-5">
+
+            {# page body #}
+
+            {# {% include "editor/promotion/_nav_promotion.html.twig" with {'p':2} %} #}
+
+            <div class="my-5">
+                <h4 class="btn btn-info btn-sm">Ajouter une entreprise</h4>
+                {{ form_start(form) }}
+                <div class="row">
+                    <div class="col">
+                        {{ form_row(form.Nom) }}
+                    </div>
+                    <div class="col">
+                        {{ form_row(form.Email) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        {{ form_row(form.Adresse) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        {{ form_row(form.Ville) }}
+                    </div>
+                    <div class="col">
+                        {{ form_row(form.CodePostal) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        {{ form_row(form.Tel) }}
+                    </div>
+                    <div class="col">
+                        {{ form_row(form.Mobile) }}
+                    </div>
+                </div>
+                
+
+                {% form_theme form 'editor/entreprise/_collectionContact.html.twig' %}
+                {{ form_row(form.Contact) }}
+                {% form_theme form 'editor/entreprise/_collectionOffre.html.twig' %}
+                {{ form_row(form.Offres) }}
+                {# {{ form_widget(form) }} #}
+                <button class="btn btn-outline-danger d-block ml-auto">Enregistrer</button>
+                {{ form_end(form) }}
+            </div>
+            {# end body #}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{asset('assets/js/collectionContact.js')}}"></script>
+<script src="{{asset('assets/js/collectionOffre.js')}}"></script>
+
+{% endblock %}

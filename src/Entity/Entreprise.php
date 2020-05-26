@@ -54,12 +54,12 @@ class Entreprise
     private $Email;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Contacts", mappedBy="entreprise")
+     * @ORM\OneToMany(targetEntity="App\Entity\Contacts", mappedBy="entreprise", orphanRemoval=true)
      */
     private $Contact;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Offres", mappedBy="Entreprise")
+     * @ORM\OneToMany(targetEntity="App\Entity\Offres", mappedBy="Entreprise", orphanRemoval=true)
      */
     private $offres;
 
@@ -218,5 +218,10 @@ class Entreprise
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return (string) $this->Nom;
     }
 }

@@ -1,0 +1,53 @@
+{% block _entreprise_Contact_widget %}
+
+{{ form_widget(form) }}
+
+<input type="hidden" id="widgets-counter" value="0">
+<div class="form-group">
+    <button type="button" class="btn btn-info" id="add-contact">Ajouter un contact</button>
+
+</div>
+
+{% endblock %}
+
+{% block _entreprise_Contact_entry_row %}
+
+{{ form_widget(form) }}
+
+{% endblock %}
+
+
+
+
+{% block _entreprise_Contact_entry_widget %}
+
+<div class="form-group" id="{{id}}">
+    <div class="row  ml-2">
+        <div class="col-10  border bg-light rounded collection">
+            <div class="row m-1">
+                <div class="col-12 col-md-6 mb-1">
+                    Nom {{ form_widget(form.Nom) }}
+                </div>
+                <div class="col-12 col-md-6 ">
+                    Prenom {{ form_widget(form.Prenom) }}
+                </div>
+            </div>
+            <div class="row m-1">
+                <div class="col-12 col-lg-4 mb-1">
+                    Email {{ form_widget(form.Email) }}
+                </div>
+                <div class="col-12 col-lg-4 mb-1">
+                    Téléphone {{ form_widget(form.Tel) }}
+                </div>
+                <div class="col-12 col-lg-4 mb-1">
+                    Mobile {{ form_widget(form.Mobile) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <button type="button" data-action="delete" data-target="#{{id}}" class="btn-md btn-outline-danger rounded">X</button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

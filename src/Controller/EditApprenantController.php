@@ -166,11 +166,11 @@ class EditApprenantController extends AbstractController
      * 
      * @Route("/editor/competence", name="editor_competence")
      */
-    public function competence()
+    public function competence(ApprenantRepository $repo)
     {
 
         return $this->render('editor/apprenant/competence.html.twig', [
-           
+           'apprenants'=>$repo->test()
         ]);
     }
 

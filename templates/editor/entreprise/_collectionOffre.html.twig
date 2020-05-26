@@ -1,0 +1,49 @@
+{% block _entreprise_Offres_widget %}
+
+{{ form_widget(form) }}
+
+<input type="hidden" id="widgets-counter" value="0">
+<div class="form-group">
+    <button type="button" class="btn btn-info" id="add-offre">Ajouter un offre</button>
+</div>
+
+{% endblock %}
+
+{% block _entreprise_Offres_entry_row %}
+
+{{ form_widget(form) }}
+
+{% endblock %}
+
+
+
+
+{% block _entreprise_Offres_entry_widget %}
+
+<div class="form-group" id="{{id}}">
+    <div class="row ml-2">
+        <div class="col-10 border bg-light rounded collection">
+            <div class="row m-1">
+                <div class="col-12 col-md-6 mb-1">
+                    Type d'offre {{ form_widget(form.Intitule) }}
+                </div>
+                <div class="col-12 col-md-6 mb-1">
+                    Télévérser le fichier{{ form_widget(form.CahierDesCharges) }}
+                </div>
+            </div>
+            <div class="row m-1">
+                <div class="col-12 col-md-6 mb-1">
+                    Date de début {{ form_widget(form.DateDebut) }}
+                </div>
+                <div class="col-12 col-md-6 mb-1">
+                    Date de fin {{ form_widget(form.DateFin) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <button type="button" data-action="delete" data-target="#{{id}}" class="btn-md btn-outline-danger rounded">X</button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

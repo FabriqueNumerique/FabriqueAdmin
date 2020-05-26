@@ -7,8 +7,10 @@ use App\Form\PromoType;
 use App\Entity\Apprenant;
 use App\Entity\Formation;
 use App\Entity\Promotion;
+use App\Form\AttrType;
 use App\Form\FormationType;
 use App\Form\PromotionType;
+use App\Repository\ApprenantRepository;
 use App\Repository\FormationRepository;
 use App\Repository\PromotionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -99,10 +101,12 @@ class EditPromotionController extends AbstractController
     public function edit_promotion(Promotion $promotion, Request $request)
     {
         $oldApprenants=$promotion->getApprenants();
+        $tab1 = [];
         foreach ($oldApprenants as $app){
-            dump($app);
-
+            // dump($app);
+            array_push($tab1, $app);
         }
+        // dump($tab1);
         $Manager = $this->getDoctrine()->getManager();
         // $newPromotion = $repo->find($id);
         $form = $this->createForm(PromotionType::class, $promotion);
@@ -113,12 +117,21 @@ class EditPromotionController extends AbstractController
             $apprenants = $form->getData()->getApprenants();
             $dateDebut = $form->getData()->getdateDebut();
             $dateFin = $form->getData()->getdateFin();
-            
+            $tab2=[];
             if ($dateFin > $dateDebut){
-
                 foreach ($apprenants as $apprenant) {
-                    $apprenant->setStatus('old');
-                    $Manager->persist($apprenant);
+                    // $apprenant->setStatus('old');
+                    // $Manager->persist($apprenant);
+                    array_push($tab2,$apprenant);
+                    
+                }
+                $result=array_diff($tab1, $tab2);
+                if (!empty($result)){
+                    foreach ($result as $row){
+                        $row->setStatus('new');
+                        $Manager->persist($row);
+                       
+                    }
                 }
     
                 $Manager->persist($promotion);
@@ -206,7 +219,7 @@ class EditPromotionController extends AbstractController
             $em->persist($newFormation);
             $em->flush();
 
-            $this->addFlash('success', 'Une formation a été créée!');
+            $this->addFlash('success', "La formation intitulée - {$newFormation->getIntitule()} - a été créée!");
             return $this->redirectToRoute('editor_formation');
         }
 
@@ -259,9 +272,42 @@ class EditPromotionController extends AbstractController
             $manager->remove($formation);
             $manager->flush();
 
-            $this->addFlash('danger', 'Une formation a été supprimée!');
+            $this->addFlash('danger', "La formation intitulée - {$formation->getIntitule()} - a été supprimée!");
             return $this->redirectToRoute('editor_formation');
         }
     }
+
+    /**
+     * attribute a learner
+     * 
+     * @Route("/admin/promotion/attr", name="editor_attr")
+     */
+    public function editor_attr(Request $request, EntityManagerInterface $manager,PromotionRepository $repo1, ApprenantRepository $repo2)
+    {
+        
+        $form=$this->createForm(AttrType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+            $promotion=$form['Promotion']->getData();
+            $apprenant = $form['Apprenant']->getData();
+            $newPromotion=$repo1->find($promotion);
+            $newApprenant = $repo2->find($apprenant);
+            $newPromotion->addApprenant($apprenant);
+            $newApprenant->setStatus('old');
+            $manager->persist($newApprenant);
+            $manager->persist($newPromotion);
+            $manager->flush();
+            $this->addFlash('success', "L'apprenant - {$newApprenant->getfullName()} - 
+            a été attribué à la promotion - {$newPromotion->getFormation()} de l'année {$newPromotion->getAnnee()} ");
+            return $this->redirectToRoute('editor_promo_liste');
+
+            
+            
+        }
+        return $this->render('editor/promotion/promo_attr.html.twig',[
+            'form'=>$form->createView()
+        ]);
+    }
+
 
 }

@@ -1,0 +1,121 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Entreprises{% endblock %}
+
+{% block body %}
+{% if app.user %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
+
+            {# {% include "editor/promotion/_nav_promotion.html.twig" with {'p':1} %} #}
+
+            {# pour afficher le flash message #}
+            <div class="my-5">
+
+                <!-- flash messages -->
+                {% for message in app.flashes('danger') %}
+                <div class="container alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+                
+                {% for message in app.flashes('warning') %}
+                <div class="container alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+                
+                {% for message in app.flashes('success') %}
+                <div class="container alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+
+                <h4 class="btn btn-info btn-sm">Liste des entreprises</h4>
+                <table class="table table-hover">
+                    <thead>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Adresse</th>
+                        <th scope="col">Code postal</th>
+                        <th scope="col">Ville</th>
+                        <th scope="col">Tel</th>
+                        <th scope="col">Mobile</th>
+                        <th scope="col">Email</th>
+                        <th></th>
+                    </thead>
+                    <tbody>
+                        
+                        {% for entreprise in entreprises %}
+                         <tr>
+                            <td>{{ entreprise.Nom }}</td>
+                            <td>{{ entreprise.Adresse }}</td>
+                            <td>{{ entreprise.CodePostal }}</td>
+                            <td>{{ entreprise.Ville }}</td>
+                            <td>{{ entreprise.Tel }}</td>
+                            <td>{{ entreprise.Mobile }}</td>
+                            <td>{{ entreprise.Email }}</td>
+                
+                            <td>
+                                <a class="btn btn-danger btn-sm delete-record" title="supprimer" href="#"><i
+                                        class="fas fa-trash-alt delete-promotion"></i></a>
+                                <a class="btn btn-success btn-sm modif_promotion" title="modifier"
+                                    href="{{ path('editor_entreprise_edit',{'id':entreprise.id}) }}"><i class="far fa-edit"></i></a>
+                                <div class="delete-confirm border bg-light  m-auto rounded p-3"
+                                    style="position: absolute;top:40%;left:30%">
+                                    <div>
+                                        <h4>Vous êtes sûr de vouloir supprimer?</h4>
+                                    </div>
+                                    <div>
+                                        <a class="btn btn-success non" href="">Non</a>
+                                        <a class="btn btn-danger"
+                                            href="">Oui</a>
+                
+                                    </div>
+                                </div>
+                            </td>
+                        </tr> 
+                        {% endfor %}
+                
+                    </tbody>
+                </table>
+                 <a class="btn btn-primary btn-sm" title="ajouter" href="{{ path('editor_entreprise_new') }}"><i
+                        class="fas fa-plus-square"></i></a> 
+                
+                <!-- pagination -->
+                {# {% if pages == 0 %}
+                {% set pages = 1 %}
+                {% endif %} #}
+                {# <nav class="">
+                    <ul class="pagination pagination-sm justify-content-center">
+                        <li class="page-item {% if page == 1 %}disabled{%  endif %}">
+                            <a class="page-link" href="{{ path('editor_promo_liste',{'page':page - 1}) }}" tabindex="-1">&laquo;</a>
+                        </li>
+                        {% for i in 1..pages %}
+                        <li class="page-item {% if page == i %}active{% endif %}">
+                            <a class="page-link" href="{{ path('editor_promo_liste',{'page':i}) }}">{{i}} <span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                        {% endfor %}
+                
+                        <li class="page-item {% if page == pages %}disabled{%  endif %}">
+                            <a class="page-link" href="{{ path('editor_promo_liste',{'page':page + 1}) }}">&raquo;</a>
+                        </li>
+                    </ul>
+                </nav> #}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
