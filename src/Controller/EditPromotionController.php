@@ -31,13 +31,13 @@ class EditPromotionController extends AbstractController
      */
     public function promo_list(PromotionRepository $repo, $page)
     {
-        $limit = 5;
+        $limit = 10;
         $start = $page * $limit - $limit;
         $all = count($repo->findAll());
         $pages = ceil($all / $limit);
 
         return $this->render('editor/promotion/promo_liste.html.twig', [
-            'promotions' => $repo->findBy([], ['Annee' => 'desc'], $limit, $start),
+            'promotions' => $repo->findBy([], ['DateFin' => 'desc'], $limit, $start),
             'pages' => $pages,
             'page' => $page
         ]);
@@ -189,7 +189,7 @@ class EditPromotionController extends AbstractController
      */
     public function formation(FormationRepository $repo, $page)
     {
-        $limit = 5;
+        $limit = 10;
         $start = $page * $limit - $limit;
         $all = count($repo->findAll());
         $pages = ceil($all / $limit);

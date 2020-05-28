@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Apprenant;
 use App\Entity\Promotion;
 use App\Repository\ApprenantRepository;
+use App\Repository\PromotionRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,7 +17,14 @@ class AttrType extends AbstractType
     {
         $builder
             ->add('Promotion',EntityType::class,[
-                'class'=>Promotion::class
+                'class'=>Promotion::class,
+                'query_builder' => function (PromotionRepository $repo) {
+                    return $repo->createQueryBuilder('p')
+                        ->where('p.DateFin > :date')
+                        ->setParameter('date', new \DateTime)
+                        ->OrderBy('p.DateFin', 'DESC');
+                        
+            }
             ])
             ->add('Apprenant',EntityType::class,[
                 'class'=>Apprenant::class,

@@ -27,32 +27,7 @@
 
             <div class="my-5">
                 <!-- flash messages -->
-                {% for message in app.flashes('danger') %}
-                <div class="container alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{ message }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {% endfor %}
-
-                {% for message in app.flashes('warning') %}
-                <div class="container alert alert-warning alert-dismissible fade show" role="alert">
-                    <strong>{{ message }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {% endfor %}
-
-                {% for message in app.flashes('success') %}
-                <div class="container alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{ message }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {% endfor %}
+                {% include "template_parts/_flash_message.html.twig" %}
 
                 <h4 class="btn btn-info btn-sm">Liste des absences</h4>
                 <!-- formulaire de recherche -->
@@ -113,14 +88,33 @@
                             </td>
                         </tr>
                         {% endfor %}
-                        
-                        
-                        
 
                     </tbody>
                 </table>
                 <a class="btn btn-primary btn-sm" title="ajouter" href="{{ path('editor_absence_new') }}"><i
                         class="fas fa-plus-square"></i></a>
+
+                <!-- pagination -->
+                {% if pages == 0 %}
+                {% set pages = 1 %}
+                {% endif %}
+                <nav class="">
+                    <ul class="pagination pagination-sm justify-content-center">
+                        <li class="page-item {% if page == 1 %}disabled{%  endif %}">
+                            <a class="page-link" href="{{ path('editor_absence',{'page':page - 1}) }}" tabindex="-1">&laquo;</a>
+                        </li>
+                        {% for i in 1..pages %}
+                        <li class="page-item {% if page == i %}active{% endif %}">
+                            <a class="page-link" href="{{ path('editor_absence',{'page':i}) }}">{{i}} <span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                        {% endfor %}
+                
+                        <li class="page-item {% if page == pages %}disabled{%  endif %}">
+                            <a class="page-link" href="{{ path('editor_absence',{'page':page + 1}) }}">&raquo;</a>
+                        </li>
+                    </ul>
+                </nav>
 
             </div>
             {# end body #}

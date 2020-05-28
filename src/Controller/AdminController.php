@@ -5,7 +5,10 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Repository\ApprenantRepository;
+use App\Repository\ContactsRepository;
+use App\Repository\EntrepriseRepository;
 use App\Repository\FormationRepository;
+use App\Repository\OffresRepository;
 use App\Repository\PromotionRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +22,15 @@ class AdminController extends AbstractController
      * 
      * @Route("/editor/dashbord", name="editor_dashbord")
      */
-    public function dashbord(PromotionRepository $repoPro, FormationRepository $repoFor, ApprenantRepository $repoApp, UserRepository $repoUse)
+    public function dashbord(
+                            PromotionRepository $repoPro,
+                            FormationRepository $repoFor,
+                            ApprenantRepository $repoApp,
+                            UserRepository $repoUse,
+                            EntrepriseRepository $repoEntr,
+                            ContactsRepository $repoContact,
+                            OffresRepository $repoOffre
+                        )
     {
         // count promotions
         $promotions = $repoPro->findAll();
@@ -37,15 +48,33 @@ class AdminController extends AbstractController
         $users = $repoUse->findByRole();
         $countUse = count($users);
 
+        // count companies
+        $entreprises = $repoEntr->findAll();
+        $countEntreprise = count($entreprises);
+
+        // count contacts
+        $contacts = $repoContact->findAll();
+        $countContact = count($contacts);
+
+        // count offres
+        $offres = $repoOffre->findAll();
+        $countoffre = count($offres);
+
         return $this->render('editor/dashbord.html.twig', [
-            'countPro' => $countPro,
-            'countFor' => $countFor,
-            'countApp' => $countApp,
-            'countUse' => $countUse,
-            'promotions' => $promotions,
-            'formations' => $formations,
-            'apprenants' => $apprenants,
-            'users' => $users
+            'countPromotion'    => $countPro,
+            'countFormation'    => $countFor,
+            'countApprenant'    => $countApp,
+            'countUser'         => $countUse,
+            'countEntreprise'   => $countEntreprise,
+            'countContact'      => $countContact,
+            'countOffres'       => $countoffre,
+            'promotions'        => $promotions,
+            'formations'        => $formations,
+            'apprenants'        => $apprenants,
+            'users'             => $users,
+            'entreprises'       => $entreprises,
+            'contacts'          => $contacts,
+            'offres'            => $offres
         ]);
     }
 

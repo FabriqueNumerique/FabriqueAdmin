@@ -27,32 +27,7 @@
 
             <div class="my-5">
                 <!-- flash messages -->
-                {% for message in app.flashes('danger') %}
-                <div class="container alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{ message }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {% endfor %}
-
-                {% for message in app.flashes('warning') %}
-                <div class="container alert alert-warning alert-dismissible fade show" role="alert">
-                    <strong>{{ message }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {% endfor %}
-
-                {% for message in app.flashes('success') %}
-                <div class="container alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{ message }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {% endfor %}
+                {% include "template_parts/_flash_message.html.twig" %}
 
                 <h4 class="btn btn-info btn-sm">Liste des retards</h4>
                 <!-- formulaire de recherche -->
@@ -63,64 +38,86 @@
                         type="submit"><i class="fa fa-search "></i></button>
                 </form>
                 
-            <table class="table table-hover">
+                <table class="table table-hover">
+                
+                    <thead>
+                
+                        <th scope="col">Date</th>
+                        <th scope="col">N° d'heures</th>
+                        <th scope="col">Justifié</th>
+                        <th scope="col">Apprenant</th>
+                        <th scope="col">Promotion</th>
+                
+                        <th style="width: 15%;">Actions</th>
+                    </thead>
+                    <tbody>
             
-                <thead>
-            
-                    <th scope="col">Date</th>
-                    <th scope="col">N° d'heures</th>
-                    <th scope="col">Justifié</th>
-                    <th scope="col">Apprenant</th>
-                    <th scope="col">Promotion</th>
-            
-                    <th style="width: 15%;">Actions</th>
-                </thead>
-                <tbody>
-           
-                    {% for retard in retards %}
-                    <tr>
-                        <td>{{ retard.date|date("d/m/Y") }}</td>
-                        <td>{{ retard.nombreheure }}</td>
-                        <td>{{ retard.justifie }}</td>
-                        <td>{{ retard.apprenant.fullname|upper }}</td>
-                        <td>{{ retard.promotion.annee }}-{{ retard.promotion.formation.intitule }}</td>
-                       
+                        {% for retard in retards %}
+                        <tr>
+                            <td>{{ retard.date|date("d/m/Y") }}</td>
+                            <td>{{ retard.nombreheure }}</td>
+                            <td>{{ retard.justifie }}</td>
+                            <td>{{ retard.apprenant.fullname|upper }}</td>
+                            <td>{{ retard.promotion.annee }}-{{ retard.promotion.formation.intitule }}</td>
                         
-                       
-            
-                        <!-- dans la dernère cellule, il y a trois liens: supprimer, modifier et visualiser -->
-                        <td>
-                            <!-- supprimer un apprenant qui va afficher d'abord un message de confirmation -->
-                            <a class="btn btn-danger btn-sm delete-record" title="supprimer" 
-                                href="#"><i class="fas fa-trash-alt delete-promotion"></i></a>
-            
-                            <!-- modifier un apprenant -->
-                            <a class="btn btn-success btn-sm modif_promotion" title="modifier"
-                                href="{{ path('editor_retard_edit',{'id':retard.id}) }}"><i class="far fa-edit"></i></a>
-            
                             
-            
-                            <!-- div qui contient le message de confirmation afin de supprimer un apprenant -->
-                            <div class="delete-confirm border bg-light  m-auto rounded p-3"
-                                style="position: absolute;top:40%;left:30%">
-                                <div>
-                                    <h4>Vous êtes sûr de vouloir supprimer?</h4>
+                        
+                
+                            <!-- dans la dernère cellule, il y a trois liens: supprimer, modifier et visualiser -->
+                            <td>
+                                <!-- supprimer un apprenant qui va afficher d'abord un message de confirmation -->
+                                <a class="btn btn-danger btn-sm delete-record" title="supprimer" 
+                                    href="#"><i class="fas fa-trash-alt delete-promotion"></i></a>
+                
+                                <!-- modifier un apprenant -->
+                                <a class="btn btn-success btn-sm modif_promotion" title="modifier"
+                                    href="{{ path('editor_retard_edit',{'id':retard.id}) }}"><i class="far fa-edit"></i></a>
+                
+                                
+                
+                                <!-- div qui contient le message de confirmation afin de supprimer un apprenant -->
+                                <div class="delete-confirm border bg-light  m-auto rounded p-3"
+                                    style="position: absolute;top:40%;left:30%">
+                                    <div>
+                                        <h4>Vous êtes sûr de vouloir supprimer?</h4>
+                                    </div>
+                                    <div>
+                                        <a class="btn btn-success non" href="">Non</a>
+                                        <a class="btn btn-danger "
+                                            href="{{ path('editor_retard_delete',{'id':retard.id}) }}">Oui</a>
+                
+                                    </div>
                                 </div>
-                                <div>
-                                    <a class="btn btn-success non" href="">Non</a>
-                                    <a class="btn btn-danger "
-                                        href="{{ path('editor_retard_delete',{'id':retard.id}) }}">Oui</a>
-            
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-            
-                </tbody>
-            </table>
-            <a class="btn btn-primary btn-sm" title="ajouter" href="{{ path('editor_retard_new') }}"><i
-                    class="fas fa-plus-square"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                
+                    </tbody>
+                </table>
+                <a class="btn btn-primary btn-sm" title="ajouter" href="{{ path('editor_retard_new') }}"><i
+                        class="fas fa-plus-square"></i></a>
+                    
+                <!-- pagination -->
+                {% if pages == 0 %}
+                {% set pages = 1 %}
+                {% endif %}
+                <nav class="">
+                    <ul class="pagination pagination-sm justify-content-center">
+                        <li class="page-item {% if page == 1 %}disabled{%  endif %}">
+                            <a class="page-link" href="{{ path('editor_retard',{'page':page - 1}) }}" tabindex="-1">&laquo;</a>
+                        </li>
+                        {% for i in 1..pages %}
+                        <li class="page-item {% if page == i %}active{% endif %}">
+                            <a class="page-link" href="{{ path('editor_retard',{'page':i}) }}">{{i}} <span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                        {% endfor %}
+                
+                        <li class="page-item {% if page == pages %}disabled{%  endif %}">
+                            <a class="page-link" href="{{ path('editor_retard',{'page':page + 1}) }}">&raquo;</a>
+                        </li>
+                    </ul>
+                </nav>
 
             </div>
             {# end body #}

@@ -24,7 +24,7 @@ class EditApprenantController extends AbstractController
     public function apprenant_liste(ApprenantRepository $repo, $page)
     {
         
-        $limit = 5;
+        $limit = 10;
         $start = $page * $limit - $limit;
         $all = count($repo->findAll());
         $pages = ceil($all / $limit);

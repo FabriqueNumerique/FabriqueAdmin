@@ -92,7 +92,7 @@ class Apprenant extends User
     private $offres;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Absence", mappedBy="apprenant")
+     * @ORM\OneToMany(targetEntity="App\Entity\Absence", mappedBy="apprenant", orphanRemoval=true)
      */
     private $absences;
 

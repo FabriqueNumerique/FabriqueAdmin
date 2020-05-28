@@ -26,12 +26,12 @@ class EntrepriseType extends AbstractType
                 'allow_delete' => true,
                 'required' => false
             ])
-            ->add('Offres', CollectionType::class, [
-                'entry_type' => OffreType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'required' => false
-            ])
+            // ->add('Offres', CollectionType::class, [
+            //     'entry_type' => OffreType::class,
+            //     'allow_add' => true,
+            //     'allow_delete' => true,
+            //     'required' => false
+            // ])
         ;
     }
 

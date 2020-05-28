@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un offre{% endblock %}
+
+{% form_theme form 'editor/apprenant/_collectionReseaux.html.twig' %}
+
+{% block body %}
+{% if app.user %}
+
+<style>
+    .custom-file-input {
+        opacity: .4;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
+
+            {% include "editor/entreprise/_nav_entreprise.html.twig" with {'p': 2} %}
+
+            <div class="my-5">
+
+                <!-- afficher le formulaire d'ajout d'un apprenant -->
+
+                <h4 class="btn btn-info btn-sm">Créer un offre</h4>
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+
+                <button class="btn btn-outline-danger d-block ml-auto">Enregistrer</button>
+                {{ form_end(form) }}
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endif %}
+{% endblock %}

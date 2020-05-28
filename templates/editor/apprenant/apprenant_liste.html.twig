@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajouter une Promotion{% endblock %}
+{% block title %}Ajouter une Apprenants{% endblock %}
 
 {% block body %}
 {% if app.user %}
@@ -29,32 +29,7 @@
 
                 <div class="my-5">
                     <!-- flash messages -->
-                    {% for message in app.flashes('danger') %}
-                    <div class="container alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>{{ message }}</strong>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    {% endfor %}
-
-                    {% for message in app.flashes('warning') %}
-                    <div class="container alert alert-warning alert-dismissible fade show" role="alert">
-                        <strong>{{ message }}</strong>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    {% endfor %}
-
-                    {% for message in app.flashes('success') %}
-                    <div class="container alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>{{ message }}</strong>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    {% endfor %}
+                    {% include "template_parts/_flash_message.html.twig" %}
 
                     <h4 class="btn btn-info btn-sm">Liste des apprenants</h4>
                     <!-- formulaire de recherche -->
@@ -90,15 +65,15 @@
                                 <!-- dans la dernère cellule, il trois liens: suuprimer, modifier et visualiser -->
                                 <td>
                                     <!-- supprimer un apprenant qui va afficher d'abord un message de confirmation -->
-                                    <a class="btn btn-danger btn-sm delete-record" title="supprimer" href="#"><i
+                                    <a class="btn btn-danger btn-sm delete-record my-1" title="supprimer" href="#"><i
                                             class="fas fa-trash-alt delete-promotion"></i></a>
 
                                     <!-- modifier un apprenant -->
-                                    <a class="btn btn-success btn-sm modif_promotion" title="modifier"
+                                    <a class="btn btn-success btn-sm modif_promotion my-1" title="modifier"
                                         href="{{ path('editor_edit_apprenant',{'id':apprenant.id}) }}"><i class="far fa-edit"></i></a>
                                     
                                     <!-- visualiser un apprenant -->
-                                    <a class="btn btn-info btn-sm modif_promotion" title="visualiser" 
+                                    <a class="btn btn-info btn-sm modif_promotion my-1" title="visualiser" 
                                         href="{{ path('editor_apprenant_show',{'id':apprenant.id}) }}"><i class="fa fa-eye"></i></a>
 
                                      <!-- div qui contient le message de confirmation afin de supprimer un apprenant -->

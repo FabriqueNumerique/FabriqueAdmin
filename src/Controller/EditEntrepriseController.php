@@ -3,8 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Entreprise;
+use App\Entity\Offres;
 use App\Form\EntrepriseType;
+use App\Form\OffreType;
 use App\Repository\EntrepriseRepository;
+use App\Repository\OffresRepository;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,12 +17,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class EditEntrepriseController extends AbstractController
 {
     /**
-     * @Route("/editor/entreprise", name="editor_entreprise")
+     * @Route("/editor/entreprise{page<\d+>?1}", name="editor_entreprise")
      */
-    public function entreprise_list(EntrepriseRepository $repo)
+    public function entreprise_list(EntrepriseRepository $repo, $page)
     {
+        $limit = 10;
+        $start = $page * $limit - $limit;
+        $all = count($repo->findAll());
+        $pages = ceil($all / $limit);
         return $this->render('editor/entreprise/entreprise_list.html.twig', [
-            'entreprises'=>$repo->findAll()
+            'entreprises' => $repo->findBy([], [], $limit, $start),
+            'pages' => $pages,
+            'page' => $page
         ]);
     }
 
@@ -32,15 +42,11 @@ class EditEntrepriseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
+            
 
             foreach ($entreprise->getContact() as $contact) {
                 $contact->setEntreprise($entreprise);
                 $manager->persist($contact);
-            }
-
-            foreach ($entreprise->getOffres() as $offre) {
-                $offre->setEntreprise($entreprise);
-                $manager->persist($offre);
             }
 
             $manager->persist($entreprise);
@@ -70,20 +76,112 @@ class EditEntrepriseController extends AbstractController
                 $manager->persist($contact);
             }
 
-            foreach ($entreprise->getOffres() as $offre) {
-                $offre->setEntreprise($entreprise);
-                $manager->persist($offre);
-            }
-
             $manager->persist($entreprise);
             $manager->flush();
             $this->addFlash("warning", "L'entreprise - {$entreprise->getNom()} - a été modifiée!");
             return $this->redirectToRoute('editor_entreprise');
+            
+
         }
         return $this->render('editor/entreprise/entreprise_edit.html.twig', [
             'form' => $form->createView()
         ]);
     }
 
-    
+
+    /**
+     * @Route("/editor/entreprise/delete/{id}", name="editor_entreprise_delete")
+     */
+    public function entreprise_delete(EntityManagerInterface $manager, Entreprise $entreprise)
+    {
+        $manager->remove($entreprise);
+        $manager->flush();
+        $this->addFlash("danger", "L'entreprise intiltulée - {$entreprise->getNom()} - a été supprimée!");
+        return $this->redirectToRoute('editor_entreprise');
+    }
+
+    /**
+     * @Route("/editor/offre{page<\d+>?1}", name="editor_offre")
+     */
+    public function offre_list(OffresRepository $repo, $page)
+    {
+        $limit = 10;
+        $start = $page * $limit - $limit;
+        $all = count($repo->findAll());
+        $pages = ceil($all / $limit);
+
+        return $this->render('editor/entreprise/offre_list.html.twig', [
+            'offres' => $repo->findBy([], [], $limit, $start),
+            'pages' => $pages,
+            'page' => $page
+        ]);
+    }
+
+    /**
+     * @Route("/editor/offre/new", name="editor_offre_new")
+     */
+    public function offre_new(EntityManagerInterface $manager, Request $request, FileUploader $fileUploader)
+    {
+        $offre = new Offres();
+        $form = $this->createForm(OffreType::class, $offre);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $brochureFile = $form['brochure']->getData();
+            if ($brochureFile) {
+                $brochureFileName = $fileUploader->upload($brochureFile);
+                $offre->setCahierDesCharges($brochureFileName);
+            }
+
+            $manager->persist($offre);
+            $manager->flush();
+            $this->addFlash("success", "Un offre de l'entreprise {$offre->getEntreprise()->getNom()} - a été ajouté !");
+            return $this->redirectToRoute('editor_offre');
+        }
+
+        return $this->render('editor/entreprise/offre_new.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/editor/offre/edit{id}", name="editor_offre_edit")
+     */
+    public function offre_edit(EntityManagerInterface $manager, Request $request, FileUploader $fileUploader,Offres $offre)
+    {
+
+        $form = $this->createForm(OffreType::class, $offre);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $brochureFile = $form['brochure']->getData();
+            if ($brochureFile) {
+                $brochureFileName = $fileUploader->upload($brochureFile);
+                $offre->setCahierDesCharges($brochureFileName);
+            }
+
+            $manager->persist($offre);
+            $manager->flush();
+            $this->addFlash("warning", "Un offre de l'entreprise {$offre->getEntreprise()->getNom()} - a été modifié !");
+            return $this->redirectToRoute('editor_offre');
+        }
+
+        return $this->render('editor/entreprise/offre_edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/editor/offre/delete/{id}", name="editor_offre_delete")
+     */
+    public function offre_delete(EntityManagerInterface $manager, Offres $offre)
+    {
+        $manager->remove($offre);
+        $manager->flush();
+        $this->addFlash("danger", "L'offre de l'entreprise - {$offre->getEntreprise()->getNom()} - a été supprimée!");
+        return $this->redirectToRoute('editor_offre');
+    }
+
 }

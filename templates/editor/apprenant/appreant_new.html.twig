@@ -19,17 +19,8 @@
             <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
 
                 {% include "editor/apprenant/_nav_apprenant.html.twig" with {'p': 1} %}
-
+                
                 <div class="my-5">
-                    <!-- falsh message -->
-                    {% for message in app.flashes('danger') %}
-                    <div class="container alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>{{ message }}</strong>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    {% endfor %}
 
                     <!-- afficher le formulaire d'ajout d'un apprenant -->
                     

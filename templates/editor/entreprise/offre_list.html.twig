@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gestion des Entreprises{% endblock %}
+{% block title %}Gestion des Offres{% endblock %}
 
 {% block body %}
 {% if app.user %}
@@ -9,42 +9,42 @@
     <div class="row">
         <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
 
-            {% include "editor/entreprise/_nav_entreprise.html.twig" with {'p':1} %}
+            {% include "editor/entreprise/_nav_entreprise.html.twig" with {'p':2} %}
 
             {# pour afficher le flash message #}
             <div class="my-5">
-            {% include "template_parts/_flash_message.html.twig" %}
-                
 
-                <h4 class="btn btn-info btn-sm">Liste des entreprises</h4>
+                <!-- flash messages -->
+                {% include "template_parts/_flash_message.html.twig" %}
+
+                <h4 class="btn btn-info btn-sm">Liste des offres</h4>
                 <table class="table table-hover">
                     <thead>
-                        <th scope="col">Nom</th>
-                        <th scope="col">Adresse</th>
-                        <th scope="col">Code postal</th>
-                        <th scope="col">Ville</th>
-                        <th scope="col">Tel</th>
-                        <th scope="col">Mobile</th>
-                        <th scope="col">Email</th>
+                        <th scope="col" style="width: 15%;">Entreprise</th>
+                        <th scope="col" style="width: 15%;">Type d'offre</th>
+                        <th scope="col" style="width: 12%;">Date de début</th>
+                        <th scope="col" style="width: 12%;">Date de fin</th>
+                        <th scope="col">Cahier des charges</th>
                         <th scope="col" style="width: 15%;">Actions</th>
+                        
                     </thead>
                     <tbody>
-                        
-                        {% for entreprise in entreprises %}
-                         <tr>
-                            <td>{{ entreprise.Nom }}</td>
-                            <td>{{ entreprise.Adresse }}</td>
-                            <td>{{ entreprise.CodePostal }}</td>
-                            <td>{{ entreprise.Ville }}</td>
-                            <td>{{ entreprise.Tel }}</td>
-                            <td>{{ entreprise.Mobile }}</td>
-                            <td>{{ entreprise.Email }}</td>
-                
+
+                        {% for offre in offres %}
+                        <tr>
+                            <td>{{ offre.Entreprise.Nom }}</td>
+                            <td>{{ offre.Intitule }}</td>
+                            <td>{{ offre.DateDebut|date('d/m/Y') }}</td>
+                            <td>{{ offre.DateFin|date('d/m/Y') }}</td>
+                            <td>{{ offre.CahierDesCharges }}"</td>
+                            
+
                             <td>
                                 <a class="btn btn-danger btn-sm delete-record" title="supprimer" href="#"><i
                                         class="fas fa-trash-alt delete-promotion"></i></a>
                                 <a class="btn btn-success btn-sm modif_promotion" title="modifier"
-                                    href="{{ path('editor_entreprise_edit',{'id':entreprise.id}) }}"><i class="far fa-edit"></i></a>
+                                    href="{{ path('editor_offre_edit',{'id':offre.id}) }}"><i
+                                        class="far fa-edit"></i></a>
                                 <div class="delete-confirm border bg-light  m-auto rounded p-3"
                                     style="position: absolute;top:40%;left:30%">
                                     <div>
@@ -52,20 +52,19 @@
                                     </div>
                                     <div>
                                         <a class="btn btn-success non" href="">Non</a>
-                                        <a class="btn btn-danger"
-                                            href="{{ path('editor_entreprise_delete',{'id':entreprise.id}) }}">Oui</a>
-                
+                                        <a class="btn btn-danger" href="{{ path('editor_offre_delete',{'id':offre.id}) }}">Oui</a>
+
                                     </div>
                                 </div>
                             </td>
-                        </tr> 
+                        </tr>
                         {% endfor %}
-                
+
                     </tbody>
                 </table>
-                 <a class="btn btn-primary btn-sm" title="ajouter" href="{{ path('editor_entreprise_new') }}"><i
-                        class="fas fa-plus-square"></i></a> 
-                
+                <a class="btn btn-primary btn-sm" title="ajouter" href="{{ path('editor_offre_new') }}"><i
+                        class="fas fa-plus-square"></i></a>
+
                 <!-- pagination -->
                 {% if pages == 0 %}
                 {% set pages = 1 %}
@@ -73,17 +72,17 @@
                 <nav class="">
                     <ul class="pagination pagination-sm justify-content-center">
                         <li class="page-item {% if page == 1 %}disabled{%  endif %}">
-                            <a class="page-link" href="{{ path('editor_entreprise',{'page':page - 1}) }}" tabindex="-1">&laquo;</a>
+                            <a class="page-link" href="{{ path('editor_offre',{'page':page - 1}) }}" tabindex="-1">&laquo;</a>
                         </li>
                         {% for i in 1..pages %}
                         <li class="page-item {% if page == i %}active{% endif %}">
-                            <a class="page-link" href="{{ path('editor_entreprise',{'page':i}) }}">{{i}} <span
+                            <a class="page-link" href="{{ path('editor_offre',{'page':i}) }}">{{i}} <span
                                     class="sr-only">(current)</span></a>
                         </li>
                         {% endfor %}
                 
                         <li class="page-item {% if page == pages %}disabled{%  endif %}">
-                            <a class="page-link" href="{{ path('editor_entreprise',{'page':page + 1}) }}">&raquo;</a>
+                            <a class="page-link" href="{{ path('editor_offre',{'page':page + 1}) }}">&raquo;</a>
                         </li>
                     </ul>
                 </nav>

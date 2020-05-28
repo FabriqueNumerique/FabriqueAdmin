@@ -13,7 +13,7 @@
 
             {# page body #}
 
-            {# {% include "editor/promotion/_nav_promotion.html.twig" with {'p':2} %} #}
+            {% include "editor/entreprise/_nav_entreprise.html.twig" with {'p':1} %}
 
             <div class="my-5">
                 <h4 class="btn btn-info btn-sm">Ajouter une entreprise</h4>
@@ -51,8 +51,8 @@
 
                 {% form_theme form 'editor/entreprise/_collectionContact.html.twig' %}
                 {{ form_row(form.Contact) }}
-                {% form_theme form 'editor/entreprise/_collectionOffre.html.twig' %}
-                {{ form_row(form.Offres) }}
+                {# {% form_theme form 'editor/entreprise/_collectionOffre.html.twig' %}
+                {{ form_row(form.Offres) }} #}
                 {# {{ form_widget(form) }} #}
                 <button class="btn btn-outline-danger d-block ml-auto">Enregistrer</button>
                 {{ form_end(form) }}
