@@ -19,43 +19,26 @@ class RetardRepository extends ServiceEntityRepository
         parent::__construct($registry, Retard::class);
     }
 
-    // /**
-    //  * @return Retard[] Returns an array of Retard objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Retard
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+    
 
     public function retardActuel()
     {
         return $this->createQueryBuilder('r')
-            ->join('r.apprenant', 'a')
-            ->join('a.Promotion', 'p')
+            ->join('r.PromoAppre', 'pa')
+            ->join('pa.promotion', 'p')
             ->where('p.DateFin > :date')
             ->setParameter('date', new \DateTime)
             ->getQuery()
             ->getResult();      
+    }
+
+    public function findAllByName($nom)
+    {
+        return $this->createQueryBuilder('r')
+            ->join('r.PromoAppre', 'pa')
+            ->join('pa.apprenant', 'ap')
+            ->where('ap.Nom like :nom or ap.Prenom like :nom')
+            ->setParameter('nom', $nom)
+            ->getQuery()->getResult();
     }
 }

@@ -2,25 +2,25 @@
 
 {% block title %}Ajouter une Apprenants{% endblock %}
 
+{% block stylesheets %}
+
+<style>
+    input {
+        outline: none;
+        border: none;
+        border-bottom: 1px solid #777;
+    }
+
+    form input:focus {
+        border-color: blue;
+    }
+</style>
+
+{% endblock %}
+
 {% block body %}
 {% if app.user %}
 
-
-    <style>
-        
-
-        input {
-            outline: none;
-            border: none;
-            border-bottom: 1px solid #777;
-        }
-
-        form input:focus {
-            border-color: blue;
-
-
-        }
-    </style>
     <div class="container-fluid">
         <div class="row">
             <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-3 mt-5">
@@ -32,8 +32,9 @@
                     {% include "template_parts/_flash_message.html.twig" %}
 
                     <h4 class="btn btn-info btn-sm">Liste des apprenants</h4>
+
                     <!-- formulaire de recherche -->
-                    <form action="" class="  ml-auto w-50 bg-info" style="position: relative;">
+                    <form action="{{ path('editor_apprenant_chercher')}}" class="  ml-auto w-50 bg-info" style="position: relative;">
                         <input class="float-right form-group mr-2 " placeholder="chercher" type="text" name="chercher_apprenant">
                         <button class=" badge badge-primary mr-2" style="position: absolute;right:0;cursor:pointer" type="submit"><i
                                 class="fa fa-search "></i></button>
@@ -43,38 +44,35 @@
                     <table class="table table-hover">
                     
                         <thead>
-                    
                             <th>Nom</th>
-                            <th>Prénom</th>
-                            <th>Date de naissance</th>
+                            <th>Git compte</th>
                             <th>Email</th>
                             <th>Avatar</th>
-                    
                             <th style="width: 15%;">Actions</th>
                         </thead>
                         <tbody>
                     
                             {% for apprenant in apprenants %}
                             <tr>
-                                <td>{{ apprenant.Nom }}</td>
-                                <td>{{ apprenant.Prenom }}</td>
-                                <td>{{ apprenant.DateNaissance|date("m/d/Y") }}</td>
+                                <td>{{ apprenant.Fullname }}</td>
+                                <td>{{ apprenant.Git }}</td>
                                 <td>{{ apprenant.Email }}</td>
                                 <td><img src="{{ asset('uploads/brochures/') }}{{ apprenant.Avatar }}" alt="" class="avatar-sd"></td>
                     
                                 <!-- dans la dernère cellule, il trois liens: suuprimer, modifier et visualiser -->
                                 <td>
-                                    <!-- supprimer un apprenant qui va afficher d'abord un message de confirmation -->
-                                    <a class="btn btn-danger btn-sm delete-record my-1" title="supprimer" href="#"><i
-                                            class="fas fa-trash-alt delete-promotion"></i></a>
-
+                                    <!-- visualiser un apprenant -->
+                                    <a class="btn btn-info btn-sm modif_promotion my-1" title="visualiser" 
+                                        href="{{ path('editor_apprenant_show',{'id':apprenant.id}) }}"><i class="fa fa-eye"></i></a>
+                                        
                                     <!-- modifier un apprenant -->
                                     <a class="btn btn-success btn-sm modif_promotion my-1" title="modifier"
                                         href="{{ path('editor_edit_apprenant',{'id':apprenant.id}) }}"><i class="far fa-edit"></i></a>
                                     
-                                    <!-- visualiser un apprenant -->
-                                    <a class="btn btn-info btn-sm modif_promotion my-1" title="visualiser" 
-                                        href="{{ path('editor_apprenant_show',{'id':apprenant.id}) }}"><i class="fa fa-eye"></i></a>
+
+                                    <!-- supprimer un apprenant qui va afficher d'abord un message de confirmation -->
+                                    <a class="btn btn-danger btn-sm delete-record my-1" title="supprimer" href="#"><i
+                                        class="fas fa-trash-alt delete-promotion"></i></a>
 
                                      <!-- div qui contient le message de confirmation afin de supprimer un apprenant -->
                                     <div class="delete-confirm border bg-light  m-auto rounded p-3"
@@ -94,8 +92,10 @@
 
                         </tbody>
                     </table>
+
                     <a class="btn btn-primary btn-sm" title="ajouter" href="{{ path('editor_apprenant_new') }}"><i
                             class="fas fa-plus-square"></i></a>
+                            
                     <!-- pagination -->
                     {% if pages == 0 %}
                         {% set pages = 1 %}

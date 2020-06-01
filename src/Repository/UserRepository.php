@@ -36,49 +36,22 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
-    // /**
-    //  * @return User[] Returns an array of User objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?User
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
-
 
     public function findAllByEmail($email)
     {
-        return $this->createQueryBuilder('n')
-            // ->orderBy('n.email', 'DESC')
-            ->where('n.email like :email')
+        return $this->createQueryBuilder('u')
+            ->where('u.email like :email')
+            ->andWhere('u.roles LIKE :role1 or u.roles Like :role2 or u.roles Like :role3')
             ->setParameter('email',$email)
+            ->setParameter('role1', '%' . 'ROLE_ADMIN' . '%')
+            ->setParameter('role2', '%' . 'ROLE_EDITOR' . '%')
+            ->setParameter('role3', '%' . 'ROLE_RESERVE' . '%')
             ->getQuery()->getResult();
     }
 
     public function findByRole()
     {
         return $this->createQueryBuilder('u')
-            // ->orderBy('n.email', 'DESC')
             ->where('u.roles LIKE :role1 or u.roles Like :role2 or u.roles Like :role3')
             ->setParameter('role1', '%'.'ROLE_ADMIN'.'%')
             ->setParameter('role2', '%' . 'ROLE_EDITOR' . '%')
@@ -87,10 +60,3 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 }
 
-
-// return $this->createQueryBuilder('produit')
-//         ->where('produit.designation like :designation')
-//         ->setParameter('designation', $string)
-//         ->getQuery()
-//         ->getResult();
-//         }

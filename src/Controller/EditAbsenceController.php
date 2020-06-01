@@ -9,6 +9,7 @@ use App\Form\AbsenceType;
 use App\Form\RetardEditType;
 use App\Form\RetardType;
 use App\Repository\AbsenceRepository;
+use App\Repository\PromoAppreRepository;
 use App\Repository\RetardRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,19 +20,20 @@ class EditAbsenceController extends AbstractController
 {
 
     /**
-     * gestion de retartd
+     * gestion de retartd.. afficher tous les retards avec une pagination
      * 
      * @Route("/editor/retard{page<\d+>?1}", name="editor_retard")
      */
     public function retard(RetardRepository $repo, $page)
     {
+        $retard=$repo->retardActuel();
         $limit = 10;
         $start = $page * $limit - $limit;
-        $all = count($repo->findAll());
+        $all = count($retard);
         $pages = ceil($all / $limit);
         return $this->render('editor/retard_absence/retard.html.twig', [
             // une méthode qui affiche une liste des retards pour les promotions en cours
-            'retards' => $repo->findBy([], [], $limit, $start),
+            'retards' => $repo->findBy(['id'=>$retard], [], $limit, $start),
             'pages' => $pages,
             'page' => $page
         ]);
@@ -48,17 +50,17 @@ class EditAbsenceController extends AbstractController
         $form = $this->createForm(RetardType::class, $retard);
         $form->handleRequest($request);
 
-        // tester si le champ de l'apprenant dans le formulaire est rempli ou non dans le fichier retard_new.html.twig
-        if ($form->getData()->getApprenant() != null) {
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                $manager->persist($retard);
-                $manager->flush();
-                $this->addFlash("success", "Un retard concernant l'apprenant {$retard->getApprenant()} et daté le {$retard->getDate()->format('d/m/Y')} a été ajouté!");
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            $manager->persist($retard);
+            $manager->flush();
+                $this->addFlash("success", "Un retard concernant l'apprenant 
+                                {$retard->getPromoAppre()->getApprenant()->getFullname()} 
+                                et daté le {$retard->getDate()->format('d/m/Y')} a été ajouté!");
 
                 return $this->redirectToRoute('editor_retard');
-            }
         }
+       
         return $this->render('editor/retard_absence/retard_new.html.twig', [
             'form' => $form->createView()
         ]);
@@ -76,13 +78,14 @@ class EditAbsenceController extends AbstractController
         $form = $this->createForm(RetardEditType::class, $retard);
         $form->handleRequest($request);
 
-        // if apprenant field is not null
-
 
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($retard);
             $manager->flush();
-            $this->addFlash("warning", "Le retard concernant l'apprenant {$retard->getApprenant()} et daté le {$retard->getDate()->format('d/m/Y')} a été modifié!");
+            $this->addFlash("warning", "Le retard concernant l'apprenant 
+                            {$retard->getPromoAppre()->getApprenant()->getFullname()} 
+                            et daté le {$retard->getDate()->format('d/m/Y')} a été modifié!");
+                            
             return $this->redirectToRoute('editor_retard');
         }
 
@@ -100,9 +103,38 @@ class EditAbsenceController extends AbstractController
     {
         $manager->remove($retard);
         $manager->flush();
-        $this->addFlash("danger", "Le retard concernant l'apprenant {$retard->getApprenant()} et daté le {$retard->getDate()->format('d/m/Y')} a été supprimée!");
+        $this->addFlash("danger", "Le retard concernant l'apprenant {$retard->getPromoAppre()->getApprenant()->getFullname()} et daté le {$retard->getDate()->format('d/m/Y')} a été supprimée!");
 
         return $this->redirectToRoute('editor_retard');
+    }
+
+    /**
+     * chercher un apprenant par son nom ou prénom
+     * @Route("/editor/retard/chercher/{page<\d+>?1}", name="editor_retard_chercher")
+     */
+    public function chercher_retard(Request $request, RetardRepository $repo, $page)
+    {
+
+        // récupérer l'input chercher
+        $nom = $request->get('chercher_retard');
+        if ($nom) {
+
+            // appeler la méthode findByNom() dansretardRepository
+            $retard = $repo->findAllByName($nom . "%");
+
+            $limit = 10;
+            $start = $page * $limit - $limit;
+            $all = count($retard);
+            $pages = ceil($all / $limit);
+
+            return $this->render('editor/retard_absence/retard.html.twig', [
+                'retards' => $retard,
+                'pages' => $pages,
+                'page' => $page
+            ]);
+        } else {
+            return $this->redirectToRoute('editor_retard');
+        }
     }
 
 
@@ -113,15 +145,19 @@ class EditAbsenceController extends AbstractController
      */
     public function absence(AbsenceRepository $repo, $page)
     {
+
+        $absence = $repo->absenceActuel();
         $limit = 10;
         $start = $page * $limit - $limit;
-        $all = count($repo->findAll());
+        $all = count($absence);
         $pages = ceil($all / $limit);
         return $this->render('editor/retard_absence/absence.html.twig', [
-            'absences' => $repo->findBy([], [], $limit, $start),
+            // une méthode qui affiche une liste des retards pour les promotions en cours
+            'absences' => $repo->findBy(['id' => $absence], [], $limit, $start),
             'pages' => $pages,
             'page' => $page
         ]);
+
     }
 
     /**
@@ -135,17 +171,18 @@ class EditAbsenceController extends AbstractController
         $form = $this->createForm(AbsenceType::class, $absence);
         $form->handleRequest($request);
 
-        // tester si le champ de l'apprenant est rempli ou non dans le formulaire
-        if ($form->getData()->getApprenant() != null) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $manager->persist($absence);
-                $manager->flush();
-                $this->addFlash("success", "Un absence daté le {$absence->getDateDebut()->format('d/m/Y')} concernant l'apprenant {$absence->getApprenant()} a été ajouté!");
+            
+            $manager->persist($absence);
+            $manager->flush();
+            $this->addFlash("success", "Un absence daté le {$absence->getDateDebut()->format('d/m/Y')} 
+                            concernant l'apprenant {$absence->getPromoAppre()->getApprenant()->getFullname()} 
+                            a été ajouté!");
 
-                return $this->redirectToRoute('editor_absence');
-            }
+            return $this->redirectToRoute('editor_absence');
         }
+        
         return $this->render('editor/retard_absence/absence_new.html.twig', [
             'form' => $form->createView()
         ]);
@@ -166,7 +203,10 @@ class EditAbsenceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($absence);
             $manager->flush();
-            $this->addFlash("warning", "L'absence concernant l'apprenant {$absence->getApprenant()} et daté le {$absence->getDateDebut()->format('d/m/Y')} a été modifié!");
+            $this->addFlash("warning", "L'absence concernant l'apprenant 
+                            {$absence->getPromoAppre()->getApprenant()->getFullname()}
+                            et daté le {$absence->getDateDebut()->format('d/m/Y')} a été modifié!");
+
             return $this->redirectToRoute('editor_absence');
         }
 
@@ -184,9 +224,40 @@ class EditAbsenceController extends AbstractController
     {
         $manager->remove($absence);
         $manager->flush();
-        $this->addFlash("danger", "L'absence concernant l'apprenant {$absence->getApprenant()} et daté le {$absence->getDateDebut()->format('d/m/Y')} a été supprimée!");
+        $this->addFlash("danger", "L'absence concernant l'apprenant 
+                        {$absence->getPromoAppre()->getApprenant()->getFullname()} 
+                        et daté le {$absence->getDateDebut()->format('d/m/Y')} a été supprimée!");
 
         return $this->redirectToRoute('editor_absence');
+    }
+
+    /**
+     * chercher un apprenant par son nom ou prénom
+     * @Route("/editor/absence/chercher/{page<\d+>?1}", name="editor_absence_chercher")
+     */
+    public function chercher_absence(Request $request, AbsenceRepository $repo, $page)
+    {
+
+        // récupérer l'input chercher
+        $nom = $request->get('chercher_absence');
+        if ($nom) {
+
+            // appeler la méthode findByName() dans absenceRepository
+            $absence = $repo->findAllByName($nom . "%");
+
+            $limit = 10;
+            $start = $page * $limit - $limit;
+            $all = count($absence);
+            $pages = ceil($all / $limit);
+
+            return $this->render('editor/retard_absence/absence.html.twig', [
+                'absences' => $absence,
+                'pages' => $pages,
+                'page' => $page
+            ]);
+        } else {
+            return $this->redirectToRoute('editor_absence');
+        }
     }
 
 }

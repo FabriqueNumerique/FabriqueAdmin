@@ -30,12 +30,10 @@ class AbsenceEditType extends AbstractType
                 'label' => 'Justifié oui ou non ?'
 
             ])
-            ->add('apprenant',TextType::class,[
+            ->add('promoAppre',TextType::class,[
                 'disabled'=>true
             ])
-            ->add('promotion',TextType::class,[
-                'disabled'=>true
-            ])
+            
         ;
     }
 

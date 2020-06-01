@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Afficher une promotion{% endblock %}
+
+{% block body %}
+{% if app.user %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
+
+            {# {% include "editor/promotion/_nav_promotion.html.twig" with {'p':1} %} #}
+
+            <div class="my-5">
+
+                <h4 class="btn btn-info ">Afficher une Promotion </h4>
+
+                <!-- afficher une seule promotion -->
+
+                <div class="col my-5">
+                    <dl class="row">
+                        <dt class="col-md-2">Année</dt>
+                        <dd class="col-md-4">{{ promotion.annee }}</dd>
+                        <dt class="col-md-2">Date de début</dt>
+                        <dd class="col-md-4">{{ promotion.dateDebut|date("m/d/Y") }}</dd>
+                        <dt class="col-md-2">Date de fin</dt>
+                        <dd class="col-md-4">{{ promotion.dateFin|date("m/d/Y") }}</dd>
+                        <dt class="col-md-2">Formation</dt>
+                        <dd class="col-md-4">{{ promotion.formation.intitule }}</dd>
+                    </dl>
+                </div>
+
+                {# liste des apprenants appartenant à une promotion #}
+                <table class="table ">
+
+                    <thead>
+                        <th>N°</th>
+                        <th scope="col">Nom et Prénom</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Git compte</th>
+                        <th scope="col">Avatar</th>
+                        <th scope="col">Actions</th>
+                    </thead>
+                    <tbody>
+
+                        {% set i = 0 %}
+                        {% for apprenant in apprenants %}
+                        {% set i = i + 1 %}
+                        <tr>
+                            <td>{{i}}</td>
+                            <td>{{ apprenant.apprenant.FullName }}</td>
+                            <td>{{ apprenant.apprenant.email }}</td>
+                            <td>{{ apprenant.apprenant.git }}</td>
+                            <td>{{ apprenant.apprenant.avatar }}</td>
+
+                            <!-- un lien pour afficher un apprenant-->
+                            <td><a class="btn btn-info btn-sm modif_promotion" title="visualiser"
+                                    href="{{ path('reserve_apprenant_show',{'id':apprenant.apprenant.id}) }}"><i
+                                        class="fa fa-eye"></i></a>
+
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

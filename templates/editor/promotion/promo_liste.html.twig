@@ -59,7 +59,6 @@
                                 <th scope="col" style="width: 10%;">Année</th>
                                 <th scope="col" style="width: 10%;">Début</th>
                                 <th scope="col" style="width: 10%;">Fin</th>
-                                <th scope="col" style="width: 10%;">Nombre d'apprenants</th>
                                 <th scope="col" style="width: 45%;">Formation</th>
                                 <th colspan="2" scope="col" style="width: 15%;" >Actions </th>
                                 
@@ -71,19 +70,24 @@
                     <tbody>
 
                     
-                            <tr class="alert-light" >
+                            <tr class="" >
                                 <td>{{ promotion.annee }}</td>
                                 <td>{{ promotion.dateDebut|date("d/m/Y") }}</td>
                                 <td>{{ promotion.dateFin|date("d/m/Y") }}</td>
-                                <td>{{ promotion.apprenants|length }}</td>
                                 <td>{{ promotion.formation.intitule }}</td>
 
                                 <td >
                                     {# 3link to delete or edit or show #}
-                                    <a class="btn btn-danger btn-sm delete-record my-1" title="supprimer" href="#"><i
-                                            class="fas fa-trash-alt delete-promotion"></i></a>
+
+                                    <a class="btn btn-info btn-sm my-1" title="visualiser"
+                                        href="{{ path('editor_show_promotion',{'id':promotion.id}) }}"><i class="fa fa-eye"></i></a>
+
                                     <a class="btn btn-success btn-sm modif_promotion my-1" title="modifier"
                                         href="{{ path('editor_edit_promotion',{'id':promotion.id}) }}"><i class="far fa-edit"></i></a>
+
+                                    <a class="btn btn-danger btn-sm delete-record my-1" title="supprimer" href="#"><i
+                                            class="fas fa-trash-alt delete-promotion"></i></a>
+                                            
                                     
                                     
 
@@ -100,43 +104,18 @@
                                     </div>
                                     {# end delete confirmation #}
                                 </td>
-                                {% if promotion.apprenants|length != 0 %}
-                                <td class="show-liste" style="cursor: pointer;" title="afficher les apprenants"><i class="fa fa-chevron-down icon"></i></td>
-                                {% else %}
-                                    <td></td>
-                                {% endif %}
+                                {# <td class="show-liste" style="cursor: pointer;" title="afficher les apprenants"><i class="fa fa-chevron-down icon"></i></td> #}
+                                
                             </tr>
                         
-                            <tr class="hid alert alert-dark">
-                                <th scope="col">Nom</th>
-                                <th scope="col">Prénom</th>
-                                <th scope="col">Date De Naissance</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Mobile</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                    
-                            {# liste of arrayCollection of apprenant included in Promotion class #}
-                            {# استعراض أسماء الطلاب عند النقر على إحدى الدورات التي تم عرضها آنفاً #}
-                            {% for apprenant in promotion.apprenants %}
-                            <tr class="hid alert alert-secondary" >
-                                <td>{{apprenant.nom}}</td>
-                                <td>{{apprenant.prenom}}</td>
-                                <td>{{apprenant.dateNaissance|date("m/d/Y")}}</td>
-                                <td>{{apprenant.email}}</td>
-                                <td>{{apprenant.tel}}</td>
-                                <td colspan="2"><a class="btn btn-info btn-sm modif_promotion" title="visualiser"
-                                    href="{{ path('editor_pro_apprenant_show',{'id':apprenant.id}) }}"><i class="fa fa-eye"></i></a></td>
-                            </tr>
-
-                            {% endfor %}
+                            
                         
                     </tbody>
                     {% endfor %}
                     
                     </table>
                     <a class="btn btn-primary btn-sm" title="ajouter" href="{{ path('editor_promo_new') }}"><i class="fas fa-plus-square"></i></a>
+                    
                     <!-- pagination -->
                     {% if pages == 0 %}
                         {% set pages = 1 %}
@@ -173,31 +152,6 @@
 
 
 
-<script>
 
-    let btn = document.querySelectorAll('.show-liste');
-    for (let i = 0; i < btn.length; i++) {
-        btn[i].addEventListener('click', function () {
-
-            //عند النقر على سطر من الجدول سنصعد مستويين لاختيار الأسطر المسماة hid
-            //monter deux niveux afin d'arriver à la balise table et puis selectionner la class .hid
-
-            let tab = this.parentElement.parentElement.querySelectorAll('.hid')
-
-            let icon = this.querySelector('.icon')
-
-            //we repalce the class name
-            if ((icon.getAttribute('class')) == 'svg-inline--fa fa-chevron-down fa-w-14 icon') {
-
-                icon.setAttribute('class', 'svg-inline--fa fa-chevron-up fa-w-14 icon')
-            } else {
-                icon.setAttribute('class', 'svg-inline--fa fa-chevron-down fa-w-14 icon')
-            }
-
-            $(tab).toggle('slow')
-        })
-    }
-
-</script>
 
 {% endblock %}

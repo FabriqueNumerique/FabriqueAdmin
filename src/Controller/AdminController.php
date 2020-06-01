@@ -105,12 +105,9 @@ class AdminController extends AbstractController
         $manager->remove($user);
         $manager->flush();
         
-        // check main role
-        if ($role[0]=='ROLE_USER'){
-            $this->addFlash('danger', 'Un apprenant a été supprimée!');
-        }else{
-            $this->addFlash('danger', 'Un utilisateur a été supprimée!');
-        }
+       
+        $this->addFlash('danger', "L'utilisateur {$user->getEmail()} a été supprimée!");
+       
         return $this->redirectToRoute('admin_utilisateur');      
     }
 

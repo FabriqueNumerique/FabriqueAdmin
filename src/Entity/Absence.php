@@ -41,6 +41,12 @@ class Absence
      */
     private $promotion;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=PromoAppre::class, inversedBy="absences")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $PromoAppre;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -102,6 +108,18 @@ class Absence
     public function setPromotion(?Promotion $promotion): self
     {
         $this->promotion = $promotion;
+
+        return $this;
+    }
+
+    public function getPromoAppre(): ?PromoAppre
+    {
+        return $this->PromoAppre;
+    }
+
+    public function setPromoAppre(?PromoAppre $PromoAppre): self
+    {
+        $this->PromoAppre = $PromoAppre;
 
         return $this;
     }

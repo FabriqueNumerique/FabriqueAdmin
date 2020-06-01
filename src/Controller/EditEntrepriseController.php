@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Contacts;
 use App\Entity\Entreprise;
 use App\Entity\Offres;
+use App\Form\ContactType;
 use App\Form\EntrepriseType;
 use App\Form\OffreType;
+use App\Repository\ContactsRepository;
 use App\Repository\EntrepriseRepository;
 use App\Repository\OffresRepository;
 use App\Service\FileUploader;
@@ -182,6 +185,59 @@ class EditEntrepriseController extends AbstractController
         $manager->flush();
         $this->addFlash("danger", "L'offre de l'entreprise - {$offre->getEntreprise()->getNom()} - a été supprimée!");
         return $this->redirectToRoute('editor_offre');
+    }
+
+    /**
+     * @Route("/editor/contact{page<\d+>?1}", name="editor_contact")
+     */
+    public function contact_list(ContactsRepository $repo, $page)
+    {
+        $limit = 10;
+        $start = $page * $limit - $limit;
+        $all = count($repo->findAll());
+        $pages = ceil($all / $limit);
+
+        return $this->render('editor/entreprise/contact_list.html.twig', [
+            'contacts' => $repo->findBy([], [], $limit, $start),
+            'pages' => $pages,
+            'page' => $page
+        ]);
+    }
+
+    /**
+     * @Route("/editor/contact/delete/{id}", name="editor_contact_delete")
+     */
+    public function contact_delete(EntityManagerInterface $manager, Contacts $contact)
+    {
+        $manager->remove($contact);
+        $manager->flush();
+        $this->addFlash("danger", "Le contact - {$contact->getFullName()} - a été supprimé 
+                        de l'entreprise - {$contact->getEntreprise()->getNom()} -!");
+        return $this->redirectToRoute('editor_contact');
+    }
+
+
+    /**
+     * modifier un contact
+     * 
+     * @Route("/editor/contact/edit/{id}", name="editor_edit_contact")
+     */
+    public function edit_contact(Contacts $contact, Request $request)
+    {
+
+        $form = $this->createForm(ContactType::class, $contact);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $Manager = $this->getDoctrine()->getManager();
+
+            $Manager->flush();
+
+            $this->addFlash('warning', "Le contact - {$contact->getFullName()} - a été modifiée!");
+            return $this->redirectToRoute('editor_contact');
+        }
+        return $this->render('editor/entreprise/contact_edit.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
 }

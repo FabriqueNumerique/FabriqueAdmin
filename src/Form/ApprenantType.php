@@ -3,7 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Apprenant;
-
+use App\Entity\Promotion;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -55,6 +56,12 @@ class ApprenantType extends AbstractType
                     ])
                 ],
             ])
+
+            // ->add('Promotion',EntityType::class,[
+            //     'class' => Promotion::class,
+            //     'mapped' => false,
+            //     'required' => false
+            // ])
             
             ->add('Reseaux', CollectionType::class, array(
                     'entry_type' => ReseauxType::class,

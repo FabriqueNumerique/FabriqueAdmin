@@ -35,10 +35,7 @@ class RetardEditType extends AbstractType
                 'label' => 'Justifié oui ou non ?'
 
             ])
-            ->add('apprenant',TextType::class,[
-                'disabled' =>true
-            ])
-            ->add('promotion', TextType::class, [
+            ->add('promoAppre', TextType::class, [
                 'disabled' => true
             ])
         ;

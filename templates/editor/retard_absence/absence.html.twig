@@ -31,7 +31,7 @@
 
                 <h4 class="btn btn-info btn-sm">Liste des absences</h4>
                 <!-- formulaire de recherche -->
-                <form action="" class="  ml-auto w-50 bg-info" style="position: relative;">
+                <form action="{{ path('editor_absence_chercher') }}" class="  ml-auto w-50 bg-info" style="position: relative;">
                     <input class="float-right form-group mr-2 " placeholder="chercher" type="text"
                         name="chercher_absence">
                     <button class=" badge badge-primary mr-2" style="position: absolute;right:0;cursor:pointer"
@@ -56,21 +56,22 @@
                             <td>{{ absence.dateDebut|date("d/m/Y") }}</td>
                             <td>{{ absence.datefin|date("d/m/Y") }}</td>
                             <td>{{ absence.justifie }}</td>
-                            <td>{{ absence.apprenant.fullname|upper }}</td>
-                            <td>{{ absence.promotion.annee }}-{{ absence.promotion.formation.intitule }}</td>
+                            <td>{{ absence.promoappre.apprenant.fullname|upper }}</td>
+                            <td>{{ absence.promoappre.promotion.annee }}-{{ absence.promoappre.promotion.formation.intitule }}</td>
                         
                         
                         
                         
                             <!-- dans la dernère cellule, il y a trois liens: supprimer, modifier et visualiser -->
                             <td>
+                                <!-- modifier un apprenant -->
+                                <a class="btn btn-success btn-sm modif_promotion" title="modifier"
+                                    href="{{ path('editor_absence_edit',{'id':absence.id}) }}"><i class="far fa-edit"></i></a>
+                                    
                                 <!-- supprimer un apprenant qui va afficher d'abord un message de confirmation -->
                                 <a class="btn btn-danger btn-sm delete-record" title="supprimer" href="#"><i
                                         class="fas fa-trash-alt delete-promotion"></i></a>
                         
-                                <!-- modifier un apprenant -->
-                                <a class="btn btn-success btn-sm modif_promotion" title="modifier"
-                                    href="{{ path('editor_absence_edit',{'id':absence.id}) }}"><i class="far fa-edit"></i></a>
                         
                         
                         

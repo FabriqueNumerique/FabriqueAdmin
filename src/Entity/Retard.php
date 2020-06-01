@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -32,16 +34,14 @@ class Retard
     private $justifie;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Apprenant", inversedBy="retards")
+     * @ORM\ManyToOne(targetEntity=PromoAppre::class, inversedBy="retards")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $apprenant;
+    private $PromoAppre;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Promotion", inversedBy="retards")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $promotion;
+  
+
+    
 
     public function getId(): ?int
     {
@@ -84,27 +84,18 @@ class Retard
         return $this;
     }
 
-    public function getApprenant(): ?Apprenant
+    public function getPromoAppre(): ?PromoAppre
     {
-        return $this->apprenant;
+        return $this->PromoAppre;
     }
 
-    public function setApprenant(?Apprenant $apprenant): self
+    public function setPromoAppre(?PromoAppre $PromoAppre): self
     {
-        $this->apprenant = $apprenant;
+        $this->PromoAppre = $PromoAppre;
 
         return $this;
     }
 
-    public function getPromotion(): ?Promotion
-    {
-        return $this->promotion;
-    }
 
-    public function setPromotion(?Promotion $promotion): self
-    {
-        $this->promotion = $promotion;
-
-        return $this;
-    }
+    
 }

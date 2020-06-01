@@ -29,7 +29,7 @@
                 {# second line, number of promotion, training, learner and partner #}
                 <div class="row mt-5  text-light"  >
                     <div class="col p-1 text-center">
-                        <a class="text-light" href="#promotion">
+                        <a class="text-light" href="{{ path('admin_utilisateur') }}">
                             <div class=" bar alert-primary">
                                 <i class="fas fa-users h1"></i>
                                 <h2>Utilisateurs</h2>
@@ -38,7 +38,7 @@
                         </a>
                     </div>
                     <div class="col p-1 text-center">
-                        <a class="text-light" href="#promotion">
+                        <a class="text-light" href="{{ path('editor_promo_liste') }}">
                             <div class=" bar alert-secondary">
                                 <i class="fas fa-certificate h1"></i>
                                 <h3>Promotions</h3>
@@ -47,7 +47,7 @@
                         </a>
                     </div>
                     <div class="col  p-1 text-center">
-                        <a class="text-light" href="#formation">
+                        <a class="text-light" href="{{ path('editor_formation') }}">
                             <div class="alert-light bar">
                                 <i class="fas fa-laptop-code h1"></i>
                                 <h2>Formations</h2>
@@ -56,43 +56,53 @@
                         </a>
                     </div>
                     <div class="col  p-1 text-center">
-                        <div class="alert-success bar">
-                            <i class="fas fa-user-graduate h1"></i>
-                            <h2>Apprenants</h2>
-                            <h3>{{ countApprenant }}</h3>
-                        </div>
+                        <a class="text-light" href="{{ path('editor_apprenant_liste') }}">
+                            <div class="alert-success bar">
+                                <i class="fas fa-user-graduate h1"></i>
+                                <h2>Apprenants</h2>
+                                <h3>{{ countApprenant }}</h3>
+                            </div>
+                        </a>
                     </div>
                    
                 </div>
 
                 <div class="row my-1 text-light">
                     <div class="col p-1 text-center">
-                        <div class="alert-warning bar">
-                            <i class="far fa-handshake h1"></i>
-                            <h2>Partenaires</h2>
-                            <h3>N°</h3>
+                        <a class="text-light" href=""></a>
+                            <div class="alert-warning bar">
+                                <i class="far fa-handshake h1"></i>
+                                <h2>Partenaires</h2>
+                                <h3>N°</h3>
+                            </div>
                         </div>
+                    
+                    <div class="col p-1 text-center">
+                        <a class="text-light" href="{{ path('editor_entreprise') }}">
+                            <div class="alert-dark bar">
+                                <i class="fas fa-chart-line h1"></i>
+                                <h2>Entreprises</h2>
+                                <h3>{{ countEntreprise }}</h3>
+                            </div>
+                        </a>
                     </div>
                     <div class="col p-1 text-center">
-                        <div class="alert-dark bar">
-                            <i class="fas fa-chart-line h1"></i>
-                            <h2>Entreprises</h2>
-                            <h3>{{ countEntreprise }}</h3>
-                        </div>
+                        <a class="text-light" href="{{ path('editor_offre') }}">
+                            <div class="alert-info bar">
+                                <i class="fas fa-toolbox h1"></i>
+                                <h2>Stages</h2>
+                                <h3>{{ countOffres }}</h3>
+                            </div>
+                        </a>
                     </div>
                     <div class="col p-1 text-center">
-                        <div class="alert-info bar">
-                            <i class="fas fa-toolbox h1"></i>
-                            <h2>Stages</h2>
-                            <h3>{{ countOffres }}</h3>
-                        </div>
-                    </div>
-                    <div class="col p-1 text-center">
-                        <div class="alert-danger bar">
-                            <i class="fas fa-phone-alt h1"></i>
-                            <h2>Contacts</h2>
-                            <h3>{{countContact}}</h3>
-                        </div>
+                        <a class="text-light" href="">
+                            <div class="alert-danger bar">
+                                <i class="fas fa-phone-alt h1"></i>
+                                <h2>Contacts</h2>
+                                <h3>{{countContact}}</h3>
+                            </div>
+                        </a>
                     </div>
                 </div>
                 {# third line: details of all #}

@@ -63,10 +63,7 @@ class Apprenant extends User
      */
     private $Avatar;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Promotion", mappedBy="apprenants")
-     */
-    private $Promotion;
+    
 
 
 
@@ -81,27 +78,25 @@ class Apprenant extends User
      */
     private $status;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Retard", mappedBy="apprenant", orphanRemoval=true)
-     */
-    private $retards;
+  
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Offres", inversedBy="apprenant")
      */
     private $offres;
 
+   
+
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Absence", mappedBy="apprenant", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=PromoAppre::class, mappedBy="apprenant", orphanRemoval=true)
      */
-    private $absences;
+    private $promoAppres;
 
     public function __construct()
     {
-        $this->Promotion = new ArrayCollection();
+
         $this->reseaux = new ArrayCollection();
-        $this->retards = new ArrayCollection();
-        $this->absences = new ArrayCollection();
+        $this->promoAppres = new ArrayCollection();
     }
 
     public function getFullname()
@@ -133,17 +128,7 @@ class Apprenant extends User
         return $this;
     }
 
-    // public function getEmail(): ?string
-    // {
-    //     return $this->Email;
-    // }
-
-    // public function setEmail(string $Email): self
-    // {
-    //     $this->Email = $Email;
-
-    //     return $this;
-    // }
+    
 
     public function getTel(): ?string
     {
@@ -217,31 +202,7 @@ class Apprenant extends User
         return $this;
     }
 
-    /**
-     * @return Collection|Promotion[]
-     */
-    public function getPromotion(): Collection
-    {
-        return $this->Promotion;
-    }
-
-    public function addPromotion(Promotion $promotion): self
-    {
-        if (!$this->Promotion->contains($promotion)) {
-            $this->Promotion[] = $promotion;
-        }
-
-        return $this;
-    }
-
-    public function removePromotion(Promotion $promotion): self
-    {
-        if ($this->Promotion->contains($promotion)) {
-            $this->Promotion->removeElement($promotion);
-        }
-
-        return $this;
-    }
+    
 
 
     /**
@@ -293,36 +254,6 @@ class Apprenant extends User
         return $this;
     }
 
-    /**
-     * @return Collection|Retard[]
-     */
-    public function getRetards(): Collection
-    {
-        return $this->retards;
-    }
-
-    public function addRetard(Retard $retard): self
-    {
-        if (!$this->retards->contains($retard)) {
-            $this->retards[] = $retard;
-            $retard->setApprenant($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRetard(Retard $retard): self
-    {
-        if ($this->retards->contains($retard)) {
-            $this->retards->removeElement($retard);
-            // set the owning side to null (unless already changed)
-            if ($retard->getApprenant() === $this) {
-                $retard->setApprenant(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getOffres(): ?Offres
     {
@@ -336,31 +267,33 @@ class Apprenant extends User
         return $this;
     }
 
+    
+
     /**
-     * @return Collection|Absence[]
+     * @return Collection|PromoAppre[]
      */
-    public function getAbsences(): Collection
+    public function getPromoAppres(): Collection
     {
-        return $this->absences;
+        return $this->promoAppres;
     }
 
-    public function addAbsence(Absence $absence): self
+    public function addPromoAppre(PromoAppre $promoAppre): self
     {
-        if (!$this->absences->contains($absence)) {
-            $this->absences[] = $absence;
-            $absence->setApprenant($this);
+        if (!$this->promoAppres->contains($promoAppre)) {
+            $this->promoAppres[] = $promoAppre;
+            $promoAppre->setApprenant($this);
         }
 
         return $this;
     }
 
-    public function removeAbsence(Absence $absence): self
+    public function removePromoAppre(PromoAppre $promoAppre): self
     {
-        if ($this->absences->contains($absence)) {
-            $this->absences->removeElement($absence);
+        if ($this->promoAppres->contains($promoAppre)) {
+            $this->promoAppres->removeElement($promoAppre);
             // set the owning side to null (unless already changed)
-            if ($absence->getApprenant() === $this) {
-                $absence->setApprenant(null);
+            if ($promoAppre->getApprenant() === $this) {
+                $promoAppre->setApprenant(null);
             }
         }
 

@@ -23,15 +23,12 @@ class ApprenantRepository extends ServiceEntityRepository
     }
 
 
-    public function test(){
-        // $query=$this
-        //     ->createQueryBuilder('a')
-        //     ->select('p','a')
-        //     ->join('a.Promotion', 'p');
-        // $query=$query
-        //     ->orWhere('a.status = :status')
-        //     ->setParameter('status', 'new');
-        // return $query->getQuery()->getResult();
+    public function findAllByNom($nom)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.Nom like :nom or a.Prenom like :nom')
+            ->setParameter('nom', $nom)
+            ->getQuery()->getResult();
     }
     
 }

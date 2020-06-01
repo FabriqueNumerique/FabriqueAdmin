@@ -39,9 +39,10 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/reserve, roles: ROLE_RESERV }
+        - { path: ^/reserve, roles: ROLE_RESERVE }
         - { path: ^/editor, roles: ROLE_EDITOR }
         - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/register, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
         
     

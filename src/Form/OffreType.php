@@ -24,8 +24,10 @@ class OffreType extends AbstractType
             ->add('Intitule',ChoiceType::class,[
                 
                 'choices' => [
-                    'Stage' => 'Stage',
-                    'Contrat' => 'Contrat CDD',
+                    'Stage' => 'stage',
+                    'Projet'=> 'projet',
+                    'Contrat CDD' => 'contrat CDD',
+                    'Contrat CDI' => 'contrat CDI'
                    
                 ]
             ])

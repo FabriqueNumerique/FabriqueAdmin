@@ -125,4 +125,10 @@ class Contacts
 
         return $this;
     }
+
+    public function getFullName()
+    {
+        return $this->Nom.' '.$this->Prenom;
+
+    }
 }

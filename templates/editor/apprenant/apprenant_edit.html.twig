@@ -2,6 +2,7 @@
 
 {% block title %}Modification d'un apprenant{% endblock %}
 
+{# insert embed form #}
 {% form_theme form 'editor/apprenant/_collectionReseaux.html.twig' %}
 
 {% block body %}
@@ -13,7 +14,7 @@
         opacity: .4;
     }
 </style>
-    {# structure de la page 10 colonnes de largeur et alignée à droite #}
+    
     <div class="container-fluid ">
         <div class="row">
             <div class="col-xl-10 col-lg-9 col-md-8 ml-auto my-5">
@@ -22,19 +23,14 @@
 
                 <!-- display flash message -->
                 <div class="my-5">
-                    
-                    
-                        <h4 class="btn btn-info btn-sm">Modifier les infos de <strong>{{apprenant.fullname|upper}}</strong></h4>
-                        <div>
-
-                            <img width="64" class="ml-auto rounded" src="{{ asset('uploads/brochures/') }}{{apprenant.avatar}}" alt="">
-                        </div>
-                        {{ form_start(form) }}
-                        {{ form_widget(form) }}
-                        <button class="btn btn-outline-danger d-block ml-auto">Enregistrer</button>
-                        {{ form_end(form) }}
-                    
-
+                    <h4 class="btn btn-info btn-sm">Modifier les infos de <strong>{{apprenant.fullname|upper}}</strong></h4>
+                    <div>
+                        <img width="64" class="ml-auto rounded" src="{{ asset('uploads/brochures/') }}{{apprenant.avatar}}" alt="">
+                    </div>
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <button class="btn btn-outline-danger d-block ml-auto">Enregistrer</button>
+                    {{ form_end(form) }}
                 </div>
             </div>
         </div>

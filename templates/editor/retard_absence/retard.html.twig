@@ -31,7 +31,7 @@
 
                 <h4 class="btn btn-info btn-sm">Liste des retards</h4>
                 <!-- formulaire de recherche -->
-                <form action="" class="  ml-auto w-50 bg-info" style="position: relative;">
+                <form action="{{ path('editor_retard_chercher') }}" class="  ml-auto w-50 bg-info" style="position: relative;">
                     <input class="float-right form-group mr-2 " placeholder="chercher" type="text"
                         name="chercher_retard">
                     <button class=" badge badge-primary mr-2" style="position: absolute;right:0;cursor:pointer"
@@ -57,22 +57,22 @@
                             <td>{{ retard.date|date("d/m/Y") }}</td>
                             <td>{{ retard.nombreheure }}</td>
                             <td>{{ retard.justifie }}</td>
-                            <td>{{ retard.apprenant.fullname|upper }}</td>
-                            <td>{{ retard.promotion.annee }}-{{ retard.promotion.formation.intitule }}</td>
+                            <td>{{ retard.promoAppre.apprenant.fullname|upper }}</td>
+                            <td>{{ retard.promoAppre.promotion.annee }}-{{ retard.promoAppre.promotion.formation.intitule }}</td>
                         
                             
                         
                 
                             <!-- dans la dernère cellule, il y a trois liens: supprimer, modifier et visualiser -->
                             <td>
+                                
+                                <!-- modifier un apprenant -->
+                                <a class="btn btn-success btn-sm modif_promotion" title="modifier"
+                                href="{{ path('editor_retard_edit',{'id':retard.id}) }}"><i class="far fa-edit"></i></a>
+                                
                                 <!-- supprimer un apprenant qui va afficher d'abord un message de confirmation -->
                                 <a class="btn btn-danger btn-sm delete-record" title="supprimer" 
                                     href="#"><i class="fas fa-trash-alt delete-promotion"></i></a>
-                
-                                <!-- modifier un apprenant -->
-                                <a class="btn btn-success btn-sm modif_promotion" title="modifier"
-                                    href="{{ path('editor_retard_edit',{'id':retard.id}) }}"><i class="far fa-edit"></i></a>
-                
                                 
                 
                                 <!-- div qui contient le message de confirmation afin de supprimer un apprenant -->

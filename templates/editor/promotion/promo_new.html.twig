@@ -6,27 +6,11 @@
 {% block stylesheets %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/css/select2.min.css">
 
-<style>
-    input {
-        outline: none;
-        border: none;
-        border-bottom: 1px solid #777;
-    }
 
-    form input:focus {
-        border-color: blue;
-    }
-    .dropdown-wrapper{
-        height: 100px;
-    }
-</style>
 {% endblock %}
 
 {% block body %}
 {% if app.user %}
-
-
-    
 
 
     <div class="container-fluid" >
@@ -36,15 +20,6 @@
                 {% include "editor/promotion/_nav_promotion.html.twig" with {'p':1} %}
 
                 <div class="my-5">
-                    <!-- flash messages -->
-                    {% for message in app.flashes('danger') %}
-                    <div class="container alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>{{ message }}</strong>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    {% endfor %}
 
                     <!-- afficher le formulaire d'ajout d'une promotion -->
                     <h4  class="btn btn-info btn-sm">Créer une Promotion</h4>

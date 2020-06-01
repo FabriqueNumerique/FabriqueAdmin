@@ -10,6 +10,7 @@ for (let i = 0; i < supprimer.length; i++) {
   supprimer[i].addEventListener('click', function () {
     let modal = this.parentElement.querySelector('.delete-confirm')
     modal.style.display = 'block'
+    
   })
 }
 

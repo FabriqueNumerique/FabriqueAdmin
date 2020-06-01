@@ -9,41 +9,38 @@
     <div class="row">
         <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
             <!-- insert promotion navbar -->
-            {% include "editor/promotion/_nav_promotion.html.twig" with {'p':1} %}
+            {# {% include "editor/promotion/_nav_promotion.html.twig" with {'p':1} %} #}
 
             <div class="my-5">
                 <!-- un tableau d'un seul apprenant -->
                 <h4 class="btn btn-info btn-sm">Fiche apprenant</h4>
-                {% for apprenant in all %}
                 <div class="row">
                     <div class="col-md-4">
-            
                         <dl class="row">
                             <dt class="col-md-4"><img class="avatar"
-                                    src="{{ asset('uploads/brochures/') }}{{apprenant.apprenant.avatar}}" alt=""></dt>
-                            <dd class="col-md-8 pl-5">{{apprenant.apprenant.fullname|upper}}</dd>
+                                    src="{{ asset('uploads/brochures/') }}{{apprenant.avatar}}" alt=""></dt>
+                            <dd class="col-md-8 pl-5">{{apprenant.fullname|upper}}</dd>
                         </dl>
                     </div>
                     <div class="col-md-8 ">
                         <dl class="row">
                             <dt class="col-md-4">Git compte</dt>
-                            <dd class="col-md-8">{{ apprenant.apprenant.git }}</dd>
+                            <dd class="col-md-8">{{ apprenant.git }}</dd>
                             <dt class="col-md-4">Email</dt>
-                            <dd class="col-md-8">{{ apprenant.apprenant.email }}</dd>
+                            <dd class="col-md-8">{{ apprenant.email }}</dd>
                             <dt class="col-md-4">Adresse</dt>
-                            <dd class="col-md-8">{{ apprenant.apprenant.adresse }}</dd>
+                            <dd class="col-md-8">{{ apprenant.adresse }}</dd>
                             <dt class="col-md-4">Ville</dt>
-                            <dd class="col-md-8">{{ apprenant.apprenant.ville }}</dd>
+                            <dd class="col-md-8">{{ apprenant.ville }}</dd>
                         </dl>
                     </div>
                 </div>
-            
-                {% endfor %}
+
                 <div>
-            
+
                     <h6 class="show-liste btn-dark p-2">Formations</h6>
                     <table class="table table-hover">
-            
+
                         <thead>
                             <th scope="col">N°</th>
                             <th scope="col">Annee</th>
@@ -51,14 +48,13 @@
                             <th scope="col">Fin</th>
                             <th scope="col">N° d'heures</th>
                             <th scope="col">Intitulé</th>
-            
-            
+
+
                         </thead>
                         <tbody>
                             {% set i = 0 %}
-                            {% for promotion in all %}
+                            {% for promotion in promotions %}
                             {% set i = i + 1 %}
-            
                             <tr>
                                 <td>{{i}}</td>
                                 <td>{{ promotion.promotion.annee }}</td>
@@ -72,16 +68,13 @@
                     </table>
                     {# {% endif %} #}
                 </div>
-            
+
                 <div>
                     {# si l'apprenant a des réseux sociaux #}
-                    {% for reseau in all %}
-            
-            
-                    {% if reseau.apprenant.Reseaux|length > 0 %}
+                    {% if apprenant.Reseaux|length > 0 %}
                     <h6 class="show-liste btn-dark p-2">Réseaux Sociaux</h6>
                     <table class="table table-hover">
-            
+
                         <thead>
                             <th scope="col">N°</th>
                             <th scope="col">Intitulé</th>
@@ -89,7 +82,7 @@
                         </thead>
                         <tbody>
                             {% set i = 0 %}
-                            {% for reseau in reseau.apprenant.Reseaux %}
+                            {% for reseau in apprenant.Reseaux %}
                             {% set i = i + 1 %}
                             <tr>
                                 <td>{{i}}</td>
@@ -100,69 +93,59 @@
                         </tbody>
                     </table>
                     {% endif %}
-                    {% endfor %}
                 </div>
-            
+
                 <div>
                     {# si l'apprenant a des retards #}
-                    {% for retard in all %}
-                    {% if retard.retards|length > 0 %}
+                    {% if apprenant.retards|length > 0 %}
                     <h6 class="show-liste btn-dark p-2">Retards</h6>
                     <table class="table table-hover">
                         <thead>
-                            <th scope="col" style="width: 25%;">N°</th>
-                            <th scope="col" style="width: 25%;">Date</th>
-                            <th scope="col" style="width: 25%;">N° d'heures</th>
-                            <th scope="col" style="width: 25%;">Justifié</th>
+                            <th scope="col">N°</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">N° d'heures</th>
                         </thead>
                         <tbody>
                             {% set i = 0 %}
-                            {% for retard in retard.retards %}
+                            {% for retard in apprenant.retards %}
                             {% set i = i + 1 %}
                             <tr>
                                 <td>{{i}}</td>
                                 <td>{{retard.date|date('d/m/y')}}</td>
                                 <td>{{retard.nombreheure}}</td>
-                                <td>{{retard.justifie}}</td>
-            
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                     {% endif %}
-                    {% endfor %}
                 </div>
-            
+
                 <div>
                     {# si l'apprenant a des absences #}
-                    {% for absence in all %}
-                    {% if absence.absences|length > 0 %}
+                    {% if apprenant.absences|length > 0 %}
                     <h6 class="show-liste btn-dark p-2">Absences</h6>
                     <table class="table table-hover">
                         <thead>
-                            <th scope="col" style="width: 25%;">N°</th>
-                            <th scope="col" style="width: 25%;">Date de début</th>
-                            <th scope="col" style="width: 25%;">Date de fin</th>
-                            <th scope="col" style="width: 25%;">Justifié</th>
+                            <th scope="col">N°</th>
+                            <th scope="col">Date de début</th>
+                            <th scope="col">Date de fin</th>
                         </thead>
                         <tbody>
                             {% set i = 0 %}
-                            {% for absence in absence.absences %}
+                            {% for absence in apprenant.absences %}
                             {% set i = i + 1 %}
                             <tr>
                                 <td>{{i}}</td>
                                 <td>{{absence.dateDebut|date('d/m/y')}}</td>
                                 <td>{{absence.datefin|date('d/m/y')}}</td>
-                                <td>{{absence.justifie}}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                     {% endif %}
-                    {% endfor %}
-            
+
                 </div>
-            
+
                 <div>
                     <h6 class="show-liste btn-dark p-2">Fiche Profil</h6>
                 </div>

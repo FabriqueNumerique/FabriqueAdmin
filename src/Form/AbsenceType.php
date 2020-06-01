@@ -4,7 +4,10 @@ namespace App\Form;
 
 use App\Entity\Absence;
 use App\Entity\Apprenant;
+use App\Entity\PromoAppre;
 use App\Entity\Promotion;
+use App\Repository\ApprenantRepository;
+use App\Repository\PromoAppreRepository;
 use App\Repository\PromotionRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -17,6 +20,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AbsenceType extends AbstractType
 {
+    
+   
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -35,28 +40,35 @@ class AbsenceType extends AbstractType
                 'label' => 'Justifié oui ou non ?'
 
             ])
-            ->add('promotion', EntityType::class, [
-                'class' => Promotion::class,
-                'query_builder' => function (PromotionRepository $repo) {
+            ->add('promoAppre', EntityType::class, [
+                'class' => PromoAppre::class,
+                'label'=> "Selectiooner l'apprenant",
+                // 'mapped'=>false,
+                'query_builder' => function (PromoAppreRepository $repo) {
                     return $repo->createQueryBuilder('p')
-                        ->where('p.DateFin > :date')
-                        ->setParameter('date', new \DateTime);
+                        ->join('p.promotion','pro')
+                        ->where('pro.DateFin > :date')
+                        ->setParameter('date',new \DateTime)
+                    ;
+                                   
                 },
-                'label' => 'Selectionner une promotion'
+               
             ]);
 
-        $builder->get('promotion')->addEventListener(
-            FormEvents::POST_SUBMIT,
-            function (FormEvent $event) {
-                $form = $event->getForm();
 
-                $form->getParent()->add('apprenant', EntityType::class, [
-                    'class' => Apprenant::class,
-                    'choices' => $form->getData()->getApprenants()
+        // $builder->get('promotion')->addEventListener(
+        //      FormEvents::POST_SUBMIT,
+        //      function (FormEvent $event) {
+                 
+        //         $form = $event->getForm();
 
-                ]);
-            }
-        );
+        //         $form->getPromoAppres[]->add('apprenant', EntityType::class, [
+        //             'class' => Apprenant::class,
+        //             'choices' => $form->getData()->getApprenants()
+
+        //         ]);
+        //     }
+        // );
     }
 
     public function configureOptions(OptionsResolver $resolver)

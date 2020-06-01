@@ -40,11 +40,13 @@
                             
 
                             <td>
+                                <a class="btn btn-success btn-sm modif_promotion" title="modifier"
+                                href="{{ path('editor_offre_edit',{'id':offre.id}) }}"><i
+                                class="far fa-edit"></i></a>
+
                                 <a class="btn btn-danger btn-sm delete-record" title="supprimer" href="#"><i
                                         class="fas fa-trash-alt delete-promotion"></i></a>
-                                <a class="btn btn-success btn-sm modif_promotion" title="modifier"
-                                    href="{{ path('editor_offre_edit',{'id':offre.id}) }}"><i
-                                        class="far fa-edit"></i></a>
+                                        
                                 <div class="delete-confirm border bg-light  m-auto rounded p-3"
                                     style="position: absolute;top:40%;left:30%">
                                     <div>

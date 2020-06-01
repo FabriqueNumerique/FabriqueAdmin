@@ -9,6 +9,7 @@ use App\Entity\Contacts;
 use App\Entity\Entreprise;
 use App\Entity\Formation;
 use App\Entity\Offres;
+use App\Entity\PromoAppre;
 use App\Entity\Promotion;
 use App\Entity\Retard;
 use App\Entity\User;
@@ -30,7 +31,7 @@ class AppFixtures extends Fixture
 
         
 
-        for ($i = 1; $i < 5; $i++){
+        for ($i = 1; $i < 6; $i++){
             $formation = new Formation();
             $formation  ->setIntitule('Développeur web et web mobile'.$i)
                         ->setDuree('8 mois')
@@ -60,23 +61,28 @@ class AppFixtures extends Fixture
                             ->setStatus('old');
 
                 $manager->persist($apprenant);
-                $promotion->addApprenant($apprenant);
+
+                $promoAppre=new PromoAppre();
+                $promoAppre ->setPromotion($promotion)
+                            ->setApprenant($apprenant);
+                $manager->persist($promoAppre);
+               
 
                 for ($k = 0; $k < (mt_rand(0, 4)); $k++){
                     $retard = new Retard();
                     $retard ->setDate($faker->dateTimeBetween($promotion->getDateDebut(), $promotion->getDateFin()))
                             ->setNombreHeure(mt_rand(1, 3))
                             ->setJustifie('oui')
-                            ->setApprenant($apprenant)
-                            ->setPromotion($promotion);
+                            ->setPromoAppre($promoAppre);
+
+
                     $manager->persist($retard);
 
                     $absence = new Absence();
                     $absence->setDateDebut($faker->dateTimeBetween($promotion->getDateDebut(), $promotion->getDateFin()))
                         ->setDateFin($absence->getDateDebut(),'+2 days')
                         ->setJustifie('oui')
-                        ->setApprenant($apprenant)
-                        ->setPromotion($promotion);
+                        ->setPromoAppre($promoAppre);
                     $manager->persist($absence);
                 }
             }

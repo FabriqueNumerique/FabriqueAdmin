@@ -44,26 +44,16 @@ class Promotion
      */
     private $Formation;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Apprenant", inversedBy="Promotion")
-     */
-    private $apprenants;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Retard", mappedBy="promotion", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=PromoAppre::class, mappedBy="promotion",  orphanRemoval=true)
      */
-    private $retards;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Absence", mappedBy="promotion", orphanRemoval=true)
-     */
-    private $absences;
+    private $promoAppres;
 
     public function __construct()
     {
-        $this->apprenants = new ArrayCollection();
-        $this->retards = new ArrayCollection();
-        $this->absences = new ArrayCollection();
+
+        $this->promoAppres = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -133,95 +123,40 @@ class Promotion
         return $this;
     }
 
-    /**
-     * @return Collection|Apprenant[]
-     */
-    public function getApprenants(): Collection
-    {
-        return $this->apprenants;
-    }
-
-    public function addApprenant(Apprenant $apprenant): self
-    {
-        if (!$this->apprenants->contains($apprenant)) {
-            $this->apprenants[] = $apprenant;
-            $apprenant->addPromotion($this);
-        }
-
-        return $this;
-    }
-
-    public function removeApprenant(Apprenant $apprenant): self
-    {
-        if ($this->apprenants->contains($apprenant)) {
-            $this->apprenants->removeElement($apprenant);
-            $apprenant->removePromotion($this);
-        }
-
-        return $this;
-    }
+    
 
     public function __toString()
     {
         return (string) $this->Annee.' '.$this->Formation;
     }
 
-    /**
-     * @return Collection|Retard[]
-     */
-    public function getRetards(): Collection
-    {
-        return $this->retards;
-    }
-
-    public function addRetard(Retard $retard): self
-    {
-        if (!$this->retards->contains($retard)) {
-            $this->retards[] = $retard;
-            $retard->setPromotion($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRetard(Retard $retard): self
-    {
-        if ($this->retards->contains($retard)) {
-            $this->retards->removeElement($retard);
-            // set the owning side to null (unless already changed)
-            if ($retard->getPromotion() === $this) {
-                $retard->setPromotion(null);
-            }
-        }
-
-        return $this;
-    }
+    
 
     /**
-     * @return Collection|Absence[]
+     * @return Collection|PromoAppre[]
      */
-    public function getAbsences(): Collection
+    public function getPromoAppres(): Collection
     {
-        return $this->absences;
+        return $this->promoAppres;
     }
 
-    public function addAbsence(Absence $absence): self
+    public function addPromoAppre(PromoAppre $promoAppre): self
     {
-        if (!$this->absences->contains($absence)) {
-            $this->absences[] = $absence;
-            $absence->setPromotion($this);
+        if (!$this->promoAppres->contains($promoAppre)) {
+            $this->promoAppres[] = $promoAppre;
+            $promoAppre->setPromotion($this);
         }
 
         return $this;
     }
 
-    public function removeAbsence(Absence $absence): self
+    public function removePromoAppre(PromoAppre $promoAppre): self
     {
-        if ($this->absences->contains($absence)) {
-            $this->absences->removeElement($absence);
+        if ($this->promoAppres->contains($promoAppre)) {
+            $this->promoAppres->removeElement($promoAppre);
             // set the owning side to null (unless already changed)
-            if ($absence->getPromotion() === $this) {
-                $absence->setPromotion(null);
+            if ($promoAppre->getPromotion() === $this) {
+                $promoAppre->setPromotion(null);
             }
         }
 

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gestion des Entreprises{% endblock %}
+{% block title %}Gestion des Contacts{% endblock %}
 
 {% block body %}
 {% if app.user %}
@@ -9,40 +9,40 @@
     <div class="row">
         <div class="col-xl-10 col-lg-9 col-md-8 ml-auto mb-5 mt-5">
 
-            {% include "editor/entreprise/_nav_entreprise.html.twig" with {'p':1} %}
+            {% include "editor/entreprise/_nav_entreprise.html.twig" with {'p':3} %}
 
             {# pour afficher le flash message #}
             <div class="my-5">
-            {% include "template_parts/_flash_message.html.twig" %}
-                
 
-                <h4 class="btn btn-info btn-sm">Liste des entreprises</h4>
+                <!-- flash messages -->
+                {% include "template_parts/_flash_message.html.twig" %}
+
+                <h4 class="btn btn-info btn-sm">Liste des contacts</h4>
                 <table class="table table-hover">
                     <thead>
-                        <th scope="col">Nom</th>
-                        <th scope="col">Adresse</th>
-                        {# <th scope="col">Code postal</th> #}
-                        <th scope="col">Ville</th>
-                        <th scope="col">Tel</th>
-                        <th scope="col">Mobile</th>
-                        <th scope="col">Email</th>
+                        <th scope="col" style="width: 20%;">Entreprise</th>
+                        <th scope="col" style="width: 20%;">Nom</th>
+                        <th scope="col" style="width: 15%;">TEL</th>
+                        <th scope="col" style="width: 15%;">MOBILE</th>
+                        <th scope="col" style="width: 15%;">EMAIL</th>
                         <th scope="col" style="width: 15%;">Actions</th>
+
                     </thead>
                     <tbody>
-                        
-                        {% for entreprise in entreprises %}
-                         <tr>
-                            <td>{{ entreprise.Nom }}</td>
-                            <td>{{ entreprise.Adresse }}</td>
-                            {# <td>{{ entreprise.CodePostal }}</td> #}
-                            <td>{{ entreprise.Ville }}</td>
-                            <td>{{ entreprise.Tel }}</td>
-                            <td>{{ entreprise.Mobile }}</td>
-                            <td>{{ entreprise.Email }}</td>
-                
+
+                        {% for contact in contacts %}
+                        <tr>
+                            <td>{{ contact.Entreprise.Nom }}</td>
+                            <td>{{ contact.fullName }}</td>
+                            <td>{{ contact.tel }}</td>
+                            <td>{{ contact.mobile }}</td>
+                            <td>{{ contact.email }}</td>
+
+
                             <td>
                                 <a class="btn btn-success btn-sm modif_promotion" title="modifier"
-                                href="{{ path('editor_entreprise_edit',{'id':entreprise.id}) }}"><i class="far fa-edit"></i></a>
+                                    href="{{ path('editor_edit_contact',{'id':contact.id}) }}"><i
+                                        class="far fa-edit"></i></a>
 
                                 <a class="btn btn-danger btn-sm delete-record" title="supprimer" href="#"><i
                                         class="fas fa-trash-alt delete-promotion"></i></a>
@@ -55,19 +55,18 @@
                                     <div>
                                         <a class="btn btn-success non" href="">Non</a>
                                         <a class="btn btn-danger"
-                                            href="{{ path('editor_entreprise_delete',{'id':entreprise.id}) }}">Oui</a>
-                
+                                            href="{{ path('editor_contact_delete',{'id':contact.id}) }}">Oui</a>
+
                                     </div>
                                 </div>
                             </td>
-                        </tr> 
+                        </tr>
                         {% endfor %}
-                
+
                     </tbody>
                 </table>
-                 <a class="btn btn-primary btn-sm" title="ajouter" href="{{ path('editor_entreprise_new') }}"><i
-                        class="fas fa-plus-square"></i></a> 
                 
+
                 <!-- pagination -->
                 {% if pages == 0 %}
                 {% set pages = 1 %}
@@ -75,17 +74,18 @@
                 <nav class="">
                     <ul class="pagination pagination-sm justify-content-center">
                         <li class="page-item {% if page == 1 %}disabled{%  endif %}">
-                            <a class="page-link" href="{{ path('editor_entreprise',{'page':page - 1}) }}" tabindex="-1">&laquo;</a>
+                            <a class="page-link" href="{{ path('editor_contact',{'page':page - 1}) }}"
+                                tabindex="-1">&laquo;</a>
                         </li>
                         {% for i in 1..pages %}
                         <li class="page-item {% if page == i %}active{% endif %}">
-                            <a class="page-link" href="{{ path('editor_entreprise',{'page':i}) }}">{{i}} <span
+                            <a class="page-link" href="{{ path('editor_contact',{'page':i}) }}">{{i}} <span
                                     class="sr-only">(current)</span></a>
                         </li>
                         {% endfor %}
-                
+
                         <li class="page-item {% if page == pages %}disabled{%  endif %}">
-                            <a class="page-link" href="{{ path('editor_entreprise',{'page':page + 1}) }}">&raquo;</a>
+                            <a class="page-link" href="{{ path('editor_contact',{'page':page + 1}) }}">&raquo;</a>
                         </li>
                     </ul>
                 </nav>

@@ -19,43 +19,26 @@ class AbsenceRepository extends ServiceEntityRepository
         parent::__construct($registry, Absence::class);
     }
 
-    // /**
-    //  * @return Absence[] Returns an array of Absence objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Absence
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+   
 
     public function absenceActuel()
     {
-        return $this->createQueryBuilder('ab')
-            ->join('ab.apprenant', 'ap')
-            ->join('ap.Promotion', 'pr')
-            ->where('pr.DateFin > :date')
+        return $this->createQueryBuilder('a')
+            ->join('a.PromoAppre', 'pa')
+            ->join('pa.promotion', 'p')
+            ->where('p.DateFin > :date')
             ->setParameter('date', new \DateTime)
             ->getQuery()
             ->getResult();
+    }
+
+    public function findAllByName($nom)
+    {
+        return $this->createQueryBuilder('r')
+            ->join('r.PromoAppre', 'pa')
+            ->join('pa.apprenant', 'ap')
+            ->where('ap.Nom like :nom or ap.Prenom like :nom')
+            ->setParameter('nom', $nom)
+            ->getQuery()->getResult();
     }
 }

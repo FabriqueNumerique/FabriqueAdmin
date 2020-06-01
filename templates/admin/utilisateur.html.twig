@@ -32,76 +32,62 @@
 
             
             <div class="my-5">
-
-                {% for message in app.flashes('danger') %}
-                <div class="container alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{ message }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {% endfor %}
-                
-                {% for message in app.flashes('success') %}
-                <div class="container alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{ message }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {% endfor %}
+                <!-- flash messages -->
+                {% include "template_parts/_flash_message.html.twig" %}
                 
                 
-                    <h4 class="btn btn-info btn-sm">Liste des utilisateurs</h4>
-                    <form action="{{ path('admin_chercher_user')}}" class="  ml-auto w-50 bg-info" style="position: relative;">
-                        <input class="float-right form-group mr-2 " placeholder="chercher" type="text" name="chercher">
-                        <button class=" badge badge-primary mr-2" style="position: absolute;right:0;cursor:pointer" id="chercher_user" type="submit"><i
-                                class="fa fa-search "></i></button>
-                    </form>
+                <h4 class="btn btn-info btn-sm">Liste des utilisateurs</h4>
+                <form action="{{ path('admin_chercher_user')}}" class="  ml-auto w-50 bg-info" style="position: relative;">
+                    <input class="float-right form-group mr-2 " placeholder="chercher" type="text" name="chercher">
+                    <button class=" badge badge-primary mr-2" style="position: absolute;right:0;cursor:pointer" id="chercher_user" type="submit"><i
+                            class="fa fa-search "></i></button>
+                </form>
                     
 
-                    <table class="table table-hover">
-                        <thead>
-                            <th>Email</th>
-                            <th>Rôle</th>
-                            <th>Actions</th>
-                        </thead>
-                        <tbody>
+                <table class="table table-hover">
+                    <thead>
+                        <th>Email</th>
+                        <th>Rôle</th>
+                        <th>Actions</th>
+                    </thead>
+                <tbody>
                             
-                            {% for user in users %}
-                                <tr>
+                    {% for user in users %}
+                        <tr>
                                     
-                                    <td>{{ user.email }}</td>
+                            <td>{{ user.email }}</td>
                                     
-                                    <td>
-                                    {% for role in user.roles %}
-                                    {{ role }}
-                                         
-                                    {% endfor %}
-                                    </td>
-                                    <td>
-                                        {% if app.user.email != user.email %}
-                                        <a class="btn btn-danger btn-sm delete-record" title="supprimer" href="#"><i
-                                                class="fas fa-trash-alt "></i></a>
-                                        <a class="btn btn-success btn-sm modif_user" title="modifier" href="{{ path('admin_modif_user',{'id':user.id}) }}"><i class="far fa-edit"></i></a>
-                                        {% endif %}
-                                        <div class="delete-confirm border bg-light  m-auto rounded p-3" style="position: absolute;top:40%;left:30%">
+                            <td>
+                                {% for role in user.roles %}
+                                    {{ role }}        
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% if app.user.email != user.email %}
+                                    {# <a class="btn btn-success btn-sm modif_user" title="modifier" 
+                                        href="{{ path('admin_modif_user',{'id':user.id}) }}"><i class="far fa-edit"></i></a> #}
+
+                                    <a class="btn btn-danger btn-sm delete-record" title="supprimer" href="#"><i
+                                            class="fas fa-trash-alt "></i></a>
+                                
+                                {% endif %}
+                                <div class="delete-confirm border bg-light  m-auto rounded p-3" style="position: absolute;top:40%;left:30%">
                                             
-                                            <div>
-                                                <h4>Vous êtes sûr de vouloir supprimer?</h4>
-                                            </div>
-                                            <div>
-                                                <a class="btn btn-success non" href="">Non</a>
-                                                <a class="btn btn-danger" href="{{ path('admin_delete_user',{'id':user.id}) }}">Oui</a>
+                                    <div>
+                                        <h4>Vous êtes sûr de vouloir supprimer?</h4>
+                                    </div>
+                                    <div>
+                                        <a class="btn btn-success non" href="">Non</a>
+                                        <a class="btn btn-danger" href="{{ path('admin_delete_user',{'id':user.id}) }}">Oui</a>
                                                 
-                                            </div>
-                                        </div>
-                                    </td>
+                                    </div>
+                                </div>
+                            </td>
                                    
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
                     <a class="btn btn-primary btn-sm" title="ajouter" href="{{ path('app_register') }}"><i class="fa fa-user-plus"></i></a>
                    
             </div>
